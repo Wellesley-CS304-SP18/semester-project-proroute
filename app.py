@@ -1,22 +1,35 @@
-from flask import Flask, render_template, flash, request, redirect, url_for, sessions
-import temp
+from flask import (Flask, render_template, flash, request, redirect, url_for, session)
+#import temp
 import os
-
+import dbconn2
 app= Flask(__name__)
-app.secret_key = "abcde"
+
+app.config['TRAP_BAD_REQUEST_ERRORS'] = True
+app.config['SECRET_KEY'] = "abcde"
 
 DATABASE = 'jaguilar2_db' #this needs to be replaced with team database
 
 #this is the front end template/file that would be rendered
-@app.route('/ProRoute/home')
-    def home():
-        return render_template('')
+@app.route('/', methods= ['GET','POST'])
+def login():
+    if request.method == "POST":
+            #determine whter it is a value of
+            #get useremaill and password from the form
+        if 'email' not in session :
+            session['email'] = request.form['l_email']
+            email = session['email']
+            print request.form['l_email']
+            session['password'] = request.form['l_password']
+            password = session['password']
 
-@app.route('/ProRoute/LogIn')
-    def login():
-        return render_template('')
+        #redirect to the profile page that will be shown after logging in
+        return render_template('profile.html', header = "Profile",email= session.get('email'))
 
-@app.route('/ProRoute/SignUp', methods = ['GET', 'POST'])
+    return render_template('login.html', header ="Log In")
+
+
+
+@app.route('/SignUp', methods = ['GET', 'POST'])
 def signup():
     try:
         if request.method == 'POST':
@@ -25,13 +38,12 @@ def signup():
             user_lastName = ''
             user_userName = ''
             user_email = ''
-            user_userId= ''
             user_password = ''
             user_age = ''
             user_gender = ''
-            user_homeState = ''
-            user_homeCountry = ''
-            user_ethnicity = ''
+            #user_homeState = ''
+            #user_homeCountry = ''
+            #user_ethnicity = ''
 
             try:
                 user_firstName = request.form['']
@@ -42,31 +54,39 @@ def signup():
                 #we will need to generate the user id on our end
                 #however we might want to change this as we might use the user_email
                 #as a primary key? as Scott suggested
-                user_userId= ''
-                user_password = request.form['']
+                #user_userId= ''
+                #user_password = request.form['']
                 user_age = request.form['']
                 user_gender = request.form['']
-                user_homeState = request.form['']
-                user_homeCountry = request.form['']
-                user_ethnicity = request.form['']
+                #user_homeState = request.form['']
+                #user_homeCountry = request.form['']
+                #user_ethnicity = request.form['']
             except Exception as err:
                 print 'error is', typer(err), err
                 flash('Missing inputs')
-                error = True
-
+                error = TRUE
+    except Exception as err:
+        print 'Unknown exception',error
+        return '<p>failed due to an unknown error</p>'
+    return ''
                 #would need to add the rest of the error flash messages
 
-'''once signed up/logged they would be able to access the profile page
-where they could see the current information and be redirected to another
-page if they wanted to update or finish filling out their profile
-'''
-@app.route('/profile',method= ['GET', 'POST'])
+#once signed up/logged they would be able to access the profile page
+#where they could see the current information and be redirected to another
+#page if they wanted to update or finish filling out their profile
+@app.route('/profile',methods = ['GET', 'POST'])
 def profile():
-    return ''
+    return render_template('/profile.html', email = session['email'])
 
-@app.route('/logout',method= ['GET', 'POST'])
+@app.route('/logout',methods = ['GET', 'POST'])
 def logout():
-    return ''
+    # remove the username from the session if it is there
+    #if request.method == ['POST']:
+    if request.form == ['logout']:
+        session.pop('email', None)
+        session.pop('password', None)
+        return redirect(url_for('login'))
+    return redirect(url_for('logout'))
 
 if __name__ == '__main__':
     app.debug = True
