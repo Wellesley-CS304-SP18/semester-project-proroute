@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+
+<title>Job Portal</title>
+<link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900" rel="stylesheet">
+<link rel="icon" type="image/ico" href="static/images/Logo.png" />
+
+<link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+<link href="../../static/css/loading-bar.css" rel="stylesheet">
+<link href="../../static/css/style.css" rel="stylesheet">
+<link href="../../static/css/jquery-ui.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+
+<script src="../../static/js/lib/jquery-3.1.1.min.js"></script>
+<script src="../../static/js/custom.js"></script>
+<script src="../../static/js/jquery.validate.js"></script>
+<script src="../../static/js/jquery-ui.min.js"></script>
+<script src="../../static/js/additional-methods.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+
+</head>
+<body>
+
+<div ng-controller='singlejobCtrl'>
+<div class="jp_sidebar_close"></div>
+
+<!-- header start -->
+<div class="jp_header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jp_header_wrapper">
+                    <!-- <div class="jp_logo">
+                        <a href="/"><img src="static/images/logo_with_text.png" alt=""></a>
+                    </div> -->
+                    <div class="jp_header_right">
+                        <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                            <ul>
+                                <li><a href="#forum">Forum</a></li>
+                                <li><a href="#professions">Professions</a></li>
+                                <li><a href="browseJobs.html">Jobs</a></li>
+                                <li><a href="browseMentors.html">Mentors</a></li>
+                                <li><a href="#profile">Profile</a></li>
+                                <li><a href="logout.html">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="jp_page_title">
+                    <h3>My Profile</h3>
+                    <!-- <p>you are on the right place</p> -->
+                </div>
+            </div>
+            <!-- <div class="col-md-8 col-md-offset-2">
+                <div class="jp_search_form">
+                    <input type="" name="" placeholder="Search Job Here by Location, Skills">
+                    <button class="jp_search_btn"></button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- header end -->
+
+
+
+<div class="jp_main_wrapper">
+   <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+               <div class="jp_single_wrapper">
+                    <div class="jp_job_box">
+                        <div class="job_detail">
+
+                          <form class="form-horizontal">
+                          <fieldset>
+
+                          <!-- Form Name -->
+                          <legend>Add Job</legend>
+
+
+                          <!-- Text input-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="title">Title</label>
+                            <div class="col-md-4">
+                            <input id="title" name="title" maxlength="100" type="text" placeholder="" class="form-control input-md" required="">
+
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="title">Company/Insitution</label>
+                            <div class="col-md-4">
+                            <input id="company" name="company" maxlength="100" type="text" placeholder="" class="form-control input-md" required="">
+                            </div>
+                          </div>
+
+                          <!-- Textarea -->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="description">Description</label>
+                            <div class="col-md-4">
+                              <textarea class="form-control" maxlength="2000" id="description" name="description">General description</textarea>
+                            </div>
+                          </div>
+
+                          <!-- Multiple Radios -->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="type">Job Type</label>
+                          <div class="col-md-4">
+                          <div class="radio">
+                            <label for="type-0">
+                              <input type="radio" name="type" id="type-0" value="1" checked="checked">
+                              Full-Time
+                            </label>
+                        	</div>
+                          <div class="radio">
+                            <label for="type-1">
+                              <input type="radio" name="type" id="type-1" value="2">
+                              Part-Time
+                            </label>
+                        	</div>
+                          </div>
+                        </div>
+
+
+                        <div class="form-group">
+                      <label class="col-md-4 control-label" for="selectbasic">Years of Prior Experience</label>
+                      <div class="col-md-4">
+                        <select id="priorexperience" name="priorexperience" class="form-control">
+                          <option value="none">None</option>
+                          <option value="less1">&gt;1</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5plus">5+</option>
+                        </select>
+                      </div>
+                    </div>
+
+                          <!-- Profession Tags -->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" size="100" for="title">Profession Tags</label>
+                            <div class="col-md-4">
+                          <input type="text" value="research,chemistry,academia,nanoparticles" data-role="tagsinput"></input>
+                          </div>
+                        </div>
+
+                          <!-- Text input-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="favorite">Favorite Part</label>
+                            <div class="col-md-4">
+                            <input id="favorite" name="favorite" maxlength="200" type="text" placeholder="" class="form-control input-md">
+
+                            </div>
+                          </div>
+
+                          <!-- Text input-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="leastfav">Least Favorite Part</label>
+                            <div class="col-md-4">
+                            <input id="leastfav" name="leastfav" maxlength="200" type="text" placeholder="" class="form-control input-md">
+
+                            </div>
+                          </div>
+
+                          <!-- Textarea -->
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" size="100" for="title">Important Tasks</label>
+                            <div class="col-md-4">
+                          <input type="text" id="tasks" name="tasks" value="greet customers, answer phone, maintain files " data-role="tagsinput"></input>
+                          </div>
+                        </div>
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="tasks">Daily Life</label>
+                            <div class="col-md-4">
+                              <textarea class="form-control" id="daily" maxlength="2000" name="daily">What do you do on a day-to-day basis? </textarea>
+                            </div>
+                          </div>
+
+                          <!-- Textarea -->
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" size="100" for="title">Important Skills</label>
+                            <div class="col-md-4">
+                          <input type="text" id="skills" name="skills" value="communication, teamwork, data processing" data-role="tagsinput"></input>
+                          </div>
+                        </div>
+
+
+
+                          <!-- Textarea -->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="advice">Advice</label>
+                            <div class="col-md-4">
+                              <textarea class="form-control" id="advice" name="advice">What advice would you give someone trying to get into your profession? </textarea>
+                            </div>
+                          </div>
+
+                          <!-- Text input-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="salary" size="100" >Annual Salary</label>
+                            <div class="col-md-4">
+                            <input id="salary" name="salary" type="number" min="0" max="1000000000" class="form-control input-md">
+
+                            </div>
+                          </div>
+
+                          <!-- Start Date -->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="startdate">Start Date</label>
+                            <div class="col-md-4">
+                            <input id="startdate" name="startdate" type="month" placeholder="January 2000" class="form-control input-md">
+
+                            </div>
+                          </div>
+
+                          <!-- End Date-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="enddate">End Date</label>
+                            <div class="col-md-4">
+                            <input id="enddate" name="enddate" type="month" placeholder="" class="form-control input-md">
+
+                            </div>
+                          </div>
+
+
+                          </fieldset>
+                          </form>
+
+                            <!-- <h3>{{single_job.job_by_roles}}</h3>
+                            <span>{{single_job.posted_recruiter.organisation_name}}</span>
+                            <ul>
+                                <li><span><img src="static/images/experience.svg" alt=""></span> {{single_job.experience}}</li>
+                                <li><span><img src="static/images/location.svg" alt=""></span> {{single_job.job_location}}</li>
+                            </ul>
+                            <h4>
+                                <span class="icon"></span>
+                                <span class="skills">{{single_job.skills_required}}</span>
+                            </h4>
+                            <p><strong>Job Posted:</strong> {{single_job.created_at | formatdate}}</p>
+                            <p><strong>Job Type:</strong> {{single_job.job_type}}</p>
+                            <p><strong>Designation:</strong> {{single_job.job_by_roles}}</p>
+                            <p><strong>Qualification:</strong>{{single_job.qualification}}</p>
+                            <p><strong>Specialization:</strong>{{single_job.specialization}}</p>
+                            <p><strong>Last Date of Application:</strong> {{single_job.last_date}} </p> -->
+
+                            <!-- <div class="jp_job_disc">
+                                <h4>Job Description</h4>
+                                <p>{{single_job.job_discription}}</p>
+                            </div> -->
+
+                            <!-- <div class="jp_job_disc">
+                                <h4>Organisation Detail</h4>
+                                <p><strong>Name: </strong>{{single_job.posted_recruiter.organisation_name}}</p>
+                                <p><strong>Location:</strong> {{single_job.posted_recruiter.recruiter_profile.org_location}}</p>
+                                <p><strong>Website:</strong> <a href="javascript:void(0)" ng-click='redirectToCompany(single_job.posted_recruiter.recruiter_profile.org_website)'>{{single_job.posted_recruiter.recruiter_profile.org_website}}</a></p>
+                            </div> -->
+                        </div>
+                        <div class="jp_view_btn">
+                          <button class="jp_btn" type="submit" value="Update">Update</button>
+                            <!-- <a href="login" class="jp_btn">Apply</a> -->
+                            <!-- <p><input type="submit" value="Apply"> -->
+                        </div>
+                    </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+</div>
+
+</body>
+</html>
