@@ -4,52 +4,100 @@
 import dbconn2
 import MySQLdb
 import os
-from jaguilar2_db import DSN
+import sys
+#from jaguilar2_db #import DSN
 
+tempPassword = 'secret'
 DATABASE = 'jaguilar2_db' #database to insert into needs to be changed to group db
 
 DEBUG = False
 
-def cursor (database = DATABASE):
-    DSN['db'] = database
-    conn = dbconn2.connect(DSN)
-    return conn.cursor(MySQLdb.cursors.DictCursor)
 
-def insert_user(cursor, user_firstName, user_lastName, user_userName, user_email
-    user_userId, user_password, user_age, user_gender, user_homeState, user_homeCountry,user_ethnicity):
+def login_user(conn, email, passwd):
     try:
-        rows = cursor.execute('INSERT into user(firstname, lastname, username, email, userid, password, age, gender,
-        homeState, homeCountry, Ethnicity) values (%s,%s, %s,%s, %d, %s, %d,%s,%s,%s,%s)'),
-        (user_firstName,user_lastName, user_userName, user_email, user_userId, user_password, user_age
-        user_gender,user_homeState, user_homeCountry, user_ethnicity)
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
-    except MySQLdb.Error as err:
-        print "MySQL exception %s while signing up person %s, %s, %s"%(err,
-        user_firstName, user_lastName, user_userName)
-        raise
-    if rows != 1:
-        print ("Insert might not have worked at %s" %(rows,))
+        if passwd == tempPassword:
 
-def insert_education():
-    return ''
+            curs.execute('SELECT * FROM user WHERE email = %s', [ email ])
+            return "success"
+    except MySQLdb.IntegrityError as err:
+        return "Login Unsuccessful"
 
-def insert_student():
-    return ''
 
-def insert_mentor():
-    return ''
 
-def insert_job():
-    return ''
+    #print "the begin of login_user"
+    #try:
+    #    rows = cursor.execute('SELECT * FROM user WHERE email = (%s)', email)
+#    except MySQLdb.Error as err:
+        #print "MySQL exception %s while signing up person %s"%(err,
+        #email)
 
-def insert_profession():
-    return ''
 
-def insert_professionRating():
-    return ''
+#def insert_user(cursor, firstName, lastName, userName, email
+#    userId, password, age, gender, homeState, homeCountry,ethnicity):
+#    try:
+#        rows = cursor.execute('INSERT into user(firstname, lastname, username, email, userid, password, age, gender,
+#        homeState, homeCountry, Ethnicity) values (%s,%s, %s,%s, %d, %s, %d,%s,%s,%s,%s)'),
+###
+    #except MySQLdb.Error as err:
+    #    print "MySQL exception %s while signing up person %s, %s, %s"%(err,
+    #    firstname, lastName, userName)
+    #    raise
+    #if rows != 1:
+    #    print ("Insert might not have worked at %s" %(rows,))
 
-def insert_question():
-    return ''
+#def insert_education(cursor,userid, institution, instState, instCountry, major, major2, overallRating, review):
+#    try:
+#        rows = cursor.execute('INSERt into user()')
+#    except MySQLdb.Error as err:
 
-def insert_answer():
-    return ''
+#    return ''
+
+#def insert_student(cursor,userid, goal):
+#    try:
+
+#    except MySQLdb.Error as err:
+
+#    return ''
+
+#def insert_mentor(cursor,userid, description, cv):
+#    try:
+
+#    except MySQLdb.Error as err:
+#    return ''
+
+#def insert_job(cursor,userid, title, jobID, company, description, favoritePart, annualSalary, task, advice, professionTag,startDate,endDate):
+#    try:
+
+#    except MySQLdb.Error as err:
+
+#    return ''
+
+#def insert_profession(cursor,jobID, professionID, professionName, description, tags, coTags):
+#    try:
+
+#    except MySQLdb.Error as err:
+
+#    return ''
+
+#def insert_professionRating(cursor,jobID, professionID, overallRating, workEnvironment, jobSecurity, advancement, skills, hours, stress, learn, beneifits, relationships, diffMental, diffPhysical):
+#    try:
+
+#    except MySQLdb.Error as err:
+
+#    return ''
+
+#def insert_question(cursor,userid, questionID, questionText, tag, rating, posted ):
+#    try:
+
+#    except MySQLdb.Error as err:
+
+#    return ''
+
+#def insert_answer(cursor,userid, questionID, answerID, answerText, rating, posted):
+    #try:
+
+    #except MySQLdb.Error as err:
+
+    #return ''
