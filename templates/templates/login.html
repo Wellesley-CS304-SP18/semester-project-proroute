@@ -1,0 +1,21 @@
+<!--ProRoute education.html
+temporary html template until css is tied in
+this will be where the user will log in
+-->
+{%extends "base.html" %}
+{% block content %}
+  <form method="POST" action ="">
+    <p><label for="l_email">Email: <input type= "text" name="l_email"></label></p>
+    <p><label for="l_password">Password: <input type= "password" name="l_password"></label></p>
+
+    <p><input type="submit" value="LogIn" name= "l_login"></p>
+  </form>
+
+  <!--need to determine whether the link to register form will remain as link or become a button-->
+  <form method = "GET" action ="signUp.html">
+  <!--<p> Don't have an account? <a href= "signUp.html">Register here</a>-->
+    <!--<input type="submit" value="Register" name= "l_register">-->
+  </p>
+  </form>
+
+{% endblock %}
