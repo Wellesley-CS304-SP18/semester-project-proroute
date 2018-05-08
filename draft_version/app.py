@@ -57,7 +57,9 @@ app.config['SECRET_KEY'] = 'something very secret'
 def login():
     conn = dbconn2.connect(DSN)
     # check if there's a useridCookie in the browser already
-    useridCookie = request.cookies.get('useridCookie')
+    # useridCookie = request.cookies.get('useridCookie')
+    if 'email' in session:
+        return render_template('home/updateProfile.html')
 
     if request.method == "GET":
         return render_template('home/login.html')
@@ -76,10 +78,15 @@ def login():
             # and set their userid as a cookie
             if loginSuccess == "success":
                 flash("Login succeeded!")
-                resp = make_response(render_template('home/updateProfile.html',
-                                                     allCookies=request.cookies))
-                resp.set_cookie('useridCookie',value=email)
-                return resp
+
+                #set sessions
+                session['email']=email
+                session['logged_in']=True
+
+                # resp = make_response(render_template('home/updateProfile.html',
+                #                                      allCookies=request.cookies))
+                # resp.set_cookie('useridCookie',value=email)
+                return render_template('home/updateProfile.html',header=session.get('email'))
             # if login is unsuccessful because user provides wrong password
             # or no userid, prompt them to re-attempt to login
             else:
@@ -89,6 +96,11 @@ def login():
                 print 'error is', typer(err), err
                 flash('Missing inputs')
                 error = True
+
+@app.route('/logout/',methods=['GET'])
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():

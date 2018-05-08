@@ -3,7 +3,6 @@ drop table if exists user;
 create table user(
       firstname varchar(20) not null,
       lastname varchar(20) not null,
-      username varchar(20) not null,
       email varchar(50) not null,
       userid int(10) primary key not null,
       password char(60) not null,
@@ -26,8 +25,9 @@ create table education(
       instCountry varchar(100),
       major varchar(100),
       major2 varchar(100),
+      degreetype enum('none','highschool','associates','bachelors','masters','phd','other'),
       overallRating float(2,1),
-      review blob
+      review text
 )
 ENGINE=InnoDB;
 
@@ -36,7 +36,7 @@ create table student(
     userid int(10) not null,
     foreign key (userid) references user(userid) on delete restrict,
     INDEX(userid),
-    goal blob
+    goal text
 )
 ENGINE=InnoDB;
 
@@ -45,7 +45,7 @@ create table mentor(
     userid int(10) not null,
     foreign key (userid) references user(userid) on delete restrict,
     INDEX(userid),
-    description blob,
+    description text,
     cv blob
 )
 ENGINE=InnoDB;
@@ -58,16 +58,16 @@ create table job(
   title varchar(50) not null,
   jobID int(10) primary key not null,
   company varchar(100),
-  instState varchar(2),
-  instCountry varchar(100),
-  description blob,
+  description text,
   type enum('full time','part time'),
+  experience enum('none','less1','1','2','3','4','5plus'),
   favoritePart varchar(200),
   leastFavoritePart varchar(200),
   annualSalary int(15),
-  task blob,
+  task text,
+  dailylife text,
   skill varchar(50),
-  advice blob,
+  advice text,
   professionTag varchar(50),
   startDate date,
   endDate date
@@ -81,7 +81,7 @@ create table profession(
   INDEX(jobID),
   professionID varchar(10) primary key not null,
   professionName varchar(100),
-  description blob,
+  description text,
   tags varchar(50),
   coTags varchar(50)
 )
@@ -116,7 +116,7 @@ create table question(
     foreign key (userid) references user(userid) on delete restrict,
     INDEX(userid),
     questionID varchar(10) primary key not null,
-    questionText blob not null,
+    questionText longtext not null,
     tag varchar(50),
     rating float(2,1),
     posted datetime
@@ -131,7 +131,7 @@ create table answer(
     foreign key (questionID) references question(questionID) on delete restrict,
     INDEX(userid,questionID),
     answerID varchar(10) primary key not null,
-    answerText blob not null,
+    answerText longtext not null,
     rating float(2,1),
     posted datetime
 )
