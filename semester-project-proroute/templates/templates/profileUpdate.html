@@ -1,0 +1,20 @@
+<!--ProRoute education.html
+temporary html template until css is tied in
+this will be where the user will update information on the general profile
+-->
+{%extends "navigation.html"%}
+{%block nav%}
+
+
+      <form method="get" action="">
+        <p><label for="p_image">Profile Picture: <input type= "file" id="p_image" name="p_image"></label>
+        <p><label for="p_homeState">Home State: <input id="p_homeState" name="p_homeState"></label>
+        <p><label for="p_homeCountry">Home Country: <input id="p_homeCountry" name="p_homeCountry"></label>
+          <p><label for="p_ethnicity">Ethnicity: <input id="p_ethnicity" name="p_ethnicity"></label>
+        <p><input type="submit" value="Update Profile">
+      </form>
+
+
+
+
+{% endblock %}

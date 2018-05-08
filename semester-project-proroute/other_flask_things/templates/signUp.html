@@ -1,0 +1,36 @@
+<!--ProRoute education.html
+temporary html template until css is tied in
+this will be where the user will register for the first time
+-->
+{%extends "base.html"%}
+{%block content%}
+
+      <h1>ProRoute SignUp</h1>
+      <form method="get" action="">
+        <p><input type="radio" name="l_student" value="l_student"> Student</input>
+        <input type="radio" name="'l_mentor'" value="l_mentor"> Mentor</input></p>
+
+        <!--We are going to need to verify that this email has not been used already
+        with a different account
+        -->
+        <p><label for="keyinput">First Name: <input id="s_firstName" name="s_firstName"></label>
+          <p><label for="keyinput">Last Name: <input id="s_lastName" name="s_lastName"></label>
+        <p><label for="keyinput">Email <input id="s_email" name="s_email"></label>
+          <!--<p><label for="keyinput">Confirm Email: <input id="s_email" name="email"></label>-->
+        <p><label for="keyinput">Password <input type="password" id="s_password" name="s_password"></label>
+        <p><label for="keyinput">Confirm Password: <input type="password" id="s_password" name="password"></label>
+        <p><label for="keyinput">Age <input id="s_age" name="s_age"></label>
+        <p>
+          <select name="s_gender">
+            <option>Female</option>
+            <option>Male</option>
+            <option>NonBinary</option>
+            <option>Other</option>
+          </select>
+        <p><input type="submit" value="Sign Up" name="s_signUp" >
+      </form>
+
+   </body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+<!--ProRoute profile.html
+temporary html template until css is tied in
+all other html pages will build upon this page
+-->
+<!doctype html>
+<html>
+
+   <body>
+
+      <h1>ProRoute</h1>
+      <h2>{{header}}</h2>
+
+    <!--   if 'email' in session
+        <div id="navigation">
+          <ul>
+            <li a href="profile">Profile</a>
+            <li><a href="">Search</a></li>
+            <li><a href>LogOut</a>
+          </ul>
+       endif -->
+
+      <div>
+        {%block content%}
+        {% endblock %}
+      </div>
+
+   </body>
+</html>

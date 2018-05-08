@@ -1,0 +1,26 @@
+<!--ProRoute education.html
+temporary html template until css is tied in
+this will be where the user will submit/update information about education
+-->
+{%extends "navigation.html"%}
+{%block nav%}
+
+
+
+      <form method="POST" action="">
+        <p><label for="e_institution">Institution : <input type= "text" name="e_institution"></label>
+        <p><label for="e_instState">Institution State : <input type= "text" name="e_instState"></label>
+        <p><label for="e_instCountry">Institution Country : <input type= "text" name="e_instCountry"></label>
+        <p><label for="e_major">Major : <input type="text" name="e_major"></label>
+        <p><label for="e_major2">Major 2 : <input type= "text" name="e_major2"></label>
+        <p><label for="e_overallRating">Overall Rating : <input type= "text" name="e_overallRating"></label>
+        <p><label for="e_review">Review : <input type= "text" name="e_review"></label>
+
+        <p><input type="submit" value="Update Profile">
+      </form>
+
+
+
+
+
+{% endblock %}
