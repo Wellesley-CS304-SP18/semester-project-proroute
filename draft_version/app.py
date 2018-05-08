@@ -13,44 +13,7 @@ import MySQLdb
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SECRET_KEY'] = 'something very secret'
 
-# Route for rating movies
-# @app.route('/rateMovies/', methods=['GET', 'POST'])
-# def rateMovies():
-#     conn = dbconn2.connect(DSN)
-#
-#     # check if there's a useridCookie in the browser already
-#     userid = request.cookies.get('useridCookie')
-#
-#     if request.method == "GET":
-#         # if user is not logged in, redirect them to login page
-#         if not userid:
-#             return redirect(url_for('login'))
-#         # if user is logged in, direct them to rateMovies page
-#         else:
-#             if request.method == "GET":
-#                 movies = helperFunctions.getMovies(conn)
-#                 return render_template('rateMovies.html',
-#                                         header = 'Rate Movies',
-#                                         movies = movies, userid=userid)
-#
-#     if request.method == "POST":
-#         # get the user's rating of a movie and that movie's tt from the form
-#         movie_rating = request.form['stars']
-#         tt = request.form['movie_tt']
-#
-#         # if user submitted form but didn't select a movie rating
-#         if not movie_rating:
-#             flash('Please select a movie rating')
-#             return render_template('rateMovies.html',
-#                                     header = 'Rate Movies',
-#                                     movies = movies,userid=userid)
-#         # update the movie rating in the database and re-render the page
-#         # with all updated movies
-#         else:
-#             movies=helperFunctions.updateMovieRating(conn,userid,tt,movie_rating)
-#             return render_template('rateMovies.html',
-#                                     header='Rate Movies',
-#                                     movies=movies,userid=userid)
+
 
 # Route for logging in
 @app.route('/login/', methods=['GET', 'POST'])
@@ -133,131 +96,30 @@ def register():
         print usertype;
         return render_template('home/updateProfile.html')
 
-    #     if form.validate_on_submit():
-    #         try:
-    #             new_user = User(form.email.data, form.password.data)
-    #             new_user.authenticated = True
-    #             db.session.add(new_user)
-    #         db.session.commit()
-    #             flash('Thanks for registering!', 'success')
-    #             return redirect(url_for('recipes.index'))
-    #         except IntegrityError:
-    #             db.session.rollback()
-    #             flash('ERROR! Email ({}) already exists.'.format(form.email.data), 'error')
-    # return render_template('register.html', form=form)
+@app.route('/browseJobs/')
+def browseJobs():
+    return render_template('home/browseJobs.html')
 
+@app.route('/browseMentors/')
+def browseMentors():
+    return render_template('home/browseMentors.html')
 
-# Route for updating a movie's rating using ajax
-# @app.route('/setRatingAjax/',methods=['POST'])
-# def setRatingAjax():
-#     try:
-#         conn = dbconn2.connect(DSN)
-#         # check if there's a useridCookie in the browser already
-#         useridCookie = request.cookies.get('useridCookie')
-#
-#         # get movie rating and tt from form
-#         movie_rating = request.form['rating']
-#         tt = request.form['tt']
-#
-#         # update rating in the database
-#         helperFunctions.updateMovieRating(conn,useridCookie,tt,movie_rating)
-#
-#         # find the movie's newly updated average rating
-#         averageRating= helperFunctions.getAverageRating(conn,tt)['averageRating']
-#
-#         # send the data back to the frontend
-#         return jsonify({'useridCookie':useridCookie,'movie_rating':movie_rating,
-#         'movie_tt':tt,'averageRating':averageRating})
-#
-#     except Exception as err:
-#         return jsonify({'error':True,'err':str(err)})
-#
+@app.route('/updateProfile/')
+def profile():
+    return render_template('home/updateProfile.html')
 
-# Route for updating a movie
-# @app.route('/update/<tt>', methods=['GET', 'POST'])
-# def update(tt):
-#     conn = dbconn2.connect(DSN)
-#     if request.method == "GET":
-#         movie = helperFunctions.findMovie(conn, tt)
-#         return render_template('update.html',
-#                                 movie=movie,
-#                                 header = 'Update Movie')
-#
-#     if request.method == "POST":
-#         title = request.form['movie-title']
-#         new_tt = request.form['movie-tt']
-#         release = request.form['movie-release']
-#         addedby = request.form['movie-addedby']
-#         director = request.form['movie-director']
-#
-#         # if update button was pressed
-#         if request.form['submit'] == "update":
-#             status = helperFunctions.updateMovie(conn, tt, new_tt, title,
-#                                                 release, addedby, director)
-#
-#             # if movie was updated successfully
-#             if status == 200:
-#                 # if the tt wasn't changed, re-render page with new movie info
-#                 if tt == new_tt:
-#                     movie = {'title': title,
-#                              'tt': tt,
-#                              'release': release,
-#                              'addedby': addedby,
-#                              'director': director}
-#                     return render_template('update.html',
-#                                             movie = movie,
-#                                             header = 'Update Movie')
-#                 # if the tt was updated, redirect to the corresponding url
-#                 else:
-#                     return redirect(url_for('update', tt = new_tt))
-#             # if there was an error in updating the movie
-#             else:
-#                 movie = helperFunctions.findMovie(conn, tt)
-#                 return render_template('update.html',
-#                                         movie = movie,
-#                                         header = 'Update Movie')
-#         # if delete button was pressed
-#         else:
-#             helperFunctions.deleteMovie(conn, tt)
-#             return redirect(url_for('index'))
-#
-# Route for searching for a movie title
-# @app.route('/search/', methods=['GET', 'POST'])
-# def search():
-#     conn = dbconn2.connect(DSN)
-#
-#     if request.method == "GET":
-#         return render_template('search.html', header = 'Search by Title')
-#
-#     if request.method == "POST":
-#         # Get input string for search title from form
-#         search_title = request.form['search-title']
-#         tt = helperFunctions.findMovieTT(conn, search_title)
-#         # If no matching movie found, flash error message and re-render
-#         if tt == None:
-#             flash("No matching movie.")
-#             return render_template('search.html', header = 'Search by Title')
-#         # If matching movie found, redirect to corresponding movie page
-#         else:
-#             return redirect(url_for('update', tt = tt))
+@app.route('/addJob/')
+def addJob():
+    return render_template('home/addJob.html')
 
-# Route for selecting movies that have a null value for release / director
-# @app.route('/select/', methods=['GET', 'POST'])
-# def select():
-#     conn = dbconn2.connect(DSN)
-#
-#     if request.method == "GET":
-#         allmovies = helperFunctions.selectMovie(conn)
-#         return render_template('select.html',
-#                                 allmovies = allmovies,
-#                                 header = 'Select Movie')
-#
-#     if request.method == "POST":
-#         selected_movie_tt = request.form.get('menu-tt')
-#         movie = helperFunctions.findMovie(conn, selected_movie_tt)
-#         return redirect(url_for('update', tt = movie['tt']))
+@app.route('/addEducation/')
+def addEducation():
+    return render_template('home/addEducation.html')
 
-# Home route
+@app.route('/addProfession/')
+def addProfession():
+    return render_template('home/addProfession.html')
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     conn = dbconn2.connect(DSN)
