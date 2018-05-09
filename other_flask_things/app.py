@@ -59,52 +59,55 @@ def login():
 
 
 
-@app.route('/SignUp', methods = ['GET', 'POST'])
+@app.route('/register', methods = ['GET', 'POST'])
 def signup():
-    try:
-        if request.method == 'POST':
-            error = False
-            user_firstName = ''
-            user_lastName = ''
-            user_userName = ''
-            user_email = ''
-            user_password = ''
-            user_age = ''
-            user_gender = ''
-            #user_homeState = ''
-            #user_homeCountry = ''
-            #user_ethnicity = ''
+    #try:
+    conn = dbconn2.connect(DSN)
+    if request.method == 'GET':
+        return render_template('register.html', header = "Sign Up")
 
-            try:
-                user_firstName = request.form['']
-                user_lastName = request.form['']
-                user_userName = request.form['']
-                user_email = request.form['']
+    if request.method == 'POST':
+        user_account_type = request.form['s_account_type']
+        print user_account_type
+        user_firstName = request.form['s_firstName']
+        print user_firstName
+        user_lastName = request.form['s_lastName']
+        print user_lastName
+        user_email = request.form['s_email']
+        print user_email
+        user_password = request.form['s_password']
+        print user_password
+        user_confrim_pass = request.form['s_conf_password']#we're going to need to compare passwords
+        print user_confrim_pass
+        #try:
+        '''
+        this is where we will put the databse querie
+        '''
+        if temp.find_user(conn, user_email):
+            temp.register_user(conn, user_account_type , user_firstName, user_lastName, user_email, user_password)
+            session['email'] = user_email
+            session['password'] = user_password
+            session['logged_in'] = True
+            return redirect(url_for('profile'))
 
-                #we will need to generate the user id on our end
-                #however we might want to change this as we might use the user_email
-                #as a primary key? as Scott suggested
-                #user_userId= ''
-                #user_password = request.form['']
-                user_age = request.form['']
-                user_gender = request.form['']
-                #user_homeState = request.form['']
-                #user_homeCountry = request.form['']
-                #user_ethnicity = request.form['']
-            except Exception as err:
-                print 'error is', typer(err), err
-                flash('Missing inputs')
-                error = TRUE
-    except Exception as err:
-        print 'Unknown exception',error
-        return '<p>failed due to an unknown error</p>'
-    return ''
+        #except Exception as error:
+        ##    print 'error is', typer(err), err
+            #flash('Missing inputs')
+
+    #except Exception as error:
+        #print 'Unknown exception',error
+        #return '<p>failed due to an unknown error</p>'
+    return render_template('register.html', header = "Sign Up")
                 #would need to add the rest of the error flash messages
 
 #profile page that would appear once user is logged in
 @app.route('/profile',methods = ['GET', 'POST'])
 def profile():
     return render_template('/profile.html', header = "Profile", email = session['email'])
+
+@app.route('/job', methods= ['GET','POST'])
+def job():
+    return render_template('/job.html', header = "JOB")
 
 @app.route('/logout',methods = ['GET', 'POST'])
 def logout():
