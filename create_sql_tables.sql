@@ -1,10 +1,12 @@
 
+
+DELETE FROM user WHERE email="test@gmail.com";
 drop table if exists user;
 create table user(
       firstname varchar(20) not null,
       lastname varchar(20) not null,
       email varchar(50) not null,
-      userid int(10) primary key not null,
+      userid int(10) primary key not null AUTO_INCREMENT,
       password char(60) not null,
       picture blob,
       age int(3),
@@ -31,6 +33,7 @@ create table education(
 )
 ENGINE=InnoDB;
 
+DELETE FROM student WHERE userid=1;
 drop table if exists student;
 create table student(
     userid int(10) not null,
