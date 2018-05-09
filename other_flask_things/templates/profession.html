@@ -2,10 +2,10 @@
 temporary html template until css is tied in
 this will be where the user will submit information about profession
 -->
-{%extends "base.html"%}
-{%block content%}
+{%extends "navigation.html"%}
+{%block nav%}
 
-      <h1>ProRoute Profile</h1>
+
       <form method="get" action="">
         <p><label for="keyinput">Profession: <input id="" name="p_professionName"></label>
         <p><label for="keyinput">Description: <input id="" name="p_description"></label>
@@ -13,7 +13,5 @@ this will be where the user will submit information about profession
         <p><input type="submit" value="Update Profession">
       </form>
 
-   </body>
-</html>
 
 {% endblock %}

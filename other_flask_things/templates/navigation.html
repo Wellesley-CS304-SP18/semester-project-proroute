@@ -1,0 +1,22 @@
+{%extends "base.html"%}
+{%block content%}
+
+
+
+  <div id="navigation">
+    <ul>
+      <li><a href="/">Profile</a></li>
+      <li><a href="/search">Search</a></li>
+      <li><a href="/logout">LogOut</a></li>
+    </ul>
+
+
+  </div>
+  <div id= "secondary_content">
+    {% block nav %}
+
+    {% endblock %}
+  </div>
+
+
+{% endblock %}
