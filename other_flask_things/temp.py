@@ -25,27 +25,32 @@ def login_user(conn, email, passwd):
         return "Login Unsuccessful"
 
 
+def find_user(conn, email):
+    try:
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
-    #print "the begin of login_user"
-    #try:
-    #    rows = cursor.execute('SELECT * FROM user WHERE email = (%s)', email)
-#    except MySQLdb.Error as err:
-        #print "MySQL exception %s while signing up person %s"%(err,
-        #email)
+        curs.execute('SELECT * FROM user WHERE email = %s', [ email ])
+        return True;
+
+    except MySQLdb.IntegrityError as err:
+        return False;
 
 
-#def insert_user(cursor, firstName, lastName, userName, email
-#    userId, password, age, gender, homeState, homeCountry,ethnicity):
-#    try:
-#        rows = cursor.execute('INSERT into user(firstname, lastname, username, email, userid, password, age, gender,
-#        homeState, homeCountry, Ethnicity) values (%s,%s, %s,%s, %d, %s, %d,%s,%s,%s,%s)'),
-###
-    #except MySQLdb.Error as err:
-    #    print "MySQL exception %s while signing up person %s, %s, %s"%(err,
-    #    firstname, lastName, userName)
-    #    raise
-    #if rows != 1:
-    #    print ("Insert might not have worked at %s" %(rows,))
+def register_user(conn, account_type, firstName, lastName,email, password):
+    try:
+        #print("blah")
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+        curs.execute('INSERT into user (firstname, lastname, email, userid,password) values (%s,%s, %s,2, %s)',[firstName, lastName, email, password])
+
+        if account_type == "Mentor":
+            curs.execute('INSERT into mentor (userid) values userid')
+        else:
+            curs.execute('INSERT into student (userid) values userid')
+        return "registered"
+    except MySQLdb.IntegrityError as err:
+        return ("Unsuccessful registration")
+
 
 #def insert_education(cursor,userid, institution, instState, instCountry, major, major2, overallRating, review):
 #    try:
