@@ -1,7 +1,7 @@
 
 from flask import (Flask, render_template, make_response, url_for, request,
                    redirect, session, send_from_directory, jsonify, flash)
-
+from werkzeug import secure_filename
 app = Flask(__name__)
 app = Flask(__name__, static_url_path="/static")
 
@@ -9,6 +9,7 @@ import sys,os,random
 import dbconn2
 import helperFunctions
 import MySQLdb
+import bcrypt
 
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SECRET_KEY'] = 'something very secret'
@@ -45,6 +46,7 @@ def login():
                 #set sessions
                 session['email']=email
                 session['logged_in']=True
+                session['visits'] = 1
 
                 # resp = make_response(render_template('home/updateProfile.html',
                 #                                      allCookies=request.cookies))
@@ -56,14 +58,27 @@ def login():
                 flash("Email or password are incorrect. Please try again")
                 return render_template('home/login.html')
         except Exception as err:
-                print 'error is', typer(err), err
+                print 'error is', type(err), err
                 flash('Missing inputs')
                 error = True
+                return render_template('home/login.html')
 
 @app.route('/logout/',methods=['GET'])
 def logout():
-    session.clear()
-    return redirect(url_for('login'))
+    try:
+        if 'email' in session:
+            email = session['email']
+            session.pop('email')
+            session.pop('logged_in')
+            flash('You are logged out')
+            return redirect(url_for('login'))
+        else:
+            flash('you are not logged in. Please login or join')
+            return redirect(url_for('login'))
+    except Exception as err:
+        flash('some kind of error '+str(err))
+        return redirect(url_for('login'))
+
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
@@ -81,10 +96,12 @@ def register():
 
         if usertype=="" or usertype=="None":
             flash("Please select Student or Mentor account")
+            return render_template('home/register.html')
 
         if password!=confirm_password:
             flash("Passwords don't match. Please try again")
             return render_template('home/register.html')
+        hashed=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 
         exists = helperFunctions.findUser(conn,email)
@@ -93,8 +110,8 @@ def register():
             "Please sign in")
             return redirect(url_for('login'))
         else: # if email not already in use, register new user
-            helperFunctions.registerUser(conn, usertype, firstName, lastName, email,password)
-        return render_template('home/updateProfile.html')
+            helperFunctions.registerUser(conn, usertype, firstName, lastName, email,hashed)
+            return render_template('home/updateProfile.html')
 
 @app.route('/browseJobs/')
 def browseJobs():
@@ -104,9 +121,23 @@ def browseJobs():
 def browseMentors():
     return render_template('home/browseMentors.html')
 
-@app.route('/updateProfile/')
+@app.route('/updateProfile/',methods=['GET', 'POST'])
 def profile():
-    return render_template('home/updateProfile.html')
+    conn = dbconn2.connect(DSN)
+    if request.method == "GET":
+        return render_template('home/updateProfile.html',header=session.get('email'),message="")
+    # form = RegisterForm(request.form)
+    if request.method == 'POST':
+        description= request.form['description']
+        #profpic= request.files['profpic']
+        age=request.form['age']
+        gender=request.form['gender']
+        race=request.form['race']
+        country= request.form ['country']
+        state= request.form ['state']
+        email= session.get('email')
+        helperFunctions.updateProfile(conn,email,description,age,gender,race,country,state)
+        return render_template('home/updateProfile.html',header="",message="successfully updated profile")
 
 @app.route('/addJob/')
 def addJob():

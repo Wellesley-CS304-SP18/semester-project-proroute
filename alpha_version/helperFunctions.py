@@ -5,7 +5,9 @@
 import sys
 import MySQLdb
 import dbconn2
-from flask import flash
+import bcrypt
+from flask import (Flask, render_template, make_response, url_for, request,
+                   redirect, session, send_from_directory, jsonify, flash)
 
 temporaryPassword = '123'
 
@@ -112,13 +114,64 @@ def registerUser(conn, account_type, firstName, lastName,email, password):
 def loginSuccess(conn, email, passwd):
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
-        if passwd == temporaryPassword:
-            # curs.execute("SELECT userid FROM movieRatings WHERE userid = userid")
+        curs.execute('SELECT password FROM user WHERE email = %s;',
+                     [email])
+        row= curs.fetchone()
+
+        if row is None:
+            # Same response as wrong password, so no information about what went wrong
+            flash('login incorrect. Try again or join')
+            # return redirect( url_for('login'))
+            return False
+
+        hashed = row['password']
+        if bcrypt.hashpw(passwd.encode('utf-8'),hashed.encode('utf-8')) == hashed:
+            flash('successfully logged in')
             return "success"
+            # session['username'] = username
+            # session['logged_in'] = True
+            # session['visits'] = 1
+            # return redirect( url_for('user', username=username) )
+        else:
+            # flash('login incorrect. Try again or join')
+            # return redirect( url_for('index'))
+            return False
+
     except MySQLdb.IntegrityError as err:
         return "Login unsuccessful"
 
 
+
+def updateProfile(conn,email,description,age,gender,race,country,state):
+    try:
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+        #handle file upload
+
+        # mime_type = imghdr.what(profpic.stream)
+        #     if mime_type != 'jpeg' and mime_type != 'png':
+        #         raise Exception('Not a JPEG or a PNG')
+        #     filename = secure_filename('{}.{}'.format(email,mime_type))
+        #     pathname = mime_type+'/'+filename
+        #     profpic.save(pathname)
+        #     flash('Upload successful')
+
+
+        curs.execute("update user set description=%s"+
+        ",age=%s,gender=%s,Ethnicity=%s, homeCountry=%s, homeState=%s where email=%s",
+        [description,age,gender,race,country,state,email])
+        return "successfully updated profile"
+    except MySQLdb.IntegrityError as err:
+        return "Error"
+
+
+    description= request.form['description']
+    profpic= request.form['profpic']
+    age=request.form['age']
+    gender=request.form['gender']
+    race=request.form['race']
+    country= request.form ['country']
+    state= request.form ['state']
 
 # Using its title, find a movie's tt
 # def findMovieTT(conn, search_title):
