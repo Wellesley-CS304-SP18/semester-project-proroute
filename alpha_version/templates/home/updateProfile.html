@@ -75,18 +75,19 @@
                     <div class="jp_job_box">
                         <div class="job_detail">
 
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" method="post" action="">
                             <!-- <fieldset> -->
 
                             <!-- Form Name -->
                             <legend>Profile</legend>
                             <p>{{header}}</p>
+                            <h3 style="color:#5DE285;">{{message}}</h3>
 
                             <!-- Textarea -->
                             <div class="form-group">
                               <label class="col-md-4 control-label" for="Description">Description</label>
                               <div class="col-md-4">
-                                <textarea class="form-control" id="Description" name="Description"></textarea>
+                                <textarea class="form-control" id="description" name="description"></textarea>
                               </div>
                             </div>
 
@@ -95,7 +96,7 @@
                                 <div class="form-group">
                                   <label class="col-md-4 control-label" for="image">Profile Picture</label>
                                   <div class="col-md-4">
-                                    <input id="image" name="image" class="input-file" type="file">
+                                    <input id="profpic" name="profpic" class="input-file" type="file">
                                   </div>
                                 </div>
                             <!-- Text input-->
@@ -112,7 +113,7 @@
                               <div class="col-md-4">
                                 <select id="gender" name="gender" class="form-control">
                                   <option value="1">Male</option>
-                                  <option value="2">Famale</option>
+                                  <option value="2">Female</option>
                                   <option value="3">Other</option>
                                 </select>
                               </div>
@@ -446,19 +447,19 @@
                               </div>
                             </div>
 
-
+                            <div class="jp_view_btn">
+                              <button class="jp_btn" type="submit" value="Update">Update</button>
+                                <!-- <a href="login" class="jp_btn">Apply</a> -->
+                                <!-- <p><input type="submit" value="Apply"> -->
+                            </div>
+                        </div>
                             <!-- </fieldset> -->
 
                             </form>
 
 
                         </div>
-                        <div class="jp_view_btn">
-                          <button class="jp_btn" type="submit" value="Update">Update</button>
-                            <!-- <a href="login" class="jp_btn">Apply</a> -->
-                            <!-- <p><input type="submit" value="Apply"> -->
-                        </div>
-                    </div>
+
                </div>
            </div>
        </div>
