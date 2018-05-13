@@ -10,6 +10,7 @@ import dbconn2
 import helperFunctions
 import MySQLdb
 import bcrypt
+import imghdr
 
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SECRET_KEY'] = 'something very secret'
@@ -43,10 +44,13 @@ def login():
             if loginSuccess == "success":
                 flash("Login succeeded!")
 
+                userid=helperFunctions.getUID(conn,email)
+
                 #set sessions
                 session['email']=email
                 session['logged_in']=True
                 session['visits'] = 1
+                session['userid']=userid
 
                 # resp = make_response(render_template('home/updateProfile.html',
                 #                                      allCookies=request.cookies))
@@ -70,6 +74,7 @@ def logout():
             email = session['email']
             session.pop('email')
             session.pop('logged_in')
+            session.pop('userid')
             flash('You are logged out')
             return redirect(url_for('login'))
         else:
@@ -121,6 +126,28 @@ def browseJobs():
 def browseMentors():
     return render_template('home/browseMentors.html')
 
+@app.route('/viewProfile/',methods=['GET','POST'])
+def viewProfile():
+    if request.method == "GET":
+        conn = dbconn2.connect(DSN)
+        email= session.get('email')
+        info=helperFunctions.viewProfile(conn,email)
+        description=info['description']
+        firstname=info['firstname']
+        lastname=info['lastname']
+        age=info['age']
+        homeState=info['homeState']
+        homeCountry=info['homeCountry']
+        gender=info['gender']
+        ethnicity=info['Ethnicity']
+        filename='../../../images/'+info['picture']
+        return render_template('home/viewProfile.html',firstname=firstname,
+        lastname=lastname,description=description,age=age,gender=gender,
+        race=ethnicity,country=homeCountry,state=homeState,profpic=filename)
+    if request.method == 'POST':
+        return redirect(url_for('profile'))
+
+
 @app.route('/updateProfile/',methods=['GET', 'POST'])
 def profile():
     conn = dbconn2.connect(DSN)
@@ -128,24 +155,94 @@ def profile():
         return render_template('home/updateProfile.html',header=session.get('email'),message="")
     # form = RegisterForm(request.form)
     if request.method == 'POST':
-        description= request.form['description']
-        #profpic= request.files['profpic']
-        age=request.form['age']
-        gender=request.form['gender']
-        race=request.form['race']
-        country= request.form ['country']
-        state= request.form ['state']
+
+        description= request.form.get('description')
+        age=request.form.get('age')
+        gender=request.form.get('gender')
+        race=request.form.get('race')
+        country= request.form.get('country')
+        state= request.form.get('state')
         email= session.get('email')
-        helperFunctions.updateProfile(conn,email,description,age,gender,race,country,state)
+        profpic= request.files.get('profpic')
+
+        print profpic
+
+
+        mime_type = imghdr.what(profpic.stream)
+        if mime_type != 'jpeg' and mime_type != 'png':
+            raise Exception('Not a JPEG or a PNG')
+        email=email.strip(".")
+        filename = secure_filename('{}.{}'.format(email,mime_type))
+        pathname = 'images/'+filename
+        profpic.save(pathname)
+        flash('Upload successful')
+
+        #description= request.form['description']
+        #profpic= request.files['profpic']
+        # age=request.form['age']
+        # gender=request.form['gender']
+        # race=request.form['race']
+        # country= request.form ['country']
+        # state= request.form ['state']
+        # email= session.get('email')
+
+
+        helperFunctions.updateProfile(conn,email,description,age,gender,race,country,state,filename)
         return render_template('home/updateProfile.html',header="",message="successfully updated profile")
 
-@app.route('/addJob/')
+@app.route('/addJob/',methods=['GET','POST'])
 def addJob():
-    return render_template('home/addJob.html')
+    conn = dbconn2.connect(DSN)
+    if request.method == 'GET':
+        return render_template('home/addJob.html',message="")
+    if request.method == 'POST':
+        title= request.form.get('title')
+        company= request.form.get('company')
+        description= request.form.get('description')
+        jobtype=request.form.get('type')
+        priorexperience= request.form.get('priorexperience')
+        tags=request.form.get('tags')
+        favorite=request.form.get('favorite')
+        leastfav= request.form.get('leastfav')
+        tasks= request.form.get('tasks')
+        daily=request.form.get('daily')
+        skills=request.form.get('skills')
+        advice=request.form.get('advice')
+        salary=request.form.get('salary')
+        startdate=request.form.get('startdate')
+        enddate=request.form.get('enddate')
 
-@app.route('/addEducation/')
+        userid=session.get('userid')
+
+
+        mymessage=helperFunctions.addJob(conn,userid,title,company,description,jobtype,
+        priorexperience,tags,favorite,leastfav,tasks,daily,skills,advice,
+        salary,startdate,enddate)
+
+        return render_template('home/addJob.html',header="",message=mymessage)
+
+
+@app.route('/addEducation/',methods=['GET','POST'])
 def addEducation():
-    return render_template('home/addEducation.html')
+    conn = dbconn2.connect(DSN)
+    if request.method == 'GET':
+        return render_template('home/addEducation.html')
+    if request.method == 'POST':
+        institution=request.form.get('institution')
+        major=request.form.get('major')
+        secondmajor=request.form.get('secondmajor')
+        degreetype=request.form.get('degreetype')
+        rating=request.form.get('rating')
+        review=request.form.get('review')
+        country=request.form.get('country')
+        state=request.form.get('state')
+
+        userid=session.get('userid')
+
+        mymessage=helperFunctions.addEducation(conn,userid,institution,major,
+        secondmajor,degreetype,rating,review,country,state)
+
+        return render_template('home/addEducation.html',message=mymessage)
 
 @app.route('/addProfession/')
 def addProfession():
