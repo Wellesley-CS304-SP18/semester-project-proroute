@@ -45,7 +45,7 @@
                               <li><a href="#professions">Professions</a></li>
                               <li><a href="/browseJobs/">Jobs</a></li>
                               <li><a href="/browseMentors/">Mentors</a></li>
-                              <li><a href="/updateProfile/">Profile</a></li>
+                              <li><a href="/viewProfile/">Profile</a></li>
                               <li><a href="/logout/">Logout</a></li>
                             </ul>
                         </div>
@@ -79,12 +79,12 @@
                     <div class="jp_job_box">
                         <div class="job_detail">
 
-                          <form class="form-horizontal">
+                          <form class="form-horizontal" method="post" action="">
                           <fieldset>
 
                           <!-- Form Name -->
                           <legend>Add Job</legend>
-
+                          <h3 style="color:#5DE285;">{{message}}</h3>
 
                           <!-- Text input-->
                           <div class="form-group">
@@ -131,7 +131,7 @@
 
 
                         <div class="form-group">
-                      <label class="col-md-4 control-label" for="selectbasic">Years of Prior Experience</label>
+                      <label class="col-md-4 control-label" for="priorexperience">Years of Prior Experience</label>
                       <div class="col-md-4">
                         <select id="priorexperience" name="priorexperience" class="form-control">
                           <option value="none">None</option>
@@ -147,9 +147,9 @@
 
                           <!-- Profession Tags -->
                           <div class="form-group">
-                            <label class="col-md-4 control-label" size="100" for="title">Profession Tags</label>
+                            <label class="col-md-4 control-label" size="100" for="tags">Profession Tags</label>
                             <div class="col-md-4">
-                          <input type="text" value="research,chemistry,academia,nanoparticles" data-role="tagsinput"></input>
+                          <input type="text" id="tags" name="tags" value="research,chemistry,academia,nanoparticles" data-role="tagsinput"></input>
                           </div>
                         </div>
 
@@ -174,14 +174,14 @@
                           <!-- Textarea -->
 
                           <div class="form-group">
-                            <label class="col-md-4 control-label" size="100" for="title">Important Tasks</label>
+                            <label class="col-md-4 control-label" size="100" for="tasks">Important Tasks</label>
                             <div class="col-md-4">
                           <input type="text" id="tasks" name="tasks" value="greet customers, answer phone, maintain files " data-role="tagsinput"></input>
                           </div>
                         </div>
 
                           <div class="form-group">
-                            <label class="col-md-4 control-label" for="tasks">Daily Life</label>
+                            <label class="col-md-4 control-label" for="daily">Daily Life</label>
                             <div class="col-md-4">
                               <textarea class="form-control" id="daily" maxlength="2000" name="daily">What do you do on a day-to-day basis? </textarea>
                             </div>
@@ -233,16 +233,16 @@
                             </div>
                           </div>
 
-
+                          <div class="jp_view_btn">
+                            <button class="jp_btn" type="submit" value="Update">Add Job</button>
+                              <!-- <a href="login" class="jp_btn">Apply</a> -->
+                              <!-- <p><input type="submit" value="Apply"> -->
+                          </div>
                           </fieldset>
                           </form>
 
                         </div>
-                        <div class="jp_view_btn">
-                          <button class="jp_btn" type="submit" value="Update">Update</button>
-                            <!-- <a href="login" class="jp_btn">Apply</a> -->
-                            <!-- <p><input type="submit" value="Apply"> -->
-                        </div>
+
                     </div>
                </div>
            </div>

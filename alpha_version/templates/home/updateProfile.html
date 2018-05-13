@@ -41,7 +41,7 @@
                               <li><a href="#professions">Professions</a></li>
                               <li><a href="/browseJobs/">Jobs</a></li>
                               <li><a href="/browseMentors/">Mentors</a></li>
-                              <li><a href="/updateProfile/">Profile</a></li>
+                              <li><a href="/viewProfile/">Profile</a></li>
                               <li><a href="/logout/">Logout</a></li>
                             </ul>
                         </div>
@@ -75,7 +75,7 @@
                     <div class="jp_job_box">
                         <div class="job_detail">
 
-                            <form class="form-horizontal" method="post" action="">
+                            <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
                             <!-- <fieldset> -->
 
                             <!-- Form Name -->
@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                   <label class="col-md-4 control-label" for="image">Profile Picture</label>
                                   <div class="col-md-4">
-                                    <input id="profpic" name="profpic" class="input-file" type="file">
+                                    <input id="profpic" name="profpic" type="file">
                                   </div>
                                 </div>
                             <!-- Text input-->
@@ -112,6 +112,7 @@
                               <label class="col-md-4 control-label" for="gender">Gender</label>
                               <div class="col-md-4">
                                 <select id="gender" name="gender" class="form-control">
+                                  <option disabled selected value> -- select an option -- </option>
                                   <option value="1">Male</option>
                                   <option value="2">Female</option>
                                   <option value="3">Other</option>
@@ -133,6 +134,7 @@
                               <label class="col-md-4 control-label" for="country">Home Country</label>
                               <div class="col-md-4">
                               <select id="country" name="country" class="form-control" multiple="multiple">
+                                <option disabled selected value> -- select an option -- </option>
                                 <option value="AF">Afghanistan</option>
                                 	<option value="AX">Åland Islands</option>
                                 	<option value="AL">Albania</option>
@@ -392,6 +394,7 @@
                               <label class="col-md-4 control-label" for="state">Home State (US)</label>
                               <div class="col-md-4">
                                 <select id="state" name="state" class="form-control" multiple="multiple">
+                                  <option disabled selected value> -- select an option -- </option>
                                   <option value="AL">Alabama</option>
                                         	<option value="AK">Alaska</option>
                                         	<option value="AZ">Arizona</option>

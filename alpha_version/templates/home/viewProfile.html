@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+
+<title>Job Portal</title>
+<link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900" rel="stylesheet">
+<link rel="icon" type="image/ico" href="static/images/Logo.png" />
+
+<link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+<link href="../../static/css/loading-bar.css" rel="stylesheet">
+<link href="../../static/css/style.css" rel="stylesheet">
+<link href="../../static/css/jquery-ui.css" rel="stylesheet">
+
+<script src="../../static/js/lib/jquery-3.1.1.min.js"></script>
+<script src="../../static/js/custom.js"></script>
+<script src="../../static/js/jquery.validate.js"></script>
+<script src="../../static/js/jquery-ui.min.js"></script>
+<script src="../../static/js/additional-methods.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+</style>
+
+</head>
+<body>
+
+<div ng-controller='singlejobCtrl'>
+<div class="jp_sidebar_close"></div>
+
+<!-- header start -->
+<div class="jp_header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jp_header_wrapper">
+                    <!-- <div class="jp_logo">
+                        <a href="/"><img src="static/images/logo_with_text.png" alt=""></a>
+                    </div> -->
+                    <div class="jp_header_right">
+                        <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                            <ul>
+                              <li><a href="#forum">Forum</a></li>
+                              <li><a href="#professions">Professions</a></li>
+                              <li><a href="/browseJobs/">Jobs</a></li>
+                              <li><a href="/browseMentors/">Mentors</a></li>
+                              <li><a href="/viewProfile/">Profile</a></li>
+                              <li><a href="/logout/">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="jp_page_title">
+                    <h3>My Profile</h3>
+                    <!-- <p>you are on the right place</p> -->
+                </div>
+            </div>
+            <!-- <div class="col-md-8 col-md-offset-2">
+                <div class="jp_search_form">
+                    <input type="" name="" placeholder="Search Job Here by Location, Skills">
+                    <button class="jp_search_btn"></button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- header end -->
+
+
+
+<div class="jp_main_wrapper">
+   <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+               <div class="jp_single_wrapper">
+                    <div class="jp_job_box">
+                        <div class="job_detail">
+
+
+                        </div>
+
+                        <div class="container-fluid">
+  	<div class="row">
+  		<div class="col-md-12">
+  			<div class="page-header">
+          <img src="../../static/images/usericon.png" style="width:100px" class="center" alt="Bootstrap Image Preview" />
+  				<h1 style="text-align:center;">
+  					Main Profile
+  				</h1>
+  			</div>
+  			<a class="jp_btn" href="/updateProfile/" style="float: right;">Edit Profile</a>
+  			<div class="row">
+  				<div class="col-md-12">
+            <h4><b>Name: </b> {{firstname}} {{lastname}}</h4>
+            <h4><b>Description: </b> {{description}}</h4>
+            <h4><b>Profile Picture: </b> {{profpic}}</h4>
+            <h4><b>Profile Picture</b></h4>
+            <!-- <img src={{profpic}} alt="Profile Picture"> -->
+            <img src="{{profpic}}" alt="Profile Picture"/>
+            <h4><b>Age: </b> {{age}}</h4>
+            <h4><b>Gender: </b> {{gender}}</h4>
+            <h4><b>Race/Ethnicity: </b> {{race}}</h4>
+            <h4><b>Home Country: </b> {{country}}</h4>
+            <h4><b>Home State: </b> {{state}}</h4>
+  				</div>
+  			</div>
+  			<div class="page-header">
+          <img src="../../static/images/briefcase.png" style="width:100px" class="center" alt="Bootstrap Image Preview" />
+  				<h1 style="text-align:center;">
+  					Jobs
+  				</h1>
+  			</div>
+  			<a class="jp_btn" href="/addJob/" style="float: right;">Add Job</a>
+  			<div class="row">
+
+          {% for job in jobs %}
+          <div class="col-md-6">
+          <h2 style="text-align:center;"> {{job.title}} </h2>
+          <h3><b>Company/Insitution: </b> {{job.company}}</h3>
+          <h3><b>Description: </b> {{job.description}}</h3>
+          <h3><b>Job Type: </b> {{job.type}}</h3>
+          <h3><b>Annual Salary: </b> {{job.salary}}</h3>
+          <h3><b>Start Date: </b> {{job.start}}</h3>
+          <h3><b>End Date: </b> {{job.end}}</h3>
+          <h3><b>Years Prior Experience: </b> {{job.experience}}</h3>
+          <h3><b>Tags: </b> {{job.tags}}</h3>
+          <h3><b>Favorite Part </b> {{job.favorite}}</h3>
+          <h3><b>Least Favorite Part: </b> {{job.leastfavorite}}</h3>
+          <h3><b>Important Tasks: </b> {{job.tasks}}</h3>
+          <h3><b>Daily Life: </b> {{job.dailylife}}</h3>
+          <h3><b>Advice: </b> {{job.advice}}</h3>
+          {% endfor %}
+
+  			</div>
+  			<div class="page-header">
+          <img src="../../static/images/gradcap.png" style="width:100px" class="center" alt="Bootstrap Image Preview" />
+  				<h1 style="text-align:center;">
+  					Education
+  				</h1>
+  			</div>
+  			<a class="jp_btn" href="/addEducation/" style="float: right;">Add Education</a>
+  			<div class="row">
+  				<div class="col-md-12">
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+</div>
+
+</body>
+</html>

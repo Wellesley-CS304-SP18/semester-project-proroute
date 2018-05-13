@@ -47,7 +47,7 @@
                               <li><a href="#professions">Professions</a></li>
                               <li><a href="/browseJobs/">Jobs</a></li>
                               <li><a href="/browseMentors/">Mentors</a></li>
-                              <li><a href="/updateProfile/">Profile</a></li>
+                              <li><a href="/viewProfile/">Profile</a></li>
                               <li><a href="/logout/">Logout</a></li>
                             </ul>
                         </div>
@@ -84,11 +84,12 @@
 
 
 
-                          <form class="form-horizontal">
+                          <form class="form-horizontal" method="post" action="">
                           <fieldset>
 
                           <!-- Form Name -->
                           <legend>Education</legend>
+                          <h3 style="color:#5DE285;">{{message}}</h3>
 
                           <!-- Text input-->
                           <div class="form-group">
@@ -119,7 +120,7 @@
 
 
                           <div class="form-group">
-                          <label class="col-md-4 control-label" for="selectbasic">Degree Type</label>
+                          <label class="col-md-4 control-label" for="degreetype">Degree Type</label>
                           <div class="col-md-4">
                             <select id="degreetype" name="degreetype" class="form-control">
                               <option value="none">None</option>
@@ -135,7 +136,7 @@
 
                           <!-- Multiple Radios (inline) -->
                           <div class="form-group">
-                            <label class="col-md-4 control-label" size="100" for="title">Overall Rating (1-5)</label>
+                            <label class="col-md-4 control-label" size="100" for="rating">Overall Rating (1-5)</label>
                             <div class="col-md-4">
                               <span class="starRating">
                             <input id="rating5" type="radio" name="rating" value="5">
@@ -481,17 +482,17 @@
 
 
 
-
+                          <div class="jp_view_btn">
+                            <button class="jp_btn" type="submit" value="Update">Update</button>
+                              <!-- <a href="login" class="jp_btn">Apply</a> -->
+                              <!-- <p><input type="submit" value="Apply"> -->
+                          </div>
                           </fieldset>
                           </form>
 
-                            
+
                         </div>
-                        <div class="jp_view_btn">
-                          <button class="jp_btn" type="submit" value="Update">Update</button>
-                            <!-- <a href="login" class="jp_btn">Apply</a> -->
-                            <!-- <p><input type="submit" value="Apply"> -->
-                        </div>
+
                     </div>
                </div>
            </div>
