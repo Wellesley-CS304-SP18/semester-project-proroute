@@ -131,6 +131,7 @@ def viewProfile():
     if request.method == "GET":
         conn = dbconn2.connect(DSN)
         email= session.get('email')
+        userid=session.get('userid')
         info=helperFunctions.viewProfile(conn,email)
         description=info['description']
         firstname=info['firstname']
@@ -140,10 +141,23 @@ def viewProfile():
         homeCountry=info['homeCountry']
         gender=info['gender']
         ethnicity=info['Ethnicity']
-        filename='../../../images/'+info['picture']
+        filename="../../images/"+info['picture']
+
+        print filename
+
+
+        #get job info
+        jobinfo=helperFunctions.viewJobs(conn,userid)
+
+
+        eduinfo= helperFunctions.viewEducation(conn,userid)
+
+        print eduinfo
+
         return render_template('home/viewProfile.html',firstname=firstname,
         lastname=lastname,description=description,age=age,gender=gender,
-        race=ethnicity,country=homeCountry,state=homeState,profpic=filename)
+        race=ethnicity,country=homeCountry,state=homeState,profpic=filename,
+        jobs=jobinfo,education=eduinfo)
     if request.method == 'POST':
         return redirect(url_for('profile'))
 

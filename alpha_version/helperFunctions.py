@@ -119,6 +119,31 @@ def viewProfile(conn,email):
     except MySQLdb.IntegrityError as err:
         return "Error"
 
+def viewJobs(conn,userid):
+    try:
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
+        curs.execute("select title,jobID,company,description,type,experience,"+
+        "favoritePart,leastFavoritePart,annualSalary,task,dailylife,skill,"+
+        "advice,professionTag,startDate,endDate from job where userid=%s;",
+        [userid])
+        jobinfo=curs.fetchall()
+        return jobinfo
+    except MySQLdb.IntegrityError as err:
+        return "Error"
+
+def viewEducation(conn,userid):
+    try:
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
+        curs.execute("select institution,instState,instCountry,major,major2,"+
+        "degreetype,overallRating,review from education where userid=%s;",
+        [userid])
+        eduinfo=curs.fetchall()
+        return eduinfo
+
+    except MySQLdb.IntegrityError as err:
+        return "Error"
+
+
 def updateProfile(conn,email,description,age,gender,race,country,state,profpic):
     """Updates the information in the user table for the user with the
     given email address with the information provdied on the
