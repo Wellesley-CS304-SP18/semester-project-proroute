@@ -100,13 +100,14 @@
   			</div>
   			<a class="jp_btn" href="/updateProfile/" style="float: right;">Edit Profile</a>
   			<div class="row">
-  				<div class="col-md-12">
+  				<div style="border:2px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-12">
             <h4><b>Name: </b> {{firstname}} {{lastname}}</h4>
             <h4><b>Description: </b> {{description}}</h4>
             <h4><b>Profile Picture: </b> {{profpic}}</h4>
             <h4><b>Profile Picture</b></h4>
             <!-- <img src={{profpic}} alt="Profile Picture"> -->
-            <img src="{{profpic}}" alt="Profile Picture"/>
+            <img src="{{profpic}}" style="width:100px" alt="Profile Picture"/>
+            <img src="../../images/test.JPG" style="width:100px" alt="Profile Picture"/>
             <h4><b>Age: </b> {{age}}</h4>
             <h4><b>Gender: </b> {{gender}}</h4>
             <h4><b>Race/Ethnicity: </b> {{race}}</h4>
@@ -124,22 +125,27 @@
   			<div class="row">
 
           {% for job in jobs %}
-          <div class="col-md-6">
+          <div style="border:2px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-4">
           <h2 style="text-align:center;"> {{job.title}} </h2>
-          <h3><b>Company/Insitution: </b> {{job.company}}</h3>
-          <h3><b>Description: </b> {{job.description}}</h3>
-          <h3><b>Job Type: </b> {{job.type}}</h3>
-          <h3><b>Annual Salary: </b> {{job.salary}}</h3>
-          <h3><b>Start Date: </b> {{job.start}}</h3>
-          <h3><b>End Date: </b> {{job.end}}</h3>
-          <h3><b>Years Prior Experience: </b> {{job.experience}}</h3>
-          <h3><b>Tags: </b> {{job.tags}}</h3>
-          <h3><b>Favorite Part </b> {{job.favorite}}</h3>
-          <h3><b>Least Favorite Part: </b> {{job.leastfavorite}}</h3>
-          <h3><b>Important Tasks: </b> {{job.tasks}}</h3>
-          <h3><b>Daily Life: </b> {{job.dailylife}}</h3>
-          <h3><b>Advice: </b> {{job.advice}}</h3>
+          <h4><b>Company/Insitution: </b> {{job.company}}</h4>
+          <h4><b>Description: </b> {{job.description}}</h4>
+          <h4><b>Job Type: </b> {{job.type}}</h4>
+          <h4><b>Annual Salary: </b> {{job.annualSalary}}</h4>
+          <h4><b>Start Date: </b> {{job.startDate}}</h4>
+          <h4><b>End Date: </b> {{job.endDate}}</h4>
+          <h4><b>Years Prior Experience: </b> {{job.experience}}</h4>
+          <h4><b>Tags: </b> {{job.professionTag}}</h4>
+          <h4><b>Favorite Part </b> {{job.favoritePart}}</h4>
+          <h4><b>Least Favorite Part: </b> {{job.leastFavoritePart}}</h4>
+          <h4><b>Important Tasks: </b> {{job.task}}</h4>
+          <h4><b> Important Skills: </b> {{job.skill}}</h4>
+          <h4><b>Daily Life: </b> {{job.dailylife}}</h4>
+          <h4><b>Advice: </b> {{job.advice}}</h4>
+          </div>
           {% endfor %}
+
+      </div>
+
 
   			</div>
   			<div class="page-header">
@@ -149,8 +155,20 @@
   				</h1>
   			</div>
   			<a class="jp_btn" href="/addEducation/" style="float: right;">Add Education</a>
-  			<div class="row">
-  				<div class="col-md-12">
+          {% for edu in education %}
+          <div class="row">
+          <div style="border:2px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-4">
+          <h2 style="text-align:center;"> {{edu.institution}} </h2>
+          <h4><b>Degree Type: </b> {{edu.degreetype}}</h4>
+          <h4><b>Major: </b> {{edu.major}}</h4>
+          <h4><b>Second Major/Minor: </b> {{edu.major2}}</h4>
+          <h4><b>Institution Country: </b> {{edu.instCountry}}</h4>
+          <h4><b>Institution State(US): </b> {{edu.instState}}</h4>
+          <h4><b>Overall Rating: </b> {{edu.overallRating}}</h4>
+          <h4><b>Review: </b> {{edu.review}}</h4>
+          </div>
+          {% endfor %}
+      </div>
   				</div>
   			</div>
   		</div>
