@@ -42,7 +42,7 @@
                             <li><a href="#professions">Professions</a></li>
                             <li><a href="/browseJobs/">Jobs</a></li>
                             <li><a href="/browseMentors/">Mentors</a></li>
-                            <li><a href="/updateProfile/">Profile</a></li>
+                            <li><a href="/viewProfile/">Profile</a></li>
                             <li><a href="/logout/">Logout</a></li>
                           </ul>
                       </div>
@@ -63,9 +63,9 @@
                 </div>
             </div>
             <div class="col-md-8 col-md-offset-2">
-            <form name="searchForm" data-ng-submit='searchJob()'>
+            <form name="searchForm" method="post" action="">
                 <div class="jp_search_form">
-                    <input type="" name="" ng-model="keyword" placeholder="Search for specific attributes here">
+                    <input type="text" name="searchform" id="searchform" ng-model="keyword" placeholder="Search for specific attributes here">
                     <button type="submit" class="jp_search_btn"></button>
                 </div>
                 </form>
@@ -75,56 +75,71 @@
 </div>
 <!-- header end -->
 
+
+
+
+
 <div class="jp_main_wrapper">
     <div class="jp_doctor_list_wrapper">
+
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
                   <!-- category start -->
                     <div class="jp_widget_wrapper">
 
-
+                      <form name="profession" method="post" action="">
                       <div class="jp_widget_box">
                           <h3 class="jp_widget_title">Profession </h3>
                           <div class="jp_widget_search">
-                              <input type="text" ng-model="location" placeholder="Search..." />
+                              <input name="profession_search" id="profession_search" type="text" ng-model="location" placeholder="Search..." />
                               <button class="icon"></button>
                           </div>
+                          <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
                       </div>
+                    </form>
 
+                      <form name="age" method="post" action="">
                       <div class="jp_widget_box">
                       <h3 class="jp_widget_title">Age</h3>
                       <b>Min:</b><input id="minage" name="minage" type="number" min="13" placeholder="" max="100" class="form-control input-md">
                       <b>Max:</b><input id="maxage" name="maxage" type="number" min="13" placeholder="" max="100" class="form-control input-md">
-                    </div>
+                      <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
+                      </div>
+                      </form>
 
+                        <form name="gender" method="post" action="">
                         <div class="jp_widget_box">
                             <h3 class="jp_widget_title">Gender</h3>
                             <div class="jp_checkbox_list">
                                     <div class="jp_checkbox">
-                                      <input type="checkbox" ng-change='searchFilterJobs()' value="male" add-remove-experience  ng-model="area.checked_f" id="male" />
+                                      <input type="checkbox" name="gender" ng-change='searchFilterJobs()' value="male" add-remove-experience  ng-model="area.checked_f" id="male" />
                                       <label for="male">Male</label>
                                   </div>
 
+
                                   <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="female" add-remove-experience  ng-model="area.checked_f" id="female" />
+                                    <input type="checkbox" name="gender" ng-change='searchFilterJobs()' value="female" add-remove-experience  ng-model="area.checked_f" id="female" />
                                     <label for="female">Female</label>
                                 </div>
 
                                 <div class="jp_checkbox">
-                                  <input type="checkbox" ng-change='searchFilterJobs()' value="other" add-remove-experience  ng-model="area.checked_f" id="other" />
+                                  <input type="checkbox" name="gender" ng-change='searchFilterJobs()' value="other" add-remove-experience  ng-model="area.checked_f" id="other" />
                                   <label for="other">Other</label>
                               </div>
 
                             </div>
+                            <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
                         </div>
+                      </form>
 
 
-
+                        <form name="country" method="post" action="">
                         <div class="jp_widget_box">
                             <h3 class="jp_widget_title">Home Country</h3>
                             <div class="jp_widget_search">
                               <select id="country" name="country" class="form-control" multiple="multiple">
+                                <option disabled selected value> -- select an option -- </option>
                                 <option value="AF">Afghanistan</option>
                                 	<option value="AX">Åland Islands</option>
                                 	<option value="AL">Albania</option>
@@ -360,7 +375,7 @@
                                 	<option value="UA">Ukraine</option>
                                 	<option value="AE">United Arab Emirates</option>
                                 	<option value="GB">United Kingdom</option>
-                                	<option selected="selected" value="US">United States</option>
+                                	<option value="US">United States</option>
                                 	<option value="UM">United States Minor Outlying Islands</option>
                                 	<option value="UY">Uruguay</option>
                                 	<option value="UZ">Uzbekistan</option>
@@ -376,12 +391,16 @@
                                 	<option value="ZW">Zimbabwe</option>
                                 </select>
                             </div>
+                            <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
                         </div>
+                      </form>
 
+                        <form name="state" method="post" action="">
                         <div class="jp_widget_box">
                             <h3 class="jp_widget_title">Home State (US)</h3>
                             <div class="jp_widget_search">
-                              <select id="country" name="state" class="form-control" multiple="multiple">
+                              <select id="state" name="state" class="form-control" multiple="multiple">
+                                <option disabled selected value> -- select an option -- </option>
                                 <option value="AL">Alabama</option>
                                         <option value="AK">Alaska</option>
                                         <option value="AZ">Arizona</option>
@@ -435,13 +454,13 @@
                                         <option value="WY">Wyoming</option>
                               </select>
                             </div>
+                            <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
                       </div>
+                    </form>
 
-                      <div class="jp_view_btn">
+                      <!-- <div class="jp_view_btn">
                         <button class="jp_btn" type="submit" value="filter">Filter</button>
-                          <!-- <a href="login" class="jp_btn">Apply</a> -->
-                          <!-- <p><input type="submit" value="Apply"> -->
-                      </div>
+                      </div> -->
 
 
 
@@ -449,6 +468,7 @@
                     </div>
                     <!-- category end -->
                 </div>
+
                 <div class="col-md-8">
                     <!-- no job found start -->
 			 <!-- <div class="jp_no_jobs" ng-if='nojobs'>
@@ -469,14 +489,15 @@
 					<!-- job listing start -->
 					<div ng-if='loadingIsDone'>
 					<!-- <div style="min-height: 400px" class="clearfix"> -->
-					<div class="jp_job_box" ng-repeat="(key, active_jobs) in active_jobsArray | offset: currentPage*itemsPerPage | limitTo: itemsPerPage">
+                      {% for mentor in mentors %}
+					             <div class="jp_job_box" >
                         <div class="job_detail">
-                            <h3>Name</h3>
-                            <span><b>Age:</b></span>
+                            <h3>{{mentor.firstname}} {{mentor.lastname}}</h3>
+                            <span><b>Age: </b>{{mentor.age}}</span>
                             <p></p>
-                            <span><b>Description:</b></span>
+                            <span><b>Description: </b>{{mentor.description}}</span>
                             <ul>
-                                <li><span><img src="static/images/experience.svg" alt=""></span> Profession Tags: </li>
+                                <li><span><img src="static/images/experience.svg" alt=""></span> Profession Tags: {{mentor.professionTag}}</li>
                             </ul>
                         </div>
                         <div class="jp_view_btn">
@@ -484,6 +505,9 @@
                             <a href="#" class="jp_btn jp_btn_block">View</a>
                         </div>
                     </div>
+                    {% endfor %}
+
+
                     	<!-- </div> -->
                     <!-- job listing end -->
 

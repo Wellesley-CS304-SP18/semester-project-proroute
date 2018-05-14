@@ -127,6 +127,8 @@
           {% for job in jobs %}
           <div style="border:2px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-4">
           <h2 style="text-align:center;"> {{job.title}} </h2>
+
+
           <h4><b>Company/Insitution: </b> {{job.company}}</h4>
           <h4><b>Description: </b> {{job.description}}</h4>
           <h4><b>Job Type: </b> {{job.type}}</h4>
@@ -141,6 +143,10 @@
           <h4><b> Important Skills: </b> {{job.skill}}</h4>
           <h4><b>Daily Life: </b> {{job.dailylife}}</h4>
           <h4><b>Advice: </b> {{job.advice}}</h4>
+          <form action="{{ url_for('delete_job') }}" method="post" class="delete-job">
+          <input type="hidden" value="{{ job.jobID }}"name="job_to_delete"></input>
+          <button style="background-color: #008CBA;color:white;border-radius: 4px;float: left;margin-bottom:15px;"type="submit" value="Delete Job">Delete Job</button>
+          </form>
           </div>
           {% endfor %}
 
@@ -159,6 +165,7 @@
           <div class="row">
           <div style="border:2px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-4">
           <h2 style="text-align:center;"> {{edu.institution}} </h2>
+
           <h4><b>Degree Type: </b> {{edu.degreetype}}</h4>
           <h4><b>Major: </b> {{edu.major}}</h4>
           <h4><b>Second Major/Minor: </b> {{edu.major2}}</h4>
@@ -166,6 +173,10 @@
           <h4><b>Institution State(US): </b> {{edu.instState}}</h4>
           <h4><b>Overall Rating: </b> {{edu.overallRating}}</h4>
           <h4><b>Review: </b> {{edu.review}}</h4>
+          <form action="{{ url_for('delete_education') }}" method="post" class="delete-education">
+          <input type="hidden" value="{{ edu.eduID }}"name="edu_to_delete"></input>
+          <button style="background-color: #008CBA;color:white;border-radius: 4px;float: left;margin-bottom:15px;"type="submit" value="Delete">Delete</button>
+          </form>
           </div>
           {% endfor %}
       </div>
