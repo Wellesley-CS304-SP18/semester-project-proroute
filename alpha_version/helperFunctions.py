@@ -131,6 +131,7 @@ def viewJobs(conn,userid):
     except MySQLdb.IntegrityError as err:
         return "Error"
 
+
 def viewEducation(conn,userid):
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -154,6 +155,65 @@ def viewMentors(conn):
     except MySQLdb.IntegrityError as err:
         return "Error"
 
+def browseJobs(conn):
+    try:
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
+        curs.execute("select title,company,firstname,lastname,job.description,"+
+        "professionTag from job join user using(userid) join mentor using(userid);")
+        jobinfo=curs.fetchall()
+        return jobinfo
+    except MySQLdb.IntegrityError as err:
+        return "Error"
+
+def filterJobs(conn,searchform,jobtype,tasks,minsalary,workExperience,educationExperience):
+    searchform=request.form.get('searchform')
+    jobtype=request.form.get('jobtype')
+    tasks=request.form.get('tasks')
+    minsalary=request.form.get('minsalary')
+    workExperience= request.form.get('workExperience')
+    educationExperience=request.form.get('educationExperience')
+    try:
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
+        if searchform!=None:
+            curs.execute("select title,company,firstname,lastname,job.description,"+
+            "professionTag from job join user using(userid) join mentor using(userid)"+
+            "where (title like %s or company like %s or job.description like %s or"+
+            " professionTag like %s);",['%'+searchform+'%','%'+searchform+'%','%'+searchform+'%','%'+searchform+'%'])
+
+        elif jobtype!=None:
+            curs.execute("select title,company,firstname,lastname,job.description,"+
+            "professionTag,job.type from job join user using(userid) join mentor using(userid)"+
+            "where job.type=%s;",[jobtype])
+
+        elif tasks!=None:
+            curs.execute("select title,company,firstname,lastname,job.description,"+
+            "professionTag,job.task from job join user using(userid) join mentor using(userid)"+
+            "where job.task=%s;",[tasks])
+
+        elif minsalary!=None:
+            curs.execute("select title,company,firstname,lastname,job.description,"+
+            "professionTag,annualSalary from job join user using(userid) join mentor "+
+            "using(userid) where annualSalary>%s;",[minsalary])
+
+        elif workExperience!=None:
+            curs.execute("select title,company,firstname,lastname,job.description,"+
+            "professionTag,job.experience from job join user using(userid) join"+
+            " mentor using(userid) where job.experience=%s;",[workExperience])
+
+        elif educationExperience!=None:
+            curs.execute("select title,company,firstname,lastname,job.description,"+
+            "professionTag,job.education from job join user using(userid) join"+
+            " mentor using(userid) where job.education=%s;",[educationExperience])
+
+        else:
+            curs.execute("select title,company,firstname,lastname,job.description,"+
+            "professionTag from job join user using(userid) join mentor using(userid);")
+        jobinfo=curs.fetchall()
+        return jobinfo
+
+    except MySQLdb.IntegrityError as err:
+        return "Error"
+
 def filterMentors(conn,searchform,profession,minage,maxage,gender,country,state):
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -165,7 +225,7 @@ def filterMentors(conn,searchform,profession,minage,maxage,gender,country,state)
             " or firstname like %s or lastname like %s or user.description like %s);",
             ['%'+searchform+'%','%'+searchform+'%','%'+searchform+'%','%'+searchform+'%'])
 
-        if profession!=None:
+        elif profession!=None:
             curs.execute("select firstname,lastname,userid,picture,user.description,"+
             "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
             " join mentor using(userid) join job using(userid) where professionTag like %s;",
@@ -218,8 +278,10 @@ def updateProfile(conn,email,description,age,gender,race,country,state,profpic):
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
+        print age
+
         curs.execute("update user set description=%s"+
-        ",age=%s,gender=%s,Ethnicity=%s, homeCountry=%s, homeState=%s, picture=%s where email=%s",
+        ",age=%s,gender=%s,Ethnicity=%s, homeCountry=%s, homeState=%s, picture=%s where email=%s;",
         [description,age,gender,race,country,state,profpic,email])
         return "successfully updated profile"
     except MySQLdb.IntegrityError as err:
