@@ -134,7 +134,7 @@ def viewJobs(conn,userid):
 def viewEducation(conn,userid):
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
-        curs.execute("select institution,instState,instCountry,major,major2,"+
+        curs.execute("select institution,eduID,instState,instCountry,major,major2,"+
         "degreetype,overallRating,review from education where userid=%s;",
         [userid])
         eduinfo=curs.fetchall()
@@ -143,6 +143,73 @@ def viewEducation(conn,userid):
     except MySQLdb.IntegrityError as err:
         return "Error"
 
+def viewMentors(conn):
+    try:
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
+        curs.execute("select firstname,lastname,userid,picture,user.description,"+
+        "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+        " join mentor using(userid) join job using(userid);")
+        mentorinfo=curs.fetchall()
+        return mentorinfo
+    except MySQLdb.IntegrityError as err:
+        return "Error"
+
+def filterMentors(conn,searchform,profession,minage,maxage,gender,country,state):
+    try:
+        curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+        if searchform!=None:
+            curs.execute("select firstname,lastname,userid,picture,user.description,"+
+            "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+            " join mentor using(userid) join job using(userid) where (professionTag like %s"+
+            " or firstname like %s or lastname like %s or user.description like %s);",
+            ['%'+searchform+'%','%'+searchform+'%','%'+searchform+'%','%'+searchform+'%'])
+
+        if profession!=None:
+            curs.execute("select firstname,lastname,userid,picture,user.description,"+
+            "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+            " join mentor using(userid) join job using(userid) where professionTag like %s;",
+            ['%'+profession+'%'])
+
+        elif minage!=None:
+            curs.execute("select firstname,lastname,userid,picture,user.description,"+
+            "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+            " join mentor using(userid) join job using(userid) where age>%s;",
+            [minage])
+        elif maxage!=None:
+            curs.execute("select firstname,lastname,userid,picture,user.description,"+
+            "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+            " join mentor using(userid) join job using(userid) where age<%s;",
+            [maxage])
+        elif minage!=None and maxage!=None:
+            curs.execute("select firstname,lastname,userid,picture,user.description,"+
+            "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+            " join mentor using(userid) join job using(userid) where age>%s and"+
+            " age<%s;",[minage,maxage])
+        elif gender!=None:
+            curs.execute("select firstname,lastname,userid,picture,user.description,"+
+            "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+            " join mentor using(userid) join job using(userid) where gender=%s;"
+            ,[gender])
+        elif country!=None:
+            curs.execute("select firstname,lastname,userid,picture,user.description,"+
+            "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+            " join mentor using(userid) join job using(userid) where homeCountry=%s;"
+            ,[country])
+        elif state!=None:
+            curs.execute("select firstname,lastname,userid,picture,user.description,"+
+            "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+            " join mentor using(userid) join job using(userid) where homeState=%s;"
+            ,[state])
+        else:
+            curs.execute("select firstname,lastname,userid,picture,user.description,"+
+            "age,gender,homeState,homeCountry,Ethnicity,professionTag from user"+
+            " join mentor using(userid) join job using(userid);")
+        mentorinfo=curs.fetchall()
+        return mentorinfo
+
+    except MySQLdb.IntegrityError as err:
+        return "Error"
 
 def updateProfile(conn,email,description,age,gender,race,country,state,profpic):
     """Updates the information in the user table for the user with the

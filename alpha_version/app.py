@@ -122,9 +122,28 @@ def register():
 def browseJobs():
     return render_template('home/browseJobs.html')
 
-@app.route('/browseMentors/')
+@app.route('/browseMentors/',methods=['GET','POST'])
 def browseMentors():
-    return render_template('home/browseMentors.html')
+    conn = dbconn2.connect(DSN)
+    if request.method == "GET":
+        mentorinfo=helperFunctions.viewMentors(conn)
+        return render_template('home/browseMentors.html',mentors=mentorinfo)
+
+
+    if request.method == 'POST':
+
+        searchform=request.form.get('searchform')
+        profession_search= request.form.get('profession_search')
+        minage= request.form.get('minage')
+        maxage= request.form.get('maxage')
+        gender=request.form.get('gender')
+        country= request.form.get('country')
+        state=request.form.get('state')
+
+
+        mentorinfo=helperFunctions.filterMentors(conn,searchform,profession_search,minage,maxage,
+        gender,country,state)
+        return render_template('home/browseMentors.html',mentors=mentorinfo)
 
 @app.route('/viewProfile/',methods=['GET','POST'])
 def viewProfile():
@@ -152,15 +171,31 @@ def viewProfile():
 
         eduinfo= helperFunctions.viewEducation(conn,userid)
 
-        print eduinfo
-
         return render_template('home/viewProfile.html',firstname=firstname,
         lastname=lastname,description=description,age=age,gender=gender,
         race=ethnicity,country=homeCountry,state=homeState,profpic=filename,
         jobs=jobinfo,education=eduinfo)
+
     if request.method == 'POST':
         return redirect(url_for('profile'))
 
+@app.route('/deleteJob/', methods=['POST'])
+def delete_job():
+    conn = dbconn2.connect(DSN)
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    userid=session.get('userid')
+    jobid=request.form['job_to_delete']
+    curs.execute("delete from job where userid=%s and jobID=%s;",[userid,jobid])
+    return redirect(url_for('viewProfile'))
+
+@app.route('/deleteEdu/', methods=['POST'])
+def delete_education():
+    conn = dbconn2.connect(DSN)
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    userid=session.get('userid')
+    eduid=request.form['edu_to_delete']
+    curs.execute("delete from education where userid=%s and eduID=%s;",[userid,eduid])
+    return redirect(url_for('viewProfile'))
 
 @app.route('/updateProfile/',methods=['GET', 'POST'])
 def profile():
