@@ -53,7 +53,7 @@ var slider = new Slider('#ex2', {});
                             <li><a href="#professions">Professions</a></li>
                             <li><a href="/browseJobs/">Jobs</a></li>
                             <li><a href="/browseMentors/">Mentors</a></li>
-                            <li><a href="/updateProfile/">Profile</a></li>
+                            <li><a href="/viewProfile/">Profile</a></li>
                             <li><a href="/logout/">Logout</a></li>
                           </ul>
                       </div>
@@ -74,9 +74,9 @@ var slider = new Slider('#ex2', {});
                 </div>
             </div>
             <div class="col-md-8 col-md-offset-2">
-            <form name="searchForm" data-ng-submit='searchJob()'>
+            <form name="searchForm" method="post" action="">
                 <div class="jp_search_form">
-                    <input type="" name="" ng-model="keyword" placeholder="Search for specific attributes here">
+                    <input type="text" name="searchform" id="searchform" ng-model="keyword" placeholder="Search for specific attributes here">
                     <button type="submit" class="jp_search_btn"></button>
                 </div>
                 </form>
@@ -93,15 +93,17 @@ var slider = new Slider('#ex2', {});
                 <div class="col-md-4">
                   <!-- category start -->
                     <div class="jp_widget_wrapper">
+
+                        <form name="jobType" method="post" action="">
                         <div class="jp_widget_box">
                             <h3 class="jp_widget_title">Job Types</h3>
                             <div class="jp_checkbox_list">
                                     <div class="jp_checkbox">
-                                      <input type="checkbox" ng-change='searchFilterJobs()' value="fulltime" add-remove-experience  ng-model="area.checked_f" id="fulltime" />
+                                      <input name="jobtype" type="checkbox" ng-change='searchFilterJobs()' value="fulltime" add-remove-experience  ng-model="area.checked_f" id="fulltime" />
                                       <label for="fulltime">Full-Time</label>
                                   </div>
                                   <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="parttime" add-remove-experience  ng-model="area.checked_f" id="parttime" />
+                                    <input name="jobtype" type="checkbox" ng-change='searchFilterJobs()' value="parttime" add-remove-experience  ng-model="area.checked_f" id="parttime" />
                                     <label for="parttime">Part-Time</label>
                                 </div>
 
@@ -110,16 +112,22 @@ var slider = new Slider('#ex2', {});
                                     <input type="checkbox" value="checkboxes1"/> -->
                                 <!-- </div> -->
                             </div>
+                            <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
                         </div>
+                      </form>
 
+                        <form name="tasks" method="post" action="">
                         <div class="jp_widget_box">
                             <h3 class="jp_widget_title">Tasks </h3>
                             <div class="jp_widget_search">
-                                <input type="text" ng-model="location" placeholder="Search..." />
+                                <input type="text" name="tasks" id="tasks" ng-model="location" placeholder="Search..." />
                                 <button class="icon"></button>
                             </div>
+                            <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
                         </div>
+                      </form>
 
+                        <form name="salary" method="post" action="">
                         <div class="jp_widget_box">
                             <h3 class="jp_widget_title">Minimum Annual Salary ($)</h3>
                             <input id="minsalary" name="minsalary" type="number" min="0" placeholder="$5000" max="500000" class="form-control input-md">
@@ -128,80 +136,84 @@ var slider = new Slider('#ex2', {});
                             <!-- <b>$5k</b><input type="range" class="slider-width100" name="weight" id="range_weight" value="30000" min="5000" step="1000" max="200000" oninput="range_weight_disp.value = range_weight.value"> -->
                             <!-- <p><output  id="range_weight_disp"></output></p> -->
                         <!-- <b>€ 10</b> <input id="ex2" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/> <b>€ 1000</b> -->
+                        <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
                         </div>
+                      </form>
 
 
+                        <form name="workExperience" method="post" action="">
                         <div class="jp_widget_box">
                             <h3 class="jp_widget_title">Work Experience</h3>
                             <div class="jp_checkbox_list">
                                 <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="none" add-remove-experience  ng-model="area.checked_f" id="Fresher" />
-                                    <label for="Fresher">None</label>
+                                    <input type="checkbox" name="workExperience" ng-change='searchFilterJobs()' value="none" add-remove-experience  ng-model="area.checked_f" id="none" />
+                                    <label for="none">None</label>
                                 </div>
                                 <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="06 Months" add-remove-experience  ng-model="area.checked_6" id="6Mto1Y" />
-                                    <label for="6Mto1Y"> 06 Months</label>
+                                    <input type="checkbox" name="workExperience" ng-change='searchFilterJobs()' value="less1" add-remove-experience  ng-model="area.checked_6" id="less1" />
+                                    <label for="less1"> 0-1 Year </label>
                                 </div>
                                  <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' ng-change='searchFilterJobs()' value="1 Year" add-remove-experience  ng-model="area.checked_1" id="1 Year" />
-                                    <label for="1 Year"> 1 Year</label>
+                                    <input type="checkbox" name="workExperience" ng-change='searchFilterJobs()' ng-change='searchFilterJobs()' value="1" add-remove-experience  ng-model="area.checked_1" id="1" />
+                                    <label for="1"> 1 Year</label>
                                 </div>
                                  <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="1.5 Year" add-remove-experience  ng-model="area.checked_h" id="1.5 Year" />
-                                    <label for="1.5 Year"> 1.5 Year</label>
+                                    <input type="checkbox" name="workExperience" ng-change='searchFilterJobs()' value="2" add-remove-experience  ng-model="area.checked_h" id="2" />
+                                    <label for="2"> 2 Years </label>
                                 </div>
                                  <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="2 Year" add-remove-experience  ng-model="area.checked_2" id="2 Year" />
-                                    <label for="2 Year"> 2 Year</label>
+                                    <input type="checkbox" name="workExperience" ng-change='searchFilterJobs()' value="3" add-remove-experience  ng-model="area.checked_2" id="3" />
+                                    <label for="3"> 3 Years</label>
                                 </div>
                                 <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="2.5 Year" add-remove-experience  ng-model="area.checked_2h" id="2.5 Year" />
-                                    <label for="2.5 Year">2.5 Year</label>
+                                    <input type="checkbox" name="workExperience" ng-change='searchFilterJobs()' value="4" add-remove-experience  ng-model="area.checked_2h" id="4" />
+                                    <label for="4"> 4 Years </label>
                                 </div>
                                 <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="3 Year" add-remove-experience  ng-model="area.checked_3h" id="3 Year" />
-                                    <label for="3 Year"> 3 Year</label>
-                                </div>
-                                <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="3+ Year" add-remove-experience  ng-model="area.checked3p" id="3+ Year" />
-                                    <label for="3+ Year"> 3+ Year </label>
+                                    <input type="checkbox" name="workExperience" ng-change='searchFilterJobs()' value="5plus" add-remove-experience  ng-model="area.checked_3h" id="5plus" />
+                                    <label for="5plus"> 5+ years </label>
                                 </div>
                             </div>
+                            <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
                         </div>
+                      </form>
 
+                        <form name="educationExperience" method="post" action="">
                         <div class="jp_widget_box">
                             <h3 class="jp_widget_title">Educational Experience</h3>
                             <div class="jp_checkbox_list">
                                 <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="none" add-remove-experience  ng-model="area.checked_f" id="none" />
+                                    <input type="checkbox" name="educationExperience" ng-change='searchFilterJobs()' value="none" add-remove-experience  ng-model="area.checked_f" id="none" />
                                     <label for="none">None</label>
                                 </div>
                                 <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="highschool" add-remove-experience  ng-model="area.checked_6" id="highschool" />
+                                    <input type="checkbox" name="educationExperience" ng-change='searchFilterJobs()' value="highschool" add-remove-experience  ng-model="area.checked_6" id="highschool" />
                                     <label for="highschool">High School </label>
                                 </div>
                                  <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' ng-change='searchFilterJobs()' value="associates" add-remove-experience  ng-model="area.checked_1" id="associates" />
+                                    <input type="checkbox" name="educationExperience" ng-change='searchFilterJobs()' ng-change='searchFilterJobs()' value="associates" add-remove-experience  ng-model="area.checked_1" id="associates" />
                                     <label for="associates">Associate's Degree</label>
                                 </div>
                                  <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="bachelors" add-remove-experience  ng-model="area.checked_h" id="bachelors" />
+                                    <input type="checkbox" name="educationExperience" ng-change='searchFilterJobs()' value="bachelors" add-remove-experience  ng-model="area.checked_h" id="bachelors" />
                                     <label for="bachelors">Bachelor's Degree</label>
                                 </div>
                                  <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="masters" add-remove-experience  ng-model="area.checked_2" id="masters" />
+                                    <input type="checkbox" name="educationExperience" ng-change='searchFilterJobs()' value="masters" add-remove-experience  ng-model="area.checked_2" id="masters" />
                                     <label for="masters"> Master's Degree</label>
                                 </div>
                                 <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="phd" add-remove-experience  ng-model="area.checked_2h" id="phd" />
+                                    <input type="checkbox" name="educationExperience" ng-change='searchFilterJobs()' value="phd" add-remove-experience  ng-model="area.checked_2h" id="phd" />
                                     <label for="phd">PhD </label>
                                 </div>
                                 <div class="jp_checkbox">
-                                    <input type="checkbox" ng-change='searchFilterJobs()' value="other" add-remove-experience  ng-model="area.checked_3h" id="other" />
+                                    <input type="checkbox" name="educationExperience" ng-change='searchFilterJobs()' value="other" add-remove-experience  ng-model="area.checked_3h" id="other" />
                                     <label for="other"> Other Professional Degree</label>
                                 </div>
                             </div>
+                            <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button>
                         </div>
+                      </form>
 
 
 
@@ -228,20 +240,22 @@ var slider = new Slider('#ex2', {});
 					<!-- job listing start -->
 					<div ng-if='loadingIsDone'>
 					<!-- <div style="min-height: 400px" class="clearfix"> -->
-					<div class="jp_job_box" ng-repeat="(key, active_jobs) in active_jobsArray | offset: currentPage*itemsPerPage | limitTo: itemsPerPage">
+          {% for job in jobs %}
+					<div class="jp_job_box">
                         <div class="job_detail">
-                            <h3>Job Title -- Institution</h3>
-                            <span><b>Posted by:</b> user</span>
+                            <h3>{{job.title}} -- {{company}}</h3>
+                            <span><b>Posted by:</b> {{firstname}} {{lastname}}</span>
                             <p></p>
-                            <span><b>Description:</b></span>
+                            <span><b>Description: </b>{{job.description}}</span>
                             <ul>
-                                <li><span><img src="static/images/experience.svg" alt=""></span> Profession Tags: </li>
+                                <li><span><img src="static/images/experience.svg" alt=""></span> Profession Tags: {{job.professionTag}}</li>
                             </ul>
                         </div>
                         <div class="jp_view_btn">
                             <a href="#" class="jp_btn jp_btn_block">View</a>
                         </div>
                     </div>
+                    {% endfor %}
                     	<!-- </div> -->
                     <!-- job listing end -->
 

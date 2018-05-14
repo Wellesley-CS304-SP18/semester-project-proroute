@@ -100,20 +100,21 @@
   			</div>
   			<a class="jp_btn" href="/updateProfile/" style="float: right;">Edit Profile</a>
   			<div class="row">
-  				<div style="border:2px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-12">
-            <h4><b>Name: </b> {{firstname}} {{lastname}}</h4>
+  				<div style="background-color:#9cd6ed;border:0px solid #29708E;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-10">
+            <h2>{{firstname}} {{lastname}}</h2>
             <h4><b>Description: </b> {{description}}</h4>
-            <h4><b>Profile Picture: </b> {{profpic}}</h4>
             <h4><b>Profile Picture</b></h4>
             <!-- <img src={{profpic}} alt="Profile Picture"> -->
-            <img src="{{profpic}}" style="width:100px" alt="Profile Picture"/>
-            <img src="../../images/test.JPG" style="width:100px" alt="Profile Picture"/>
+            <img src="{{url_for('pic',fname=profpic)}}" style="width:150px;" alt="Profile Picture"/>
+            <!-- <img src="../../images/test.jpg" style="width:100px" alt="Profile Picture"/> -->
+
             <h4><b>Age: </b> {{age}}</h4>
             <h4><b>Gender: </b> {{gender}}</h4>
             <h4><b>Race/Ethnicity: </b> {{race}}</h4>
             <h4><b>Home Country: </b> {{country}}</h4>
             <h4><b>Home State: </b> {{state}}</h4>
   				</div>
+
   			</div>
   			<div class="page-header">
           <img src="../../static/images/briefcase.png" style="width:100px" class="center" alt="Bootstrap Image Preview" />
@@ -125,7 +126,7 @@
   			<div class="row">
 
           {% for job in jobs %}
-          <div style="border:2px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-4">
+          <div style="background-color:#9cd6ed;border:0px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-4">
           <h2 style="text-align:center;"> {{job.title}} </h2>
 
 
@@ -163,7 +164,7 @@
   			<a class="jp_btn" href="/addEducation/" style="float: right;">Add Education</a>
           {% for edu in education %}
           <div class="row">
-          <div style="border:2px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-4">
+          <div style="background-color:#9cd6ed;border:0px solid lightgrey;border-radius:5px;margin-right:15px;margin-top:15px;"class="col-md-4">
           <h2 style="text-align:center;"> {{edu.institution}} </h2>
 
           <h4><b>Degree Type: </b> {{edu.degreetype}}</h4>
