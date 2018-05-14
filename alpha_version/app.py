@@ -118,9 +118,27 @@ def register():
             helperFunctions.registerUser(conn, usertype, firstName, lastName, email,hashed)
             return render_template('home/updateProfile.html')
 
-@app.route('/browseJobs/')
+@app.route('/browseJobs/',methods=['GET','POST'])
 def browseJobs():
-    return render_template('home/browseJobs.html')
+    conn = dbconn2.connect(DSN)
+    if request.method == "GET":
+        jobinfo=helperFunctions.browseJobs(conn)
+        return render_template('home/browseJobs.html',jobs=jobinfo)
+
+
+    if request.method == 'POST':
+
+        searchform=request.form.get('searchform')
+        jobtype=request.form.get('jobtype')
+        tasks=request.form.get('tasks')
+        minsalary=request.form.get('minsalary')
+        workExperience= request.form.get('workExperience')
+        educationExperience=request.form.get('educationExperience')
+
+
+        jobinfo=helperFunctions.filterJobs(conn,searchform,jobtype,tasks,
+        minsalary,workExperience,educationExperience)
+        return render_template('home/browseJobs.html',jobs=jobinfo)
 
 @app.route('/browseMentors/',methods=['GET','POST'])
 def browseMentors():
@@ -160,10 +178,12 @@ def viewProfile():
         homeCountry=info['homeCountry']
         gender=info['gender']
         ethnicity=info['Ethnicity']
-        filename="../../images/"+info['picture']
+        filename=info['picture']
 
-        print filename
-
+        # if filename!=None:
+        #     profpic=send_from_directory('images',filename)
+        # else:
+        #     profpic=filename
 
         #get job info
         jobinfo=helperFunctions.viewJobs(conn,userid)
@@ -178,6 +198,14 @@ def viewProfile():
 
     if request.method == 'POST':
         return redirect(url_for('profile'))
+
+@app.route('/pic/<fname>')
+def pic(fname):
+    f = secure_filename(fname)
+    val = send_from_directory('images',f)
+    print val, type(val)
+    return val
+
 
 @app.route('/deleteJob/', methods=['POST'])
 def delete_job():
@@ -207,6 +235,8 @@ def profile():
 
         description= request.form.get('description')
         age=request.form.get('age')
+        if age=="":
+            age= None
         gender=request.form.get('gender')
         race=request.form.get('race')
         country= request.form.get('country')
@@ -214,18 +244,22 @@ def profile():
         email= session.get('email')
         profpic= request.files.get('profpic')
 
-        print profpic
 
 
-        mime_type = imghdr.what(profpic.stream)
-        if mime_type != 'jpeg' and mime_type != 'png':
-            raise Exception('Not a JPEG or a PNG')
-        email=email.strip(".")
-        filename = secure_filename('{}.{}'.format(email,mime_type))
-        pathname = 'images/'+filename
-        profpic.save(pathname)
-        flash('Upload successful')
+        try:
+            mime_type = imghdr.what(profpic.stream)
+            if mime_type != 'jpeg' and mime_type != 'png' and mime_type!="JPG":
+                raise Exception('Not a JPEG or a PNG')
+            newemail=email.strip(".")
+            filename = secure_filename('{}.{}'.format(newemail,mime_type))
+            pathname= "images/"+filename
+            profpic.save(pathname)
+            flash('Upload successful')
 
+        except Exception as err:
+            flash('Upload failed {why}'.format(why=err))
+            filename=None
+            print ('Upload failed {why}'.format(why=err))
         #description= request.form['description']
         #profpic= request.files['profpic']
         # age=request.form['age']
