@@ -118,7 +118,7 @@ create table question(
     userid int(10) not null,
     foreign key (userid) references user(userid) on delete restrict,
     INDEX(userid),
-    questionID varchar(10) primary key not null,
+    questionID int(10) primary key not null AUTO_INCREMENT,
     questionText longtext not null,
     tag varchar(50),
     rating float(2,1),
@@ -129,11 +129,11 @@ ENGINE=InnoDB;
 drop table if exists answer;
 create table answer(
     userid int(10) not null,
-    questionID varchar(10) not null,
+    questionID int(10) not null,
     foreign key (userid) references user(userid) on delete restrict,
     foreign key (questionID) references question(questionID) on delete restrict,
     INDEX(userid,questionID),
-    answerID varchar(10) primary key not null,
+    answerID int(10) primary key not null AUTO_INCREMENT,
     answerText longtext not null,
     rating float(2,1),
     posted datetime
