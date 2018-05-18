@@ -163,18 +163,19 @@ def getAnswer(qid):
             print qid
             quest= 1
             ans = request.form.get('answer')
+            print ans
             date = datetime.datetime.now()
             #print quest
             #print user
             #print date
 
             if ans is not None :
-                helperfunctions.add_answer(connect, user,quest, ans, date)
+                helperfunctions.add_answer(connect, user,qid, ans, date)
                 print ans +"its not empty"
 
                 print "this is where answer get would show up"
 
-        result = helperfunctions.show_answers(connect, quest)
+        result = helperfunctions.show_answers(connect, qid)
 
         print jsonify(result)
 
