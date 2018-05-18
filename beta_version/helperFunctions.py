@@ -29,7 +29,7 @@ def findUser(conn, email):
 
 
 
-def registerUser(conn, account_type, firstName, lastName,email, password):
+def registerUser(conn, account_type, firstName, lastName,email, password,picture):
     """Adds a new user to the user table given the information provided
     on the registration form. Also adds the userid to the appropriate
     table (student or mentor)"""
@@ -38,8 +38,8 @@ def registerUser(conn, account_type, firstName, lastName,email, password):
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
         #insert information into the user database
-        curs.execute("insert into user (firstname,lastname,email,password)"+
-        "values (%s, %s, %s,%s);", (firstName,lastName, email,password))
+        curs.execute("insert into user (firstname,lastname,email,password,picture)"+
+        "values (%s, %s, %s,%s,%s);", (firstName,lastName, email,password,picture))
 
         #find the userid assigned to this user in the user table
         curs.execute("SELECT userid from user where email=%s;",[email])
@@ -176,7 +176,7 @@ def browseJobs(conn):
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
         curs.execute("select title,company,firstname,lastname,job.description,"+
-        "professionTag from job join user using(userid) join mentor using(userid);")
+        "professionTag,jobID from job join user using(userid) join mentor using(userid);")
         jobinfo=curs.fetchall()
         return jobinfo
     except MySQLdb.IntegrityError as err:

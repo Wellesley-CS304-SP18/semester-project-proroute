@@ -108,6 +108,7 @@ def register():
         email=request.form['myEmail']
         password=request.form['password']
         confirm_password=request.form["confirm_pass"]
+        picture='dummy_user.png'
 
         #require users to select an account type
         if usertype=="" or usertype=="None":
@@ -130,7 +131,7 @@ def register():
             "Please sign in")
             return redirect(url_for('login'))
         else: # if email not already in use, register new user
-            helperFunctions.registerUser(conn, usertype, firstName, lastName, email,hashed)
+            helperFunctions.registerUser(conn, usertype, firstName, lastName, email,hashed,picture)
 
             userid=helperFunctions.getUID(conn,email)
 
@@ -178,6 +179,10 @@ def browseMentors():
     if request.method == "GET":
         #fetch mentor profile info from the databse
         mentorinfo=helperFunctions.viewMentors(conn)
+
+
+        #default photo to display if one is not uploaded
+
         return render_template('home/browseMentors.html',mentors=mentorinfo)
 
     #filter parameters
@@ -281,7 +286,7 @@ def delete_education():
     curs.execute("delete from education where userid=%s and eduID=%s;",[userid,eduid])
     return redirect(url_for('viewProfile'))
 
-@app.route('/updateProfile/',methods=['GET', 'POST'])
+@app.route('/updateProfile/',methods=['GET','POST'])
 def profile():
     """allows user to update basic profile information and inputs
     this information into the user databse"""
@@ -402,6 +407,39 @@ def editEducation(eduid):
                                     secondmajor,degreetype,rating,review,eduid)
 
         return redirect(url_for('viewProfile'))
+
+@app.route('/viewMentorProfile/<userid>',methods=['GET'])
+def viewMentorProfile(userid):
+    conn = dbconn2.connect(DSN)
+    if request.method=='GET':
+        try:
+            curs = conn.cursor(MySQLdb.cursors.DictCursor)
+            curs.execute("select * from user join mentor using(userid) where "+
+            "userid =%s;",[userid])
+            mentorinfo=curs.fetchone()
+            jobinfo=helperFunctions.viewJobs(conn,userid)
+
+            eduinfo= helperFunctions.viewEducation(conn,userid)
+            return render_template('home/viewMentorProfile.html',mentorinfo=mentorinfo,
+            jobs=jobinfo,education=eduinfo)
+        except MySQLdb.IntegrityError as err:
+            return "Error"
+    else:
+        return redirect(url_for('browseMentors'))
+
+
+@app.route('/viewJobPosting/<jobid>',methods=['GET'])
+def viewJobPosting(jobid):
+    conn = dbconn2.connect(DSN)
+    if request.method=='GET':
+        try:
+            curs = conn.cursor(MySQLdb.cursors.DictCursor)
+            jobinfo=helperFunctions.viewJobInfo(conn,jobid)
+            return render_template('home/viewJobPosting.html',job=jobinfo)
+        except MySQLdb.IntegrityError as err:
+            return "Error"
+    else:
+        return redirect(url_for('browseJobs'))
 
 @app.route('/editJob/<jobid>',methods=['GET','POST'])
 def editJob(jobid):
