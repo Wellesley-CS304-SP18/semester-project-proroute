@@ -493,8 +493,12 @@
                             </ul>
                         </div>
                         <div class="jp_view_btn">
-                          <img src="../../static/images/dummy_user.png" width="150" hspace="-10" alt="Profile Picture">
-                            <a href="#" class="jp_btn jp_btn_block">View</a>
+                          <img src="{{url_for('pic',fname=mentor.picture)}}" style="width:150px;" hspace="-10" alt="Profile Picture"/>
+                          <form action="{{ url_for('viewMentorProfile',userid=mentor.userid) }}" method="get" class="view-mentor">
+                          <button type="submit" class="jp_btn jp_btn_block" value="View">View </button>
+                          </form>
+                          <!-- <button type="submit" class="jp_btn jp_btn_block" value="Edit Job">Edit Job</button> -->
+                            <!-- <a href="#" class="jp_btn jp_btn_block">View</a> -->
                         </div>
                     </div>
                     {% endfor %}

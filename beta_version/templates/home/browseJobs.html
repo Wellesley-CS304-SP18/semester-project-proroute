@@ -243,15 +243,18 @@ var slider = new Slider('#ex2', {});
 					<div class="jp_job_box">
                         <div class="job_detail">
                             <h3>{{job.title}} -- {{job.company}}</h3>
-                            <span><b>Posted by:</b> {{firstname}} {{lastname}}</span>
+                            <span><b>Posted by:</b> {{job.firstname}} {{job.lastname}}</span>
                             <p></p>
+                            <span><b>jobid: </b>{{job.jobID}}</span>
                             <span><b>Description: </b>{{job.description}}</span>
                             <ul>
                                 <li><span><img src="static/images/experience.svg" alt=""></span> Profession Tags: {{job.professionTag}}</li>
                             </ul>
                         </div>
                         <div class="jp_view_btn">
-                            <a href="#" class="jp_btn jp_btn_block">View</a>
+                          <form action="{{ url_for('viewJobPosting',jobid=job.jobID) }}" method="get">
+                          <button type="submit" class="jp_btn jp_btn_block" value="View Job">View Job</button>
+                          </form>
                         </div>
                     </div>
                     {% endfor %}
