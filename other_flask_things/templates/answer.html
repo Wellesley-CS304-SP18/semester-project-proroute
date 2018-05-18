@@ -1,0 +1,124 @@
+<!--ProRoute qeustion.html
+-->
+{%extends "navigation.html"%}
+{%block nav%}
+<!--to check that it was submitted at a certain time-->
+<!--<h3>{{question_display}}</h3>-->
+<style>
+
+      #all_answers li {
+          margin: 5px;
+          border: 1px solid teal;
+          border-radius: 3px;
+          padding: 3px;
+      }
+</style>
+
+<p id="answer_response"></p>
+
+
+
+<p>{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}</p>
+
+  <form method="GET" action= "{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}">
+    <p>Your Answer:</p>
+    <p><textarea name="answer" id= "form_answer" rows=3 columns=60></textarea>
+    <p><input id="ajax_button_answer" type="button" value="Add Answer">
+  </form>
+
+
+<div id="all_answers"></div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+<script id="all_answers-script">
+
+
+
+
+
+ function likeAnswer(bid){
+   $.post(URL,
+     {"bid" : bid},
+   function(data){
+     reportSuccess();
+     showAnswers(data);
+   },
+   "json");
+
+ }
+
+ function reportSuccess () {
+     var now = new Date();
+     console.log('success at '+ now);
+     $("#answer_response").text('saved at '+now.toLocaleString()).show();
+     setTimeout(function () {
+                   $("#answer_response").fadeOut('slow');
+                },
+                3000);
+}
+
+
+function showAnswers(answers){
+  //console.log(questions);
+  console.log('getting to beginning of showAnswers');
+  var i, len = answers.length;
+  var listElt = $("<ul>");
+  for( i = 0; i < len; i++ ) {
+    var answer = answers[i];
+    console.log(answer);
+
+    $("<li>")
+             .text(answer.answerID +" || " + " Posted on: " + answer.posted + " || " + answer.answerText ) //.question)//question.bid+": ("+question.likes+") "+question.question)
+             .attr('ans_ident',answer.answerID)
+             .appendTo(listElt);
+    }
+    $("#all_answers").empty().append(listElt);
+    reportSuccess();
+    //console.log('getting to end of showQuestions')
+
+}
+
+var global_answer;
+
+$("#ajax_button_answer").click(function () {
+  console.log('getting to beginning of ajaxbutton_answer')
+    $.post(URL,
+          $("form_answer").serialize(),
+          function(data){
+            reportSuccess();
+            global_answers = data;
+            showAnswers(data);
+          },
+          "json"); // end of .post args
+          $("form_answer").trigger("reset");
+});  // end of .click call
+
+
+
+
+// Add an event handler to the list ancestor
+$("#all_answers").on("click",
+                    "['ans_ident']",
+                    function (event) {
+                      //var bid = $(this).attr('data-bid');
+                      console.log("clicked on BID " + $(this).attr('data-bid'));//+bid);
+                      //likeQuestion(bid);
+
+                    });
+
+// Load list of bleats when page loads
+function loadAnswers() {
+  $.post(URL,
+      showAnswers,"json");
+      console.log('getting to loadAnswers')
+      }
+
+
+loadAnswers();
+
+
+
+
+</script>
+
+{% endblock %}

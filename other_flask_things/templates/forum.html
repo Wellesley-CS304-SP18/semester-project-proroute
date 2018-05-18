@@ -1,9 +1,134 @@
 <!--ProRoute forum.html
-temporary html template until css is tied in
-this will be where the user/s will interact with the general forum
 -->
 {%extends "navigation.html"%}
 {%block nav%}
+
+<style>
+
+      #all_questions li {
+          margin: 5px;
+          border: 1px solid teal;
+          border-radius: 3px;
+          padding: 3px;
+      }
+</style>
+
+<!--to check that it was submitted at a certain time-->
+<p id="response"></p>
+
+<p>
+  <form method="GET" action="getQuestion" >
+    <p>question:</p>
+    <p><textarea name="question" id= "form_quest" rows=3 columns=60></textarea>
+    <p><input id="ajax_button" type="button" value="add question">
+  </form>
+
+
+<div id="all_questions"></div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+<script id="all_questions-script">
+
+
+var URL = "{{url_for('getQuestion')}}";//the url that gets the form requests
+
+ function likeQuestion(bid){
+   $.post(URL,
+     {"bid" : bid},
+   function(data){
+     reportSuccess();
+     showQuestions(data);
+   },
+   "json");
+
+ }
+
+ function pageRedirect(qid) {
+
+        //qid = qid.toString();
+        console.log(qid);
+
+        console.log("This IS THE REDIRECTION :::: "+"{{url_for('answer', quest_identifier ='')}}");
+        console.log("{{url_for('answer', quest_identifier ='')}}" + qid);
+        window.location.href = ("{{url_for('answer', quest_identifier ='')}}"+ qid);
+
+    }
+
+function reportSuccess () {
+    var now = new Date();
+    console.log('success at '+ now);
+    $("#response").text('saved at '+now.toLocaleString()).show();
+    setTimeout(function () {
+                  $("#response").fadeOut('slow');
+               },
+               3000);
+}
+
+
+function showQuestions(questions){
+  //console.log(questions);
+  console.log('getting to beginning of showQuestions');
+  var i, len = questions.length;
+  var listElt = $("<ul>");
+  for( i = 0; i < len; i++ ) {
+    var question = questions[i];
+    console.log(question);
+    redirect_url = question.questionID
+    $("<li>")
+             .text(question.questionID +" || " + " Posted on: " + question.posted + " || " + question.questionText ) //.question)//question.bid+": ("+question.likes+") "+question.question)
+             .attr('quest_identifier',question.questionID)
+             .appendTo(listElt);
+    }
+    $("#all_questions").empty().append(listElt);
+    reportSuccess();
+    //console.log('getting to end of showQuestions')
+
+}
+
+var global_questions;
+
+$("#ajax_button").click(function () {
+  console.log('getting to beginning of ajaxbutton')
+    $.post(URL,
+          $("form").serialize(),
+          function(data){
+            reportSuccess();
+            global_questions = data;
+            showQuestions(data);
+          },
+          "json"); // end of .post args
+          $("form").trigger("reset");
+});  // end of .click call
+
+
+
+
+// Add an event handler to the list ancestor
+$("#all_questions").on("click",
+                    "[quest_identifier]",
+                    function (event) {
+                      redirect_url = $(this).attr('quest_identifier');
+
+                      console.log("THIS IS THE QUEST ID ON CLICK "+ $(this).attr('quest_identifier'));//,//+bid);
+                      pageRedirect(redirect_url);
+                      //likeQuestion(bid);
+
+                    });
+
+// Load list of bleats when page loads
+function loadQuestions() {
+  $.post(URL,
+      showQuestions,"json");
+      console.log('getting to loadQuestions')
+      }
+
+
+loadQuestions();
+
+
+
+
+</script>
 
 
 {% endblock %}
