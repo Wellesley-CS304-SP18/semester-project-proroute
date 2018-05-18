@@ -17,7 +17,7 @@
 <p id="answer_response"></p>
 
 
-
+<!--I WROTE THIS JUST TO CHECK IF IT WAS PROPERLY DISPLAYING-->
 <p>{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}</p>
 
   <form method="GET" action= "{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}">
@@ -32,10 +32,10 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
 <script id="all_answers-script">
 
+var URL = "{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}"
 
 
-
-
+//NOT NECESSARY AT THE MOMENT
  function likeAnswer(bid){
    $.post(URL,
      {"bid" : bid},
@@ -80,6 +80,7 @@ function showAnswers(answers){
 
 var global_answer;
 
+//Submits the data to the get
 $("#ajax_button_answer").click(function () {
   console.log('getting to beginning of ajaxbutton_answer')
     $.post(URL,
