@@ -1,0 +1,24 @@
+<!--ProRoute job.html
+temporary html template until css is tied in
+this will be where the user will submit information about job(s)
+-->
+
+{%extends "navigation.html"%}
+{%block nav%}
+  <form method="POST" action="">
+    <p><label for="j_title">Title : <input type= "text" name="j_title"></label>
+    <p><label for="j_company">Company : <input type= "text" name="j_company"></label>
+    <p><label for="j_description">Description : <input type= "text" name="j_description"></label>
+    <p><label for="j_favoritePart">Favorite Part : <input type="text" name="j_favoritePart"></label>
+    <p><label for="j_annualSalary">Annual Salary : <input type= "text" name="j_annualSalary"></label>
+    <p><label for="j_task">Task : <input type= "text" name="j_task"></label>
+    <p><label for="j_advice">Advice <input type= "text" name="j_advice"></label>
+    <p><label for="j_startDate">Start Date <input type= "date" name="j_startDate"></label>
+    <p><label for="j_endDate">End Date <input type= "date" name="j_endDate"></label>
+    <p><label for="j_professionTag">Profession Tag <input type= "text" name="j_professionTag"></label>
+
+
+    <p><input type="submit" value="Update Profile">
+  </form>
+
+{% endblock %}
