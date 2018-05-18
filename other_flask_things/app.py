@@ -1,6 +1,6 @@
-from flask import (Flask, render_template, flash, request, redirect, url_for, session)
-import temp
-import os
+from flask import (Flask, render_template, make_response, send_from_directory, jsonify, flash, request, redirect, url_for, session)
+import helperfunctions
+import os, sys, random, datetime
 import dbconn2
 import MySQLdb
 app= Flask(__name__)
@@ -11,6 +11,7 @@ app.config['SECRET_KEY'] = "abcde"
 DSN = None
 DATABASE = 'jaguilar2_db' #this needs to be replaced with team database
 
+current_quest_id = None
 
 #the inital page once at the website
 @app.route('/', methods= ['GET','POST'])
@@ -29,7 +30,7 @@ def login():
 
 
         #get in contact with file temp and make sure the email is in the database
-        loginSuccess = temp.login_user(conn, l_email, l_password)
+        loginSuccess = helperfunctions.login_user(conn, l_email, l_password)
         print loginSuccess
 
         #once logged
@@ -59,8 +60,8 @@ def login():
 
 
 
-@app.route('/register', methods = ['GET', 'POST'])
-def signup():
+@app.route('/register/', methods = ['GET', 'POST'])
+def register():
     #try:
     conn = dbconn2.connect(DSN)
     if request.method == 'GET':
@@ -101,19 +102,93 @@ def signup():
                 #would need to add the rest of the error flash messages
 
 #profile page that would appear once user is logged in
-@app.route('/profile',methods = ['GET', 'POST'])
+@app.route('/profile/',methods = ['GET', 'POST'])
 def profile():
     return render_template('/profile.html', header = "Profile", email = session['email'])
 
-@app.route('/job', methods= ['GET','POST'])
-def job():
-    return render_template('/job.html', header = "JOB")
 
-@app.route('/logout',methods = ['GET', 'POST'])
+@app.route('/forum/',methods = ['GET', 'POST'])
+def forum():
+
+    return render_template('/forum.html', header = "Forum")
+
+
+@app.route('/getQuestion/', methods = ['GET','POST'])
+def getQuestion():
+    print "getting to the getQuestion"
+    try:
+        connect = dbconn2.connect(DSN)
+        if request.method == 'POST':
+            print 'handling POST QUestion'
+            quest = request.form.get('question')
+            user = helperfunctions.getUID(connect, session['email'])
+            date = datetime.datetime.now()
+
+            if quest is not None :
+                helperfunctions.add_question(connect, user, quest, date)
+                print quest +"its empty"
+
+                print "this is where get would show up"
+
+        result = helperfunctions.show_questions(connect)
+
+        print "end of GET_QUESTION"
+        return jsonify(result)
+    except Exception as err:
+        return jsonify( [{'error': True, 'err': str(err) } ])
+
+
+
+
+@app.route('/answer/<quest_identifier>',methods = ['GET', 'POST']) #<quest_id>
+def answer(quest_identifier):
+    #return quest_identifier + "THIS IS QUESTID for answer"
+    #print str(request.args.get('quest_identifier')) + ("WOULD APPEAR HER FOR ANSWER!!!!!!")
+    try:
+        connect = dbconn2.connect(DSN)
+        quid= helperfunctions.get_question(connect,str(quest_identifier))
+        #return quest_identifier + "THIS IS QUESTID for answer"
+        return render_template('/answer.html', header = quid['questionText'] )#"Question ID: "+ quid['questionID']+quid['questionText'])
+    except Exception as err:
+        return err
+
+@app.route('/getAnswer/<qid>', methods = ['GET','POST'])
+def getAnswer(qid):
+    print "getting to the getAnswer"
+    try:
+        connect = dbconn2.connect(DSN)
+        if request.method == 'POST':
+            print 'handling POST Answer'
+            user = helperfunctions.getUID(connect, session['email'])
+            print qid
+            quest= 1
+            ans = request.form.get('answer')
+            date = datetime.datetime.now()
+            #print quest
+            #print user
+            #print date
+
+            if ans is not None :
+                helperfunctions.add_answer(connect, user,quest, ans, date)
+                print ans +"its not empty"
+
+                print "this is where answer get would show up"
+
+        result = helperfunctions.show_answers(connect, quest)
+
+        print jsonify(result)
+
+        return jsonify(result)
+    except Exception as err:
+        return jsonify( [{'error': True, 'err': str(err) } ])
+
+
+@app.route('/logout/',methods = ['GET', 'POST'])
 def logout():
     # removes the email/password/logged_in from the session logging out. No path yet
     session.clear() # What is the difference between clear and pop?
     return redirect(url_for('login'))
+
 
 
 if __name__ == '__main__':
