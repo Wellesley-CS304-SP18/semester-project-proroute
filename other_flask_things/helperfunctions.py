@@ -59,7 +59,7 @@ def add_question(conn, userid, questionText, posted):
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
         curs.execute('INSERT into question (userid, questionText, posted)' +
         'values (%s,%s, %s)',[userid, questionText, posted])
-
+        print "WEVE ADDED A QUESTION in ADD_QUESTION"
     except MySQLdb.IntegrityError as err:
         print "got an error"
         return "error"
@@ -99,7 +99,7 @@ def add_answer(conn, userid, questionID, answerText, posted):
         curs.execute('INSERT into answer (userid, answerText, posted)' +
         'values (%s,%s, %s)',[userid, answerText, posted])
 
-
+        print "WEVE ADDED A ANSWER in ADD_ANSWER"
     except MySQLdb.IntegrityError as err:
         return "error"
 
