@@ -7,23 +7,11 @@ import os
 import sys
 #from jaguilar2_db #import DSN
 
-tempPassword = 'secret'
+
 DATABASE = 'idalessa_db' #database to insert into needs to be changed to group db
 
 DEBUG = False
 """HELPER FUNCTIONS FOR THE FORUM"""
-
-def login_user(conn, email, passwd):
-    try:
-        curs = conn.cursor(MySQLdb.cursors.DictCursor)
-
-        if passwd == tempPassword:
-
-            curs.execute('SELECT * FROM user WHERE email = %s', [ email ])
-            return "success"
-    except MySQLdb.IntegrityError as err:
-        return "Login Unsuccessful"
-
 
 def getUID(conn,email):
     """Returns the userid assigned to a user with a given email"""
@@ -37,24 +25,8 @@ def getUID(conn,email):
         return "error"
 
 
-def register_user(conn, account_type, firstName, lastName,email, password):
-    try:
-        #print("blah")
-        curs = conn.cursor(MySQLdb.cursors.DictCursor)
-
-        curs.execute('INSERT into user (firstname, lastname, email, userid,password)'+
-        ' values (%s,%s, %s, %s)',[firstName, lastName, email, password])
-
-        if account_type == "Mentor":
-            curs.execute('INSERT into mentor (userid) values userid')
-        else:
-            curs.execute('INSERT into student (userid) values userid')
-        return "registered"
-    except MySQLdb.IntegrityError as err:
-        return ("Unsuccessful registration")
-
 def add_question(conn, userid, questionText, tags, posted):
-    #questionID not required because of auto_increment
+    """ adds a question to the database"""
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
         curs.execute('INSERT into question (userid,questionText,tag,posted)' +
@@ -64,6 +36,7 @@ def add_question(conn, userid, questionText, tags, posted):
 
 
 def show_questions(conn):
+    """ returns the questions stored in the database"""
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
         curs.execute('SELECT * FROM question')
@@ -76,6 +49,7 @@ def show_questions(conn):
         return "error"
 
 def get_question(conn, questionID):
+    """ returns a particular question by its id"""
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
         curs.execute('SELECT * FROM question WHERE questionID = %s', [questionID])
@@ -89,7 +63,7 @@ def get_question(conn, questionID):
 
 
 def add_answer(conn, userid, questionID, answerText, posted):
-    #answerID not required because of auto_increment
+    """ an answer is added to the database"""
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
         print 'inside the querything'
@@ -103,6 +77,7 @@ def add_answer(conn, userid, questionID, answerText, posted):
 
 
 def show_answers(conn, questionID):
+    """ returns the answer stored in the database"""
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
