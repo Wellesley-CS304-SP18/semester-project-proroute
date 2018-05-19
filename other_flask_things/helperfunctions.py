@@ -94,10 +94,10 @@ def add_answer(conn, userid, questionID, answerText, posted):
     #answerID not required because of auto_increment
     try:
         curs = conn.cursor(MySQLdb.cursors.DictCursor)
+        print "WEVE enteresd A ANSWER in ADD_ANSWER"
 
-
-        curs.execute('INSERT into answer (userid, answerText, posted)' +
-        'values (%s,%s, %s)',[userid, answerText, posted])
+        curs.execute('INSERT into answer (userid,questionID, answerText, posted)' +
+        'values (%s,%s,%s, %s)',[userid, questionID, answerText, posted])
 
         print "WEVE ADDED A ANSWER in ADD_ANSWER"
     except MySQLdb.IntegrityError as err:
