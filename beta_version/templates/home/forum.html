@@ -1,0 +1,229 @@
+<!--ProRoute forum.html
+-->
+{% extends "home/base.html" %}
+{% block content %}
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> -->
+<link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+<style>
+
+      #all_questions li {
+          margin: 5px;
+          border: 1px solid grey;
+          background-color:white;
+          border-radius: 3px;
+          padding: 3px;
+          color:black;
+      }
+</style>
+</head>
+
+   <body>
+
+     <div class="jp_header">
+         <div class="container">
+             <div class="row">
+                 <div class="col-md-12">
+                     <div class="jp_header_wrapper">
+                         <!-- <div class="jp_logo">
+                             <a href="/"><img src="static/images/logo_with_text.png" alt=""></a>
+                         </div> -->
+                         <div class="jp_header_right">
+                             <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                                 <ul>
+                                   <li><a href="{{url_for('forum')}}">Forum</a></li>
+                                   <li><a href="{{url_for('browseJobs')}}">Jobs</a></li>
+                                   <li><a href="{{url_for('browseMentors')}}">Mentors</a></li>
+                                   <li><a href="{{url_for('viewProfile')}}">Profile</a></li>
+                                   <li><a href="{{url_for('logout')}}">Logout</a></li>
+                                 </ul>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-md-12">
+                     <div class="jp_page_title">
+                         <h3 style="padding:35px;">Forum</h3>
+                         <!-- <p>you are on the right place</p> -->
+                     </div>
+                 </div>
+
+                 <!-- <div class="col-md-8 col-md-offset-2">
+                 <form name="searchForm" method="post" action="">
+                     <div class="jp_search_form">
+                         <input type="text" name="searchform" id="searchform" ng-model="keyword" placeholder="Search for specific attributes here">
+                         <button type="submit" class="jp_search_btn"></button>
+                     </div>
+                     </form>
+                 </div> -->
+
+               </div>
+           </div>
+       </div>
+
+       {% with messages = get_flashed_messages() %}
+       {% if messages %}
+         <script>
+           var messages = {{ messages | safe }};
+           for (var i=0; i<messages.length; i++) {
+             alert(messages[i]);
+           }
+         </script>
+       {% endif %}
+     {% endwith %}
+
+      <div id = "content">
+
+
+
+<!--to check that it was submitted at a certain time-->
+<div class="jp_main_wrapper">
+   <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+
+
+<p id="response"></p>
+
+<p>
+  <form method="GET" action="getQuestion" >
+    <h2>Ask a Question:</h2>
+    <h4>(Students Only)</h4>
+
+    <div class="form-group">
+    <p><textarea name="question" id= "form_quest" rows="3" cols="100"></textarea>
+    </div>
+
+      <div class="form-group">
+        <label size="200" for="tags"><h4>Question Tags</h4></label>
+      <input type="text" id="tags" size="100" name="tags" style="font-size:25px;" data-role="tagsinput"></input>
+      <p><input id="ajax_button" type="button" style="background-color:#6DCFF6;color:white;border-radius:4px;float:left;font-size:18px;height:50px;width:200px;" value="add question">
+    </div>
+
+    <!-- <p><input id="ajax_button" type="button" style="background-color:#2EB857;color:white;border-radius: 4px;float: left;" value="add question"> -->
+
+  </form>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jp_main_wrapper">
+   <div class="container">
+       <div class="row">
+           <div class="col-md-8">
+             <h2><u>Previous Questions</u></h2>
+             <h4>Click to Answer/View Answers</h4>
+
+<div id="all_questions"></div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+<script id="all_questions-script">
+
+
+var URL = "{{url_for('getQuestion')}}";//the url that gets the form requests
+
+ function likeQuestion(bid){
+   $.post(URL,
+     {"bid" : bid},
+   function(data){
+     reportSuccess();
+     showQuestions(data);
+   },
+   "json");
+
+ }
+
+ function pageRedirect(qid) {
+
+        //qid = qid.toString();
+        console.log(qid);
+
+        console.log("This IS THE REDIRECTION :::: "+"{{url_for('answer', quest_identifier ='')}}");
+        console.log("{{url_for('answer', quest_identifier ='')}}" + qid);
+        window.location.href = ("{{url_for('answer', quest_identifier ='')}}"+ qid);
+
+    }
+
+function reportSuccess () {
+    var now = new Date();
+    console.log('success at '+ now);
+    $("#response").text('saved at '+now.toLocaleString()).show();
+    setTimeout(function () {
+                  $("#response").fadeOut('slow');
+               },
+               3000);
+}
+
+
+function showQuestions(questions){
+  //console.log(questions);
+  console.log('getting to beginning of showQuestions');
+  var i, len = questions.length;
+  var listElt = $("<ul>");
+  for( i = 0; i < len; i++ ) {
+    var question = questions[i];
+    console.log(question);
+    redirect_url = question.questionID
+    $("<li>")
+             .text(question.questionText + "  (Posted on: " + question.posted + " ) ") //.question)//question.bid+": ("+question.likes+") "+question.question)
+             .attr('quest_identifier',question.questionID)
+             .appendTo(listElt);
+    }
+    $("#all_questions").empty().append(listElt);
+    reportSuccess();
+    //console.log('getting to end of showQuestions')
+
+}
+
+var global_questions;
+
+$("#ajax_button").click(function () {
+  console.log('getting to beginning of ajaxbutton')
+    $.post(URL,
+          $("form").serialize(),
+          function(data){
+            reportSuccess();
+            global_questions = data;
+            showQuestions(data);
+          },
+          "json"); // end of .post args
+          $("form").trigger("reset");
+});  // end of .click call
+
+
+
+
+// Add an event handler to the list ancestor
+$("#all_questions").on("click",
+                    "[quest_identifier]",
+                    function (event) {
+                      redirect_url = $(this).attr('quest_identifier');
+
+                      console.log("THIS IS THE QUEST ID ON CLICK "+ $(this).attr('quest_identifier'));//,//+bid);
+                      pageRedirect(redirect_url);
+                      //likeQuestion(bid);
+
+                    });
+
+// Load list of bleats when page loads
+function loadQuestions() {
+  $.post(URL,
+      showQuestions,"json");
+      console.log('getting to loadQuestions')
+      }
+
+
+loadQuestions();
+
+
+
+
+</script>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+  </body>
+{% endblock %}
