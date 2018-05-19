@@ -114,7 +114,7 @@
              <h2><u>Previous Questions</u></h2>
              <h4>Click to Answer/View Answers</h4>
 
-<div id="all_questions"></div>
+<div id="all_questions"></div> <!--all questions will be displayed here-->
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
 <script id="all_questions-script">
@@ -122,6 +122,7 @@
 
 var URL = "{{url_for('getQuestion')}}";//the url that gets the form requests
 
+   //not needed
  function likeQuestion(bid){
    $.post(URL,
      {"bid" : bid},
@@ -133,6 +134,7 @@ var URL = "{{url_for('getQuestion')}}";//the url that gets the form requests
 
  }
 
+      //will tell where we want to redirect the page 
  function pageRedirect(qid) {
 
         //qid = qid.toString();
@@ -144,6 +146,7 @@ var URL = "{{url_for('getQuestion')}}";//the url that gets the form requests
 
     }
 
+      //lets us know if the functioned worked
 function reportSuccess () {
     var now = new Date();
     console.log('success at '+ now);
@@ -154,7 +157,7 @@ function reportSuccess () {
                3000);
 }
 
-
+//goes throught the data returned from the database and displays it
 function showQuestions(questions){
   //console.log(questions);
   console.log('getting to beginning of showQuestions');
@@ -177,6 +180,7 @@ function showQuestions(questions){
 
 var global_questions;
 
+      //on click of the button we will submit the data and call the functions to process and format it
 $("#ajax_button").click(function () {
   console.log('getting to beginning of ajaxbutton')
     $.post(URL,
@@ -193,7 +197,7 @@ $("#ajax_button").click(function () {
 
 
 
-// Add an event handler to the list ancestor
+// any question that is clicked will be redirected to its answers page
 $("#all_questions").on("click",
                     "[quest_identifier]",
                     function (event) {
@@ -205,7 +209,7 @@ $("#all_questions").on("click",
 
                     });
 
-// Load list of bleats when page loads
+// Load list of questions when the page loads
 function loadQuestions() {
   $.post(URL,
       showQuestions,"json");
