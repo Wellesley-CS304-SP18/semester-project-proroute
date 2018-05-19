@@ -7,9 +7,10 @@ from werkzeug import secure_filename
 app = Flask(__name__)
 app = Flask(__name__, static_url_path="/static")
 
-import sys,os,random
+import sys,os,random,datetime
 import dbconn2
 import helperFunctions
+import myhelperfunctions
 import MySQLdb
 import bcrypt
 import imghdr
@@ -17,14 +18,12 @@ import imghdr
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 app.config['SECRET_KEY'] = 'something very secret'
 
-
-
 # Route for logging in
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     """Allows user to login to their account. Checks user credentials
     against information in the user database"""
-    conn = dbconn2.connect(DSN)
+    # conn = dbconn2.connect(DSN)
 
     #check if the user's email is already in the session
     #if this is the case, redirect to the user's profile
@@ -55,7 +54,6 @@ def login():
                 #set sessions for email,loggedin, visits, and userid
                 session['email']=email
                 session['logged_in']=True
-                session['visits'] = 1
                 session['userid']=userid
 
                 return redirect(url_for('viewProfile'))
@@ -92,15 +90,17 @@ def logout():
         return redirect(url_for('login'))
 
 
+
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
     """Allows user to register for an account using the register.html formself.
     Inputs this data into the user database """
-    conn = dbconn2.connect(DSN)
+
     if request.method == "GET":
         return render_template('home/register.html',message="")
 
     if request.method == 'POST':
+        conn = dbconn2.connect(DSN)
         #get information from registration form
         usertype= request.form['usertype']
         firstName=request.form['firstName']
@@ -138,7 +138,6 @@ def register():
             #set sessions for email,loggedin, visits, and userid
             session['email']=email
             session['logged_in']=True
-            session['visits'] = 1
             session['userid']=userid
 
             return redirect(url_for('viewProfile'))
@@ -150,6 +149,11 @@ def browseJobs():
     jobs according to specific fields """
     conn = dbconn2.connect(DSN)
     if request.method == "GET":
+        userid=session.get('userid')
+        if not userid:
+            return redirect(url_for('login'))
+
+        #view job listings
         jobinfo=helperFunctions.browseJobs(conn)
         return render_template('home/browseJobs.html',jobs=jobinfo)
 
@@ -177,12 +181,11 @@ def browseMentors():
 
     conn = dbconn2.connect(DSN)
     if request.method == "GET":
+        userid=session.get('userid')
+        if not userid:
+            return redirect(url_for('login'))
         #fetch mentor profile info from the databse
         mentorinfo=helperFunctions.viewMentors(conn)
-
-
-        #default photo to display if one is not uploaded
-
         return render_template('home/browseMentors.html',mentors=mentorinfo)
 
     #filter parameters
@@ -196,9 +199,9 @@ def browseMentors():
         gender=request.form.getlist('gender')
         country= request.form.get('country')
         state=request.form.get('state')
+        #don't allow user to select a state if they choose a non-US country
         if country!=None and country!='US':
             state=None
-
 
         #filter mentor profiles displayed on the page according to filter parameters
         mentorinfo=helperFunctions.filterMentors(conn,searchform,profession_search,minage,maxage,
@@ -213,41 +216,44 @@ def viewProfile():
 
 
     if request.method == "GET":
-        conn = dbconn2.connect(DSN)
         email= session.get('email')
         userid=session.get('userid')
+        if email==None:
+            return redirect(url_for('login'))
+        else:
+            conn = dbconn2.connect(DSN)
 
-        #view other profile details associated with the given email and uerid
-        info=helperFunctions.viewProfile(conn,email)
+            #view other profile details associated with the given email and uerid
+            info=helperFunctions.viewProfile(conn,email)
 
-        description=info['description']
-        firstname=info['firstname']
-        lastname=info['lastname']
-        age=info['age']
-        homeState=info['homeState']
-        homeCountry=info['homeCountry']
-        gender=info['gender']
-        ethnicity=info['Ethnicity']
-        filename=info['picture']
+            description=info['description']
+            firstname=info['firstname']
+            lastname=info['lastname']
+            age=info['age']
+            homeState=info['homeState']
+            homeCountry=info['homeCountry']
+            gender=info['gender']
+            ethnicity=info['Ethnicity']
+            filename=info['picture']
 
-        #default photo to display if one is not uploaded
-        if filename==None:
-            print 'ITS NONE'
-            filename='dummy_user.png'
+            #default photo to display if one is not uploaded
+            if filename==None:
+                print 'ITS NONE'
+                filename='dummy_user.png'
 
-        #fetch jobs submitted by the user from the jobs database,
-        #nad display them on the user profile
-        jobinfo=helperFunctions.viewJobs(conn,userid)
+            #fetch jobs submitted by the user from the jobs database,
+            #nad display them on the user profile
+            jobinfo=helperFunctions.viewJobs(conn,userid)
 
-        #fetch education information submitted by the user from the
-        #education database, and display them on the user profile
-        eduinfo= helperFunctions.viewEducation(conn,userid)
+            #fetch education information submitted by the user from the
+            #education database, and display them on the user profile
+            eduinfo= helperFunctions.viewEducation(conn,userid)
 
-        #add new information to the user's profile
-        return render_template('home/viewProfile.html',firstname=firstname,
-        lastname=lastname,description=description,age=age,gender=gender,
-        race=ethnicity,country=homeCountry,state=homeState,profpic=filename,
-        jobs=jobinfo,education=eduinfo)
+            #add new information to the user's profile
+            return render_template('home/viewProfile.html',firstname=firstname,
+            lastname=lastname,description=description,age=age,gender=gender,
+            race=ethnicity,country=homeCountry,state=homeState,profpic=filename,
+            jobs=jobinfo,education=eduinfo)
 
     if request.method == 'POST':
         return redirect(url_for('profile'))
@@ -260,7 +266,6 @@ def pic(fname):
     val = send_from_directory('images',f)
     print val, type(val)
     return val
-
 
 
 @app.route('/deleteJob/', methods=['POST'])
@@ -294,8 +299,13 @@ def profile():
     if request.method == "GET":
         email= session.get('email')
         userid=session.get('userid')
+
+        #check if user is signed in
+        if not userid:
+            return redirect(url_for('login'))
         info=helperFunctions.viewProfile(conn,email)
 
+        #set default picture if none is provided
         filename=info['picture']
         if filename==None:
             filename='dummy_user.png'
@@ -309,6 +319,10 @@ def profile():
         email= session.get('email')
         info=helperFunctions.viewProfile(conn,email)
 
+        """if blank/Null inputs are provided on the form, but these
+        parameters were previously supplied by the user, these
+        values are taken from the database and used to update
+        the user's profile """
         description= request.form.get('description')
         if description=='':
             description=info['description']
@@ -337,8 +351,7 @@ def profile():
             mime_type = imghdr.what(profpic.stream)
             if mime_type != 'jpeg' and mime_type != 'png' and mime_type!="JPG":
                 raise Exception(' ')
-            newemail=email.strip(".")
-            filename = secure_filename('{}.{}'.format(newemail,mime_type))
+            filename = secure_filename('{}.{}'.format(email,mime_type))
             pathname= "images/"+filename
             profpic.save(pathname)
 
@@ -356,19 +369,38 @@ def profile():
 
 @app.route('/editEducation/<eduid>',methods=['GET','POST'])
 def editEducation(eduid):
+    """allows user to update edit one of their education entries. This
+    information is updated in the education table"""
+
     conn = dbconn2.connect(DSN)
     if request.method=='GET':
         userid=session.get('userid')
+
+        #make sure user is logged in
+        if not userid:
+            return redirect(url_for('login'))
+
+        #check to make sure the user has permission to edit this education
+        #entry (it is one of their own )
         if helperFunctions.checkEducationPermissions(conn,eduid,userid)==True:
 
+            #get education entry from the education table
             eduinfo=helperFunctions.viewEduInfo(conn,eduid)
             return render_template('home/editEducation.html',eduinfo=eduinfo)
         else:
             flash('You do not have permission to edit this entry')
             return redirect(url_for('viewProfile'))
+
     if request.method=='POST':
+        #get education entry from the education table
         eduinfo=helperFunctions.viewEduInfo(conn,eduid)
 
+        """Get new information from the editEducation form.
+        If fields are left blank but this information was
+        previously provided for the education entry,
+        these values are taken from the database and used
+        to update the entry
+        """
         institution= request.form.get('institution')
         if institution=='':
             title=eduinfo['institution']
@@ -403,6 +435,7 @@ def editEducation(eduid):
         if country!=None and country!='US':
             state=None
 
+        #update information in the education table
         helperFunctions.editEducation(conn,institution,state,country,major,
                                     secondmajor,degreetype,rating,review,eduid)
 
@@ -410,16 +443,32 @@ def editEducation(eduid):
 
 @app.route('/viewMentorProfile/<userid>',methods=['GET'])
 def viewMentorProfile(userid):
+    """Allows user to view the full profile of a mentor (accessed
+    through the browseMentors page). This information includes
+    basic profile information, jobs, and education (similar to the
+    user's own viewProfile page but without edit/delete options)"""
+
     conn = dbconn2.connect(DSN)
     if request.method=='GET':
+
+        #make sure the user is logged in
+        personaluserid=session.get('userid')
+        if not personaluserid:
+            return redirect(url_for('login'))
         try:
+            #get basic mentor information from the user table
             curs = conn.cursor(MySQLdb.cursors.DictCursor)
             curs.execute("select * from user join mentor using(userid) where "+
             "userid =%s;",[userid])
             mentorinfo=curs.fetchone()
+
+            #get mentor's job information from the job table
             jobinfo=helperFunctions.viewJobs(conn,userid)
 
+            #get mentor's education information from the education table
             eduinfo= helperFunctions.viewEducation(conn,userid)
+
+            #display all of this information
             return render_template('home/viewMentorProfile.html',mentorinfo=mentorinfo,
             jobs=jobinfo,education=eduinfo)
         except MySQLdb.IntegrityError as err:
@@ -430,11 +479,22 @@ def viewMentorProfile(userid):
 
 @app.route('/viewJobPosting/<jobid>',methods=['GET'])
 def viewJobPosting(jobid):
+    """Allows user to view a job entry (accessed
+    through the browseJobs page)."""
     conn = dbconn2.connect(DSN)
+
     if request.method=='GET':
+        #make sure user is logged in
+        userid=session.get('userid')
+        if not userid:
+            return redirect(url_for('login'))
         try:
             curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+            #get job information from the job database
             jobinfo=helperFunctions.viewJobInfo(conn,jobid)
+
+            #display this information
             return render_template('home/viewJobPosting.html',job=jobinfo)
         except MySQLdb.IntegrityError as err:
             return "Error"
@@ -443,20 +503,23 @@ def viewJobPosting(jobid):
 
 @app.route('/editJob/<jobid>',methods=['GET','POST'])
 def editJob(jobid):
+    """allows user to update/edit one of their job entries. This
+    information is updated in the job table"""
     conn = dbconn2.connect(DSN)
     if request.method=='GET':
 
+        #make sure user is logged in
         userid=session.get('userid')
+        if not userid:
+            return redirect(url_for('login'))
+
+        #make sure user has permission to edit this job (it is one of their own)
         if helperFunctions.checkJobPermissions(conn,jobid,userid)==True:
 
+            #get job information from the job table
             jobinfo=helperFunctions.viewJobInfo(conn,jobid)
 
-
-
-            print 'my startdate'
-            print jobinfo['startDate']
-            print 'jobid'
-            print jobinfo['jobID']
+            #get job type (for rendering pre-selected the radio buttons )
             jobtypes=['full time','part time']
             selected=jobinfo['type']
             return render_template('home/editJob.html',jobinfo=jobinfo,jobtypes=jobtypes,selected=selected)
@@ -466,7 +529,15 @@ def editJob(jobid):
             return redirect(url_for('viewProfile'))
 
     if request.method=='POST':
+        #get job information from the job table
         jobinfo=helperFunctions.viewJobInfo(conn,jobid)
+
+        """Get new information from the editJob form.
+        If fields are left blank but this information was
+        previously provided for the job entry,
+        these values are taken from the database and used
+        to update the entry
+        """
 
         title= request.form.get('title')
         if title=='':
@@ -524,16 +595,19 @@ def editJob(jobid):
         if startdate=='':
             startdate=jobinfo['startDate']
         else:
-            startdate=startdate+'-00'
+            #format date appropriately for storage in database
+            startdate=startdate +'-00'
 
         enddate=request.form.get('enddate')
         if enddate=='':
-            enddate=jobinfo['endDate']
+            #format date appropriately for storage in database
+            enddate=jobinfo['endDate'] + '-00'
 
         education=request.form.get('educationExperience')
         if education=='':
             education=jobinfo['education']
 
+        #edit job entry in the job table
         helperFunctions.editJob(conn,jobid,title,company,description,jobtype,
         priorexperience,tags,favorite,leastfav,tasks,daily,skills,advice,
         salary,startdate,enddate,education)
@@ -545,11 +619,14 @@ def addJob():
     """Allows user to add a job to their profile. Reads information
     input with the addJob.html form and inserts it into the
     job database"""
-    conn = dbconn2.connect(DSN)
+
     if request.method == 'GET':
+        userid=session.get('userid')
+        if not userid:
+            return redirect(url_for('login'))
         return render_template('home/addJob.html',message="")
     if request.method == 'POST':
-
+        conn = dbconn2.connect(DSN)
         #get information from html form
         title= request.form.get('title')
         company= request.form.get('company')
@@ -585,6 +662,9 @@ def addEducation():
 
     conn = dbconn2.connect(DSN)
     if request.method == 'GET':
+        userid=session.get('userid')
+        if not userid:
+            return redirect(url_for('login'))
         return render_template('home/addEducation.html')
     if request.method == 'POST':
 
@@ -609,17 +689,11 @@ def addEducation():
 
         return render_template('home/addEducation.html',message=mymessage)
 
-@app.route('/addProfession/')
-def addProfession():
-    """Allows user to add profession ratings to a profession and updates
-    this information in the professions table"""
-    return render_template('home/addProfession.html')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     """Main page. Reroutes to the login page if no session is set.
     If a session is set, reroutes to the view profile page """
-    conn = dbconn2.connect(DSN)
     userid=session.get('userid')
     if not userid:
         print 'no userid'
@@ -627,6 +701,77 @@ def index():
     else:
         return redirect(url_for('profile'))
 
+@app.route('/forum/',methods = ['GET', 'POST'])
+def forum():
+    return render_template('home/forum.html', header = "Forum")
+
+@app.route('/getQuestion/', methods = ['GET','POST'])
+def getQuestion():
+    print "getting to the getQuestion"
+    try:
+        connect = dbconn2.connect(DSN)
+        if request.method == 'POST':
+            print 'handling POST QUestion'
+            userid=session['userid']
+
+
+            quest = request.form.get('question')
+            tags=request.form.get('tags')
+            user = myhelperfunctions.getUID(connect, session['email'])
+            date = datetime.datetime.now()
+
+            if quest is not None :
+                if helperFunctions.isStudent(connect,userid):
+                    myhelperfunctions.add_question(connect, user, quest, tags, date)
+
+        result = myhelperfunctions.show_questions(connect)
+
+        print "end of GET_QUESTION"
+        return jsonify(result)
+    except Exception as err:
+        return jsonify( [{'error': True, 'err': str(err) } ])
+
+@app.route('/answer/<quest_identifier>',methods = ['GET', 'POST']) #<quest_id>
+def answer(quest_identifier):
+    #return quest_identifier + "THIS IS QUESTID for answer"
+    #print str(request.args.get('quest_identifier')) + ("WOULD APPEAR HER FOR ANSWER!!!!!!")
+    try:
+        connect = dbconn2.connect(DSN)
+        quid= myhelperfunctions.get_question(connect,str(quest_identifier))
+        #return quest_identifier + "THIS IS QUESTID for answer"
+        return render_template('home/answer.html', header = quid['questionText'] )#"Question ID: "+ quid['questionID']+quid['questionText'])
+    except Exception as err:
+        return err
+
+@app.route('/getAnswer/<qid>', methods = ['GET','POST'])
+def getAnswer(qid):
+    print "getting to the getAnswer"
+    try:
+        connect = dbconn2.connect(DSN)
+        if request.method == 'POST':
+            print 'handling POST Answer'
+            user = myhelperfunctions.getUID(connect, session['email'])
+            print qid
+            ans = request.form.get('answer')
+            date = datetime.datetime.now()
+            #print quest
+            #print user
+            #print date
+            print 'answer'
+            print ans
+            if ans is not None :
+                myhelperfunctions.add_answer(connect,user,qid, ans, date)
+                print ans +"its not empty"
+
+                print "this is where answer get would show up"
+
+        result = myhelperfunctions.show_answers(connect, qid)
+
+        print jsonify(result)
+
+        return jsonify(result)
+    except Exception as err:
+        return jsonify( [{'error': True, 'err': str(err) } ])
 
 # use the main function to connect the webpage to the database
 if __name__ == '__main__':
