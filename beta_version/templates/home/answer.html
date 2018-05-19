@@ -86,10 +86,11 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
 <script id="all_answers-script">
 
+ //the url we will be posting to so that the db get info and gives info
 var URL = "{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}"
 
 
-//NOT NECESSARY AT THE MOMENT
+//NOT NECESSARY AT THE MOMENT but will need to be implemented later
  function likeAnswer(bid){
    $.post(URL,
      {"bid" : bid},
@@ -101,6 +102,7 @@ var URL = "{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}
 
  }
 
+      //tells us if our commands were successful
  function reportSuccess () {
      var now = new Date();
      console.log('success at '+ now);
@@ -111,7 +113,7 @@ var URL = "{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}
                 3000);
 }
 
-
+//will display and format the answers / data we receive from the database
 function showAnswers(answers){
   //console.log(questions);
   console.log('getting to beginning of showAnswers');
@@ -134,7 +136,7 @@ function showAnswers(answers){
 
 var global_answer;
 
-//Submits the data to the get
+//Submits the data when submit is pressed
 $("#ajax_button_answer").click(function () {
   console.log('getting to beginning of ajaxbutton_answer')
     $.post(URL,
@@ -151,7 +153,7 @@ $("#ajax_button_answer").click(function () {
 
 
 
-// Add an event handler to the list ancestor
+// on click the answers will not do anything important yet but will in the future be counting votes
 $("#all_answers").on("click",
                     "['ans_ident']",
                     function (event) {
@@ -161,7 +163,7 @@ $("#all_answers").on("click",
 
                     });
 
-// Load list of bleats when page loads
+// Load list of answers from the database when page loads
 function loadAnswers() {
   $.post(URL,
       showAnswers,"json");
