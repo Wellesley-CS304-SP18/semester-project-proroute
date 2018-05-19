@@ -17,8 +17,7 @@
 <p id="answer_response"></p>
 
 
-<!--I WROTE THIS JUST TO CHECK IF IT WAS PROPERLY DISPLAYING-->
-<p>{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}</p>
+
 
   <form method="GET" action= "{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}">
     <p>Your Answer:</p>
@@ -59,7 +58,7 @@ var URL = "{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}
 
 
 function showAnswers(answers){
-  //console.log(questions);
+
   console.log('getting to beginning of showAnswers');
   var i, len = answers.length;
   var listElt = $("<ul>");
@@ -78,13 +77,13 @@ function showAnswers(answers){
 
 }
 
-var global_answer;
+var global_answers;
 
 //Submits the data to the get
 $("#ajax_button_answer").click(function () {
   console.log('getting to beginning of ajaxbutton_answer')
     $.post(URL,
-          $("form_answer").serialize(),
+          $("#form_answer").serialize(),
           function(data){
             reportSuccess();
             global_answers = data;

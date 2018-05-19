@@ -90,7 +90,7 @@ var global_questions;
 $("#ajax_button").click(function () {
   console.log('getting to beginning of ajaxbutton')
     $.post(URL,
-          $("form").serialize(),
+          $("#form_quest").serialize(),
           function(data){
             reportSuccess();
             global_questions = data;
@@ -99,8 +99,6 @@ $("#ajax_button").click(function () {
           "json"); // end of .post args
           $("form").trigger("reset");
 });  // end of .click call
-
-
 
 
 // Add an event handler to the list ancestor
@@ -115,7 +113,7 @@ $("#all_questions").on("click",
 
                     });
 
-// Load list of bleats when page loads
+// Load list of questions when page loads
 function loadQuestions() {
   $.post(URL,
       showQuestions,"json");
