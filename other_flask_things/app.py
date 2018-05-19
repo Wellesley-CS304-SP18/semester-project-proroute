@@ -160,14 +160,17 @@ def getAnswer(qid):
         if request.method == 'POST':
             print 'handling POST Answer'
             user = helperfunctions.getUID(connect, session['email'])
+            print user
             print qid
-            quest= 1
+
             ans = request.form.get('answer')
+
+
             print ans
             date = datetime.datetime.now()
             #print quest
             #print user
-            #print date
+            print date
 
             if ans is not None :
                 helperfunctions.add_answer(connect, user,qid, ans, date)
