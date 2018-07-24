@@ -1,0 +1,193 @@
+<!--ProRoute qeustion.html
+-->
+{% extends "home/base.html" %}
+{% block content %}
+<!--to check that it was submitted at a certain time-->
+<!--<h3>{{question_display}}</h3>-->
+<style>
+
+      #all_answers li {
+        margin: 5px;
+        border: 1px solid grey;
+        background-color:white;
+        border-radius: 3px;
+        padding: 3px;
+        color:black;
+      }
+</style>
+</head>
+<body>
+  <div class="jp_header">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="jp_header_wrapper">
+                      <!-- <div class="jp_logo">
+                          <a href="/"><img src="static/images/logo_with_text.png" alt=""></a>
+                      </div> -->
+                      <div class="jp_header_right">
+                          <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                              <ul>
+                                <li><a href="{{url_for('forum')}}">Forum</a></li>
+                                <li><a href="{{url_for('browseJobs')}}">Jobs</a></li>
+                                <li><a href="{{url_for('browseMentors')}}">Mentors</a></li>
+                                <li><a href="{{url_for('viewProfile')}}">Profile</a></li>
+                                <li><a href="{{url_for('logout')}}">Logout</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-md-12">
+                  <div class="jp_page_title">
+                      <h3 style="padding:35px;">Forum</h3>
+                      <!-- <p>you are on the right place</p> -->
+                  </div>
+              </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="jp_main_wrapper">
+       <div class="container">
+           <div class="row">
+               <div class="col-md-12">
+
+<p id="answer_response"></p>
+
+
+<!--I WROTE THIS JUST TO CHECK IF IT WAS PROPERLY DISPLAYING-->
+<!-- <p>{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}</p> -->
+<h2><b>Question:</b> {{header}}</h2>
+
+  <form method="get" action= "{{url_for('getAnswer',qid = request.view_args['quest_identifier'])}}">
+    <h3>Your Answer:</h3>
+    <p><textarea name="answer" id= "form_answer" rows=3 cols=100></textarea>
+    <p><input id="ajax_button_answer" type="button" value="Add Answer" type="button" style="background-color:#6DCFF6;color:white;border-radius:4px;float:left;font-size:18px;height:50px;width:200px;">
+  </form>
+
+  <div class="jp_main_wrapper">
+     <div class="container">
+         <div class="row">
+             <div class="col-md-8">
+               <h3><u>Previous Answers</u></h3>
+
+<div id="all_answers"></div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+<script id="all_answers-script">
+
+var URL = "{{url_for('getAnswer', qid = request.view_args['quest_identifier'])}}"
+
+
+//NOT NECESSARY AT THE MOMENT
+ function likeAnswer(bid){
+   $.post(URL,
+     {"bid" : bid},
+   function(data){
+     reportSuccess();
+     showAnswers(data);
+   },
+   "json");
+
+ }
+
+ function reportSuccess () {
+     var now = new Date();
+     console.log('success at '+ now);
+     $("#answer_response").text('saved at '+now.toLocaleString()).show();
+     setTimeout(function () {
+                   $("#answer_response").fadeOut('slow');
+                },
+                3000);
+}
+
+
+function showAnswers(answers){
+  //console.log(questions);
+  console.log('getting to beginning of showAnswers');
+  var i, len = answers.length;
+  var listElt = $("<ul>");
+  for( i = 0; i < len; i++ ) {
+    var answer = answers[i];
+    console.log(answer);
+
+    $("<li>")
+             .text(answer.answerText + " (Posted on: " + answer.posted + " ) ") //.question)//question.bid+": ("+question.likes+") "+question.question)
+             .attr('ans_ident',answer.answerID)
+             .appendTo(listElt);
+    }
+    $("#all_answers").empty().append(listElt);
+    reportSuccess();
+    //console.log('getting to end of showQuestions')
+
+}
+
+var global_answer;
+
+//Submits the data to the get
+$("#ajax_button_answer").click(function () {
+  console.log('getting to beginning of ajaxbutton_answer')
+    $.post(URL,
+          $("#form_answer").serialize(),
+          function(data){
+            reportSuccess();
+            global_answers = data;
+            showAnswers(data);
+          },
+          "json"); // end of .post args
+          $("form_answer").trigger("reset");
+});  // end of .click call
+
+
+
+
+// Add an event handler to the list ancestor
+$("#all_answers").on("click",
+                    "['ans_ident']",
+                    function (event) {
+                      //var bid = $(this).attr('data-bid');
+                      console.log("clicked on BID " + $(this).attr('data-bid'));//+bid);
+                      //likeQuestion(bid);
+
+                    });
+
+// Load list of bleats when page loads
+function loadAnswers() {
+  $.post(URL,
+      showAnswers,"json");
+      console.log('getting to loadAnswers')
+      }
+
+
+loadAnswers();
+
+
+
+
+</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<p>  </p>
+</div>
+</body>
+{% endblock %}

@@ -1,0 +1,263 @@
+{% extends "home/base.html" %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+
+
+</head>
+<body>
+
+<div ng-controller='singlejobCtrl'>
+<div class="jp_sidebar_close"></div>
+
+<!-- header start -->
+<div class="jp_header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jp_header_wrapper">
+                    <!-- <div class="jp_logo">
+                        <a href="/"><img src="static/images/logo_with_text.png" alt=""></a>
+                    </div> -->
+                    <div class="jp_header_right">
+                        <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                            <ul>
+                              <li><a href="{{url_for('forum')}}">Forum</a></li>
+                              <li><a href="{{url_for('browseJobs')}}">Jobs</a></li>
+                              <li><a href="{{url_for('browseMentors')}}">Mentors</a></li>
+                              <li><a href="{{url_for('viewProfile')}}">Profile</a></li>
+                              <li><a href="{{url_for('logout')}}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <script>
+                var messages = {{ messages | safe }};
+                for (var i=0; i<messages.length; i++) {
+                  alert(messages[i]);
+                }
+              </script>
+            {% endif %}
+          {% endwith %}
+
+            <div class="col-md-12">
+                <div class="jp_page_title">
+                    <h3 style="padding:35px;">Edit Job</h3>
+                    <!-- <p>you are on the right place</p> -->
+                </div>
+            </div>
+            <!-- <div class="col-md-8 col-md-offset-2">
+                <div class="jp_search_form">
+                    <input type="" name="" placeholder="Search Job Here by Location, Skills">
+                    <button class="jp_search_btn"></button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- header end -->
+
+
+
+<div class="jp_main_wrapper">
+   <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+               <div class="jp_single_wrapper">
+                    <div class="jp_job_box">
+                        <div class="job_detail">
+
+                          <form class="form-horizontal" method="post" action="">
+                          <fieldset>
+
+                          <!-- Form Name -->
+                          <legend>Edit Job -- {{jobinfo.title}} </legend>
+                          <h3 style="color:#5DE285;">{{message}}</h3>
+
+                          <!-- Text input-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="title">Title</label>
+                            <div class="col-md-4">
+                            <textarea class="form-control" placeholder="{{jobinfo.title}}" maxlength="100" id="title" name="title" required="">{{jobinfo.title}}</textarea>
+
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="title">Company/Insitution</label>
+                            <div class="col-md-4">
+                            <textarea class="form-control" placeholder="{{jobinfo.company}}" maxlength="100" id="company" name="company" required="">{{jobinfo.company}}</textarea>
+                            </div>
+                          </div>
+
+                          <!-- Textarea -->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="description">Description</label>
+                            <div class="col-md-4">
+                              <textarea class="form-control" placeholder="{{jobinfo.description}}" maxlength="2000" id="description" name="description">{{jobinfo.description}}</textarea>
+                            </div>
+                          </div>
+
+
+
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="type">Job Type</label>
+                            <div class="col-md-4">
+                            <div class="radio">
+                              {% for elt in jobtypes %}
+                              <label>{{elt}} <input type="radio" name="type" value="{{elt}}" {{'checked' if elt==selected }}></label>
+                              {% endfor %}
+                            </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                          </div>
+
+
+
+                        <div class="form-group">
+                      <label class="col-md-4 control-label" for="priorexperience">Years of Prior Experience</label>
+                      <div class="col-md-4">
+                        <select id="priorexperience" name="priorexperience" class="form-control">
+                          <option disabled selected value={{jobinfo.experience}}> -- {{jobinfo.experience}} -- </option>
+                          <option value="none">None</option>
+                          <option value="less1">&gt;1</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5plus">5+</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                  <label class="col-md-4 control-label" for="educationExperience">Educational Experience (at time of job start)</label>
+                  <div class="col-md-4">
+                    <select id="educationExperience" name="educationExperience" class="form-control">
+                      <option disabled selected value={{jobinfo.education}}> -- {{jobinfo.education}} -- </option>
+                      <option value="none">None</option>
+                      <option value="highschool">High School</option>
+                      <option value="associates">Associate's Degree</option>
+                      <option value="bachelors">Bachelor's Degree</option>
+                      <option value="masters">Master's Degree</option>
+                      <option value="phd">PhD</option>
+                      <option value="other">Other Professional Degree</option>
+                    </select>
+                  </div>
+                </div>
+
+                          <!-- Profession Tags -->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" size="100" for="tags">Profession Tags</label>
+                            <div class="col-md-4">
+                          <input type="text" id="tags" name="tags" value="{{jobinfo.professionTag}}" data-role="tagsinput"></input>
+                          </div>
+                        </div>
+
+                          <!-- Text input-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="favorite">Favorite Part</label>
+                            <div class="col-md-4">
+                            <textarea class="form-control" placeholder="{{jobinfo.favoritePart}}" maxlength="200" id="favorite" name="favorite">{{jobinfo.favoritePart}}</textarea>
+
+                            </div>
+                          </div>
+
+                          <!-- Text input-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="leastfav">Least Favorite Part</label>
+                            <div class="col-md-4">
+                            <textarea class="form-control" placeholder="{{jobinfo.leastFavoritePart}}" maxlength="200" id="leastfav" name="leastfav">{{jobinfo.leastFavoritePart}}</textarea>
+
+                            </div>
+                          </div>
+
+                          <!-- Textarea -->
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" size="100" for="tasks">Important Tasks</label>
+                            <div class="col-md-4">
+                          <input type="text" id="tasks" name="tasks" value="{{jobinfo.task}}" data-role="tagsinput"></input>
+                          </div>
+                        </div>
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="daily">Daily Life</label>
+                            <div class="col-md-4">
+                              <textarea class="form-control" id="daily" maxlength="2000" name="daily">{{jobinfo.dailylife}}</textarea>
+                            </div>
+                          </div>
+
+                          <!-- Textarea -->
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" size="100" for="title">Important Skills</label>
+                            <div class="col-md-4">
+                          <input type="text" id="skills" name="skills" value="{{jobinfo.skill}}" data-role="tagsinput"></input>
+                          </div>
+                        </div>
+
+
+
+                          <!-- Textarea -->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="advice">Advice</label>
+                            <div class="col-md-4">
+                              <textarea class="form-control" id="advice" name="advice">{{jobinfo.advice}}</textarea>
+                            </div>
+                          </div>
+
+                          <!-- Text input-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="salary" size="100" >Annual Salary</label>
+                            <div class="col-md-4">
+                            <input id="salary" name="salary" placeholder="{{jobinfo.annualSalary}}"type="number" min="0" max="1000000000" class="form-control input-md">
+
+                            </div>
+                          </div>
+
+                          <!-- Start Date -->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="startdate">Start Date</label>
+                            <div class="col-md-4">
+                            <input id="startdate" name="startdate" type="month" placeholder="{{jobinfo.startDate}}" class="form-control input-md">
+
+                            </div>
+                          </div>
+
+                          <!-- End Date-->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="enddate">End Date</label>
+                            <div class="col-md-4">
+                            <input id="enddate" name="enddate" type="month" placeholder="{{jobinfo.endDate}}" class="form-control input-md">
+
+                            </div>
+                          </div>
+
+                          <div class="jp_view_btn">
+                            <button class="jp_btn" type="submit" value="Update">Edit Job</button>
+                              <!-- <a href="login" class="jp_btn">Apply</a> -->
+                              <!-- <p><input type="submit" value="Apply"> -->
+                          </div>
+                          </fieldset>
+                          </form>
+
+                        </div>
+
+                    </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+</div>
+
+</body>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+</head>
+<body background="../../static/images/network.jpg">
+
+
+<div class="jp_alert_wrapper jp_error" style="display: none;">
+    <div class="jp_alert_inner">
+        <div class="message">
+
+        </div>
+    </div>
+</div>
+
+<div class="jp_main_wrapper" ng-controller='authCtrl'>
+    <div class="jp_auth_box_wrapper">
+        <div class="container">
+            <div class="jp_auth_box">
+                <div class="jp_auth_form">
+                   <form name="loginForm" method="post" action="">
+                    <h3 class="jp_auth_title">Login</h3>
+
+
+                    <div class="jp_input_wrapper">
+                        <label>Your Email</label>
+                        <!-- <input type="email" name="email"  id="email" /> -->
+                        <input type="email" class="form-control" name="email" ng-model="loginForm.user.email" id="email" />
+                    </div>
+                    <div class="jp_input_wrapper margin-bottom-10">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="password" ng-model="loginForm.user.password" id="password" />
+                    </div>
+                    <div class="jp_input_wrapper text-right">
+                        <a href="#jp_forgot_password" jp_popup_link class="forgot_password jp_popup_link">Forgot Password?</a>
+                    </div>
+                    <div class="jp_input_wrapper text-center">
+                        <button type="submit"  name="loginForm" class="jp_btn">Login</button>
+                    </div>
+                    </form>
+                    <div class="jp_input_wrapper text-center">
+                        <div class="jp_auth_bottomText">
+                            <p>Don`t  Have An Account ? <a href="/register/">Register</a></p>
+                            {% with messages = get_flashed_messages() %}
+                              {% if messages %}
+                                {% for message in messages %}
+                                  <p name="message" style="color:red">{{message}}</p>
+                                {% endfor %}
+                              {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Forgot Password popup start -->
+<div id="jp_forgot_password" class="jp_popup_wrapper">
+    <div jp_popup_close class="jp_popup_close"></div>
+    <div class="jp_popup_inner">
+        <div class="jp_popup_header">
+            <h3>Forgot Password</h3>
+        </div>
+        <div class="jp_popup_body">
+            <div class="jp_auth_box">
+         <div class="jp_auth_form">
+          <form name="forgotForm" ng-submit='forgotPassword(forgotForm)' ng-validate="validationOptions">
+                 <div class="jp_radio_list" ng-init="forgotForm.user.forgot_option='seekerforgot'">
+                        <div class="jp_radio">
+                            <input type="radio" name="login_option" ng-model="forgotForm.user.forgot_option" id="forgotseeker"  value='seekerforgot' />
+                            <label for="forgotseeker">Student</label>
+                        </div>
+                        <div class="jp_radio">
+                            <input type="radio" ng-model="forgotForm.user.forgot_option" name="login_option" id="forgotrecruiter" value='recruiterforgot' />
+                            <label for="forgotrecruiter">Mentor</label>
+                        </div>
+                    </div>
+            <div class="jp_input_wrapper">
+
+                <label>Enter email address</label>
+                <input type="text" name="forgotemail" ng-model="forgotForm.user.forgotemail" class="form-control" />
+            </div>
+            <div class="jp_input_wrapper text-center">
+                <button type="submit"  class="jp_btn">Done</button>
+            </div>
+            </form>
+             </div>
+             </div>
+        </div>
+    </div>
+</div>
+
+</body>
+{% endblock %}

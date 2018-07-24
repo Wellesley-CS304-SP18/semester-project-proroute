@@ -1,0 +1,86 @@
+{% extends "home/base.html" %}
+{% block content %}
+</head>
+<body background="../../static/images/network.jpg">
+
+<!--<div class="jp_loading_wrapper">-->
+    <!--<div class="jp_loading_inner">-->
+        <!--<img src="static/images/loader01.gif" alt="" />-->
+    <!--</div>-->
+<!--</div>-->
+
+<!-- ng-show="myForm.$submitted && myForm.$dirty || myForm.$invalid" -->
+<div class="jp_main_wrapper"  ng-controller='authCtrl'>
+<div class="jp_alert_wrapper jp_error" style="display: none;">
+    <div class="jp_alert_inner">
+        <div class="message">
+           <!--  <p ng-show="myForm.$submitted && myForm.mobile_no.$error.required || myForm.org_usr_name.$error.required || myForm.password.$error.required || myForm.confirm_pass.$error.required">All field is required.</p>
+              <p ng-show="myForm.$submitted && myForm.$invalid || myForm.email.$error.email">Invalid email address.</p> -->
+
+
+        </div>
+    </div>
+</div>
+    <div class="jp_auth_box_wrapper">
+        <div class="container">
+            <div class="jp_auth_box">
+                <div class="jp_auth_form">
+                 <form name="registrationForm" method="post" action="" ng-submit='registerUser(myForm)' ng-validate="validationOptions">
+                    <h3 class="jp_auth_title">Register</h3>
+                    <div class="jp_radio_list" ng-init="myForm.user.option_register='seeker'">
+                        <div class="jp_radio">
+                            <input type="radio" name="usertype" ng-model="myForm.user.option_register" required change-form name="login_option" value='student' id="student"  />
+                            <label for="student">Student</label>
+                        </div>
+                        <div class="jp_radio">
+                            <input type="radio" name="usertype" ng-model="myForm.user.option_register" required change-form name="login_option" value='mentor'  id="mentor" />
+                            <label for="mentor">Mentor</label>
+                        </div>
+                    </div>
+                    <div class="jp_input_wrapper">
+                        <label>First Name</label>
+                        <input type="text" name= "firstName" id="firstName" ng-model="myForm.user.org_usr_name" required name="org_usr_name" class="form-control" />
+                    </div>
+                    <div class="jp_input_wrapper">
+                        <label>Last Name</label>
+                        <input type="text" name= "lastName" id="lastName" ng-model="myForm.user.org_usr_name" required name="org_usr_name" class="form-control" />
+                    </div>
+                     <div class="jp_input_wrapper">
+                        <label>Your Email</label>
+                        <input type="email" name="myEmail" id= "myEmail" ng-model="myForm.user.email" id="email_address" required name="email" class="form-control" />
+                    </div>
+                    <div class="jp_input_wrapper">
+                        <label>Password</label>
+                        <input type="password" name="password" id="password" ng-model="myForm.user.password" required  class="form-control" />
+                    </div>
+                     <div class="jp_input_wrapper">
+                        <label>Confirm Password</label>
+                        <input type="password" name="confirm_pass" id="confirm_pass" ng-model="myForm.user.confirm_pass" required  class="form-control" />
+                    </div>
+
+                    <div class="jp_input_wrapper text-center">
+                        <button type="submit" class="jp_btn">Register</button>
+                    </div>
+
+
+                    <div class="jp_input_wrapper text-center">
+                        <div class="jp_auth_bottomText">
+                            <p>Already Have An Account ? <a href="/login/">Login</a></p>
+                            {% with messages = get_flashed_messages() %}
+                              {% if messages %}
+                                {% for message in messages %}
+                                  <p name="message" style="color:red">{{message}}</p>
+                                {% endfor %}
+                              {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+{% endblock %}

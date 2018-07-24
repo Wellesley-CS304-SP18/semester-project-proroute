@@ -1,0 +1,224 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+</head>
+<body>
+
+<div ng-controller='homeCtrl'>
+<div categoryclose class="jp_sidebar_close"></div>
+
+<!-- header start -->
+<div class="jp_header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jp_header_wrapper">
+                    <!-- <div class="jp_logo">
+                        <a href="./"><img src="static/images/logo_with_text.png" alt=""></a>
+                    </div> -->
+                    <div class="jp_header_right">
+                      <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                          <ul>
+                            <li><a href="{{url_for('forum')}}">Forum</a></li>
+                            <li><a href="{{url_for('browseJobs')}}">Jobs</a></li>
+                            <li><a href="{{url_for('browseMentors')}}">Mentors</a></li>
+                            <li><a href="{{url_for('viewProfile')}}">Profile</a></li>
+                            <li><a href="{{url_for('logout')}}">Logout</a></li>
+                          </ul>
+                      </div>
+                         <!-- <div categorytoggle class="jp_category_toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 485.008 485.008" style="enable-background:new 0 0 485.008 485.008;" xml:space="preserve" width="512px" height="512px"><g><g><path d="M171.501,464.698v-237.9l-166.3-192.6c-8.9-10.9-7.9-33.3,15.1-33.3h443.6c21.6,0,26.6,19.8,15.1,33.3l-162.3,187.5v147.2 c0,6-2,11.1-7.1,15.1l-103.8,95.8C193.801,488.698,171.501,483.898,171.501,464.698z M64.701,41.298l142.2,164.3c3,4,5,8.1,5,13.1 v200.6l64.5-58.5v-146.1c0-5,2-9.1,5-13.1l138.1-160.3L64.701,41.298L64.701,41.298z" fill="#FFFFFF"/></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                        </div> -->
+                        <div navtoggle class="jp_nav_toggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="jp_page_title">
+                    <h3>Browse Jobs</h3>
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+            <form name="searchForm" data-ng-submit='searchJob()'>
+                <div class="jp_search_form">
+                    <input type="" name="" ng-model="keyword" placeholder="Search for specific attributes here">
+                    <button type="submit" class="jp_search_btn"></button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- header end -->
+
+<div class="jp_main_wrapper">
+    <div class="jp_doctor_list_wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                  <!-- category start -->
+                    <div class="jp_widget_wrapper">
+                        <div class="jp_widget_box">
+                            <h3 class="jp_widget_title">Job Types</h3>
+                            <div class="jp_checkbox_list">
+                                <!-- <div ng-repeat="(key, job_type) in general_info.job_types" class="jp_checkbox"> -->
+                                    <!-- <input type="checkbox" ng-change='searchFilterJobs()' value="{{job_type.id}}" add-remove-jobtype ng-model="diameter.checked" id="{{job_type.id}}jt" />
+                                    <label for="{{job_type.id}}jt">{{ job_type.job_type }}</label> -->
+                                    <div class="jp_checkbox">
+                                      <input type="checkbox" ng-change='searchFilterJobs()' value="fulltime" add-remove-experience  ng-model="area.checked_f" id="fulltime" />
+                                      <label for="fulltime">Full-Time</label>
+                                  </div>
+                                  <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="parttime" add-remove-experience  ng-model="area.checked_f" id="parttime" />
+                                    <label for="parttime">Part-Time</label>
+                                </div>
+
+
+                                    <!-- <label for="checkboxes1">Option1</label>
+                                    <input type="checkbox" value="checkboxes1"/> -->
+                                <!-- </div> -->
+                            </div>
+                        </div>
+
+                        <div class="jp_widget_box">
+                            <h3 class="jp_widget_title">Tasks </h3>
+                            <div class="jp_widget_search">
+                                <input type="text" ng-model="location" placeholder="Search..." />
+                                <button class="icon"></button>
+                            </div>
+                        </div>
+
+
+
+                        <div class="jp_widget_box">
+                            <h3 class="jp_widget_title">Work Experience</h3>
+                            <div class="jp_checkbox_list">
+                                <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="none" add-remove-experience  ng-model="area.checked_f" id="Fresher" />
+                                    <label for="Fresher">None</label>
+                                </div>
+                                <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="06 Months" add-remove-experience  ng-model="area.checked_6" id="6Mto1Y" />
+                                    <label for="6Mto1Y"> 06 Months</label>
+                                </div>
+                                 <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' ng-change='searchFilterJobs()' value="1 Year" add-remove-experience  ng-model="area.checked_1" id="1 Year" />
+                                    <label for="1 Year"> 1 Year</label>
+                                </div>
+                                 <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="1.5 Year" add-remove-experience  ng-model="area.checked_h" id="1.5 Year" />
+                                    <label for="1.5 Year"> 1.5 Year</label>
+                                </div>
+                                 <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="2 Year" add-remove-experience  ng-model="area.checked_2" id="2 Year" />
+                                    <label for="2 Year"> 2 Year</label>
+                                </div>
+                                <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="2.5 Year" add-remove-experience  ng-model="area.checked_2h" id="2.5 Year" />
+                                    <label for="2.5 Year">2.5 Year</label>
+                                </div>
+                                <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="3 Year" add-remove-experience  ng-model="area.checked_3h" id="3 Year" />
+                                    <label for="3 Year"> 3 Year</label>
+                                </div>
+                                <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="3+ Year" add-remove-experience  ng-model="area.checked3p" id="3+ Year" />
+                                    <label for="3+ Year"> 3+ Year </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="jp_widget_box">
+                            <h3 class="jp_widget_title">Educational Experience</h3>
+                            <div class="jp_checkbox_list">
+                                <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="none" add-remove-experience  ng-model="area.checked_f" id="none" />
+                                    <label for="none">None</label>
+                                </div>
+                                <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="highschool" add-remove-experience  ng-model="area.checked_6" id="highschool" />
+                                    <label for="highschool">High School </label>
+                                </div>
+                                 <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' ng-change='searchFilterJobs()' value="associates" add-remove-experience  ng-model="area.checked_1" id="associates" />
+                                    <label for="associates">Associate's Degree</label>
+                                </div>
+                                 <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="bachelors" add-remove-experience  ng-model="area.checked_h" id="bachelors" />
+                                    <label for="bachelors">Bachelor's Degree</label>
+                                </div>
+                                 <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="masters" add-remove-experience  ng-model="area.checked_2" id="masters" />
+                                    <label for="masters"> Master's Degree</label>
+                                </div>
+                                <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="phd" add-remove-experience  ng-model="area.checked_2h" id="phd" />
+                                    <label for="phd">PhD </label>
+                                </div>
+                                <div class="jp_checkbox">
+                                    <input type="checkbox" ng-change='searchFilterJobs()' value="other" add-remove-experience  ng-model="area.checked_3h" id="other" />
+                                    <label for="other"> Other Professional Degree</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!-- category end -->
+                </div>
+                <div class="col-md-8">
+                    <!-- no job found start -->
+			 <!-- <div class="jp_no_jobs" ng-if='nojobs'>
+						<div class="icon">
+							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve" width="512px" height="512px"><g><path d="M50.976,21.694c-0.528-9-7.947-16.194-16.891-16.194c-5.43,0-10.688,2.663-13.946,7.008 c-0.075-0.039-0.155-0.066-0.231-0.103c-0.196-0.095-0.394-0.185-0.597-0.266c-0.118-0.047-0.238-0.089-0.358-0.131 c-0.197-0.069-0.397-0.13-0.6-0.185c-0.12-0.032-0.239-0.065-0.36-0.093c-0.22-0.05-0.444-0.088-0.67-0.121 c-0.105-0.016-0.209-0.036-0.315-0.048C16.676,11.523,16.341,11.5,16,11.5c-4.962,0-9,4.037-9,9c0,0.129,0.008,0.255,0.016,0.381 C2.857,23.148,0,27.899,0,32.654C0,39.737,5.762,45.5,12.845,45.5h6.262l-5.264,9h32.313l-5.264-9h7.079 C54.604,45.5,60,40.104,60,33.472C60,27.983,56.173,23.06,50.976,21.694z M42.67,52.5H17.33l4.094-7h0.001L30,30.837L38.576,45.5 h0.001L42.67,52.5z M47.972,43.5h-8.249L30,26.876L20.277,43.5h-7.432C6.865,43.5,2,38.635,2,32.654 c0-4.154,2.705-8.466,6.432-10.253L9,22.13V21.5c0-0.123,0.008-0.249,0.015-0.375l0.009-0.173L9.012,20.75 C9.006,20.667,9,20.584,9,20.5c0-3.859,3.14-7,7-7c0.309,0,0.614,0.027,0.917,0.067c0.078,0.01,0.156,0.023,0.234,0.036 c0.267,0.044,0.53,0.102,0.789,0.176c0.035,0.01,0.071,0.017,0.106,0.027c0.285,0.087,0.563,0.198,0.835,0.321 c0.07,0.032,0.139,0.066,0.208,0.1c0.241,0.119,0.477,0.25,0.705,0.398C21.72,15.874,23,18.039,23,20.5c0,0.553,0.448,1,1,1 s1-0.447,1-1c0-2.754-1.246-5.219-3.2-6.871C24.666,9.879,29.388,7.5,34.084,7.5c7.745,0,14.178,6.135,14.849,13.888 c-1.022-0.072-2.553-0.109-4.084,0.124c-0.546,0.083-0.921,0.593-0.838,1.139c0.075,0.495,0.501,0.85,0.987,0.85 c0.05,0,0.101-0.004,0.152-0.012c2.228-0.336,4.548-0.021,4.684-0.002C54.491,24.372,58,28.661,58,33.472 C58,39.001,53.501,43.5,47.972,43.5z" fill="#d1d1d1"/><path d="M30,35.5c-0.552,0-1,0.447-1,1v8c0,0.553,0.448,1,1,1s1-0.447,1-1v-8C31,35.947,30.552,35.5,30,35.5z" fill="#d1d1d1"/><path d="M30,47.5c-0.552,0-1,0.447-1,1v1c0,0.553,0.448,1,1,1s1-0.447,1-1v-1C31,47.947,30.552,47.5,30,47.5z" fill="#d1d1d1"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+						</div>
+						<p>No job found with this filter...</p>
+					</div> -->
+                    <div class="custom-loading">
+    <div class="jp_filter_loader">
+   <div class="jp_filter_loader_icon">
+       <span></span><span></span><span></span>
+   </div>
+</div>
+ </div>
+
+
+					<!-- job listing start -->
+					<div ng-if='loadingIsDone'>
+					<!-- <div style="min-height: 400px" class="clearfix"> -->
+					<div class="jp_job_box" ng-repeat="(key, active_jobs) in active_jobsArray | offset: currentPage*itemsPerPage | limitTo: itemsPerPage">
+                        <div class="job_detail">
+                            <h3>Job Title -- Institution</h3>
+                            <span><b>Posted by:</b> user</span>
+                            <p></p>
+                            <span><b>Description:</b></span>
+                            <ul>
+                                <li><span><img src="static/images/experience.svg" alt=""></span> Profession Tags: </li>
+                            </ul>
+                        </div>
+                        <div class="jp_view_btn">
+                            <a href="job-detail/{{ active_jobs.id }}" class="jp_btn jp_btn_block">View</a>
+                        </div>
+                    </div>
+                    	<!-- </div> -->
+                    <!-- job listing end -->
+
+                    <!-- pagination start -->
+
+                    <!-- pagination end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+</body>
+{% endblock %}

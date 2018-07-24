@@ -1,0 +1,2036 @@
+/*
+Copyright (c) 2017
+------------------------------------------------------------------
+[Master Default Stylesheet]
+-------------------------------------------------------------------
+
+[Table of contents]
+
+1. body
+2. authentication
+3. header
+4. category page
+5. doctor listing
+6. doctor single
+7. search form
+8. profile page
+ .
+ .
+ .
+50. typography
+51. responsive
+-------------------------------------------------------------------*/
+
+/***********************************************************************************
+1. body start
+***********************************************************************************/
+body{
+    background-color: #f1f3f5;
+	font-family: 'Raleway', sans-serif;
+    color: #a3a3a3;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important;
+	text-rendering: optimizeLegibility !important;
+}
+a {
+	color: #3e9bd6;
+	text-decoration: none;
+    cursor:pointer;
+    font-weight: 500;
+}
+a:hover, a:focus {
+	text-decoration: none;
+}
+a:focus {
+	outline: none;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
+	font-family: 'Raleway', sans-serif;
+    color:#202020;
+}
+label{
+    text-transform: uppercase;
+}
+.jp_main_wrapper{
+    padding-top: 50px;
+}
+body.jp_authentication .jp_main_wrapper{
+    height: 100%;
+}
+body.jp_authentication > div.ng-scope{
+    height: 100%;
+}
+
+
+
+.starRating:not(old){
+  display        : inline-block;
+  width          : 7.5em;
+  height         : 1.5em;
+  overflow       : hidden;
+  vertical-align : bottom;
+}
+
+.starRating:not(old) > input{
+  margin-right : -100%;
+  opacity      : 0;
+}
+
+.starRating:not(old) > label{
+  display         : block;
+  float           : right;
+  position        : relative;
+  background      : url('../images/star-off.svg');
+  background-size : contain;
+}
+
+.starRating:not(old) > label:before{
+  content         : '';
+  display         : block;
+  width           : 1.5em;
+  height          : 1.5em;
+  background      : url('../images/star-on.svg');
+  background-size : contain;
+  opacity         : 0;
+  transition      : opacity 0.2s linear;
+}
+
+.starRating:not(old) > label:hover:before,
+.starRating:not(old) > label:hover ~ label:before,
+.starRating:not(:hover) > :checked ~ label:before{
+  opacity : 1;
+}
+
+.jp_loading_wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 99999;
+    background-color: #ffffff;
+}
+.jp_loading_wrapper > .jp_loading_inner{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -150px 0 0 -200px;
+}
+.jp_loading_wrapper > .jp_loading_inner > img{
+    width: 400px;
+    height: 300px;
+}
+/***********************************************************************************
+1. body end
+***********************************************************************************/
+
+/***********************************************************************************
+2. authentication start
+***********************************************************************************/
+.jp_authentication{
+    background-image: url('../images/auth_bg.jpg');
+    /* background-image: url('../images/withlogo.png'); */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: 100%;
+}
+.jp_authentication .jp_main_wrapper{
+    text-align: center;
+    padding: 0;
+}
+.jp_authentication .jp_main_wrapper:after{
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: -moz-linear-gradient( 43deg, #4776e6 0%, #8e54e9 100%);
+    background-image: -webkit-linear-gradient( 43deg, #4776e6 0%, #8e54e9 100%);
+    background-image: -ms-linear-gradient( 43deg, #4776e6 0%, #8e54e9 100%);
+    z-index: -1;
+    opacity: 0.95;
+}
+.jp_authentication .jp_main_wrapper:before{
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.jp_auth_box_wrapper{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    opacity: 0;
+    visibility: hidden;
+}
+.jp_site_loaded .jp_auth_box_wrapper{
+    opacity: 1;
+    visibility: visible;
+    animation: jp_authentication_anim 0.3s;
+    animation-fill-mode: forwards;
+}
+@keyframes jp_authentication_anim{
+    0%{transform: scale(0.95); opacity: 0;}
+    100%{transform: scale(1); opacity: 1;}
+}
+
+.jp_auth_box{
+    background-color: #ffffff;
+    max-width: 530px;
+    margin: 0 auto;
+    text-align: left;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
+}
+.jp_auth_title{
+    text-align: center;
+    font-weight: 800;
+    color: #6a64e7;
+    font-size: 28px;
+    margin: 0;
+    margin-bottom: 30px;
+}
+.jp_auth_box:after{
+    content: "";
+    display: table;
+    width: 100%;
+}
+.jp_auth_box > .jp_auth_form{
+    padding: 50px 80px;
+}
+.jp_auth_box > .jp_auth_form .jp_radio_list{
+    margin-bottom: 15px;
+}
+.jp_auth_box > .jp_auth_form .jp_radio_list:after{
+    content: "";
+    display: table;
+    width: 100%;
+}
+.jp_auth_box > .jp_auth_form .jp_radio_list .jp_radio{
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+.jp_auth_bottomText > p{
+    display: inline-block;
+    font-size: 18px;
+    color: #202020;
+    font-weight: 500;
+}
+.jp_auth_bottomText > p > a{
+    display: inline-block;
+    color: #6a64e7;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.jp_auth_tab_wrapper > .jp_auth_tab_link > ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display:block;
+}
+.jp_auth_tab_wrapper > .jp_auth_tab_link > ul > li{
+    display: inline-block;
+}
+.jp_auth_tab_wrapper > .jp_auth_tab_link > ul > li > a{
+    display: inline-block;
+    font-size: 30px;
+    color: #e6e6e6;
+}
+.jp_auth_tab_wrapper > .jp_auth_tab_link > ul > li:after{
+    content: "/";
+    display: inline-block;
+    font-size: 30px;
+    color: #e6e6e6;
+    margin: 0 10px;
+}
+.jp_auth_tab_wrapper > .jp_auth_tab_link > ul > li:last-child:after{
+    display: none;
+}
+.jp_auth_tab_wrapper > .jp_auth_tab_link > ul > li > a.active{
+    color: #6a64e7;
+}
+.jp_auth_tab_wrapper > .jp_auth_tab_panel{
+    padding: 50px 0;
+}
+.jp_auth_tab_wrapper > .jp_auth_tab_panel .jp_tab_panel{
+    animation: jp_tab_panel_anim 0.3s;
+}
+@keyframes jp_tab_panel_anim {
+    0%{transform: translateY(-10px) scale(0.95);}
+    100%{transform: translateY(0px) scale(1);}
+}
+
+.forgot_password{
+    font-size: 14px;
+    color: #909090;
+    font-weight: 500;
+}
+.forgot_password:hover{
+    color: #6a64e7;
+}
+.jp_ORdivider{
+    font-size: 20px;
+    color: #b6b6b6;
+    position: relative;
+    z-index: 1;
+}
+.jp_ORdivider::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background-color: #b6b6b6;
+    z-index: -1;
+}
+.jp_ORdivider > span{
+    width: 40px;
+    height: 30px;
+    line-height: 27px;
+    text-align: center;
+    background-color: #ffffff;
+    display: inline-block;
+}
+
+.jp_auth_social a{
+    width: calc(50% - 30px);
+    margin: 10px;
+    display: inline-block;
+}
+.jp_auth_social a img{
+    width: 100%;
+}
+
+/***********************************************************************************
+2. authentication end
+***********************************************************************************/
+
+/***********************************************************************************
+3. header start
+***********************************************************************************/
+.jp_header_wrapper{
+    position: relative;
+    z-index: 999;
+}
+.jp_header_wrapper:after{
+    content: "";
+    display: table;
+    width: 100%;
+}
+.jp_header{
+    position: relative;
+    /* background-image: url('../images/single_title_bg.jpg'); */
+    background-image: url('../images/withlogo.png');
+    background-size: cover;
+    background-position: center;
+    padding-bottom: 100px;
+}
+.jp_header:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /* background-image: -moz-linear-gradient( 145deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -webkit-linear-gradient( 145deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -ms-linear-gradient( 145deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%); */
+    opacity: 0.95;
+}
+.jp_header .jp_logo{
+    float: left;
+    margin-top: 42px;
+}
+.jp_header .jp_logo img{
+    max-width: 100%;
+}
+.jp_header .jp_nav{
+    float: left;
+}
+.jp_header .jp_nav > ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+}
+.jp_header .jp_nav > ul > li{
+    display: inline-block;
+    padding: 22px 25px;
+}
+.jp_header .jp_nav > ul > li > a{
+    display: block;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 20px 0px;
+    position: relative;
+}
+.jp_header .jp_nav > ul > li > a.active, .jp_header .jp_nav > ul > li > a:hover{
+    color: #ffffff;
+}
+.jp_header .jp_nav > ul > li > a:after{
+    content: "";
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    right: 50%;
+    height: 2px;
+    display: block;
+    background-color: #ffffff;
+    transition: all 0.3s;
+}
+.jp_header .jp_nav > ul > li > a:hover:after,
+.jp_header .jp_nav > ul > li > a.active:after{
+    left: 0;
+    right: 0;
+}
+
+.jp_header_right{
+    float: right;
+}
+.jp_header_right > .jp_profile_dd{
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-top: 20px;
+}
+.jp_header_right > .jp_profile_dd > .icon{
+    width: 70px;
+    height: 70px;
+    border-radius: 70px;
+    float: left;
+    margin-left: 15px;
+}
+.jp_header_right > .jp_profile_dd > .icon > img{
+    width: 70px;
+    height: 70px;
+    border-radius: 70px;
+    display: none;
+}
+.jp_header_right > .jp_profile_dd > .icon > .name_initial{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    border-radius: 40px;
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    /* background-image: -moz-linear-gradient( 3deg, rgb(20,199,172) 0%, rgb(13,214,232) 100%);
+    background-image: -webkit-linear-gradient( 3deg, rgb(20,199,172) 0%, rgb(13,214,232) 100%);
+    background-image: -ms-linear-gradient( 3deg, rgb(20,199,172) 0%, rgb(13,214,232) 100%); */
+}
+.jp_header_right > .jp_profile_dd > .icon.has_image > img{
+    display: block;
+}
+.jp_header_right > .jp_profile_dd > .icon.has_image > .name_initial{
+    display: none;
+}
+.jp_header_right > .jp_profile_dd > label{
+    width: 25px;
+    height: 25px;
+    background-color: #ffffff;
+    border-radius: 25px;
+    text-align: center;
+    line-height: 30px;
+    position: absolute;
+    right: 0;
+    bottom: -10px;
+    padding-top: 4px;
+}
+.jp_header_right > .jp_profile_dd > label > svg{
+    width: 15px;
+    height: 15px;
+}
+.jp_header_right > .jp_profile_dd > label > a{
+    color: #13c9b4;
+    font-size: 16px;
+}
+
+.jp_nav_toggle{
+    display: none;
+    width: 30px;
+    height: 30px;
+    padding-top: 2px;
+    cursor: pointer;
+    margin-left: 15px;
+    vertical-align: middle;
+}
+.jp_nav_toggle > span{
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.jp_sidebar_open .jp_nav_toggle > span:nth-child(1){
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: 2px 4px;
+    -moz-transform-origin: 2px 4px;
+    transform-origin: 2px 4px;
+}
+.jp_sidebar_open .jp_nav_toggle > span:nth-child(2){
+    opacity: 0;
+    -webkit-transform: translateX(5px);
+    -moz-transform: translateX(5px);
+    transform: translateX(5px);
+}
+.jp_sidebar_open .jp_nav_toggle > span:nth-child(3){
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 2px -2px;
+    -moz-transform-origin: 2px -2px;
+    transform-origin: 2px -2px;
+}
+
+/***********************************************************************************
+3. header end
+***********************************************************************************/
+
+
+/***********************************************************************************
+4. category page start
+***********************************************************************************/
+.jp_widget_wrapper > h3{
+    margin: 0;
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 400;
+}
+.jp_widget_box{
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+    padding: 50px 30px;
+    margin-bottom: 30px;
+}
+.jp_widget_box > .jp_widget_title{
+    margin: 0;
+    font-size: 20px;
+    color: #202020;
+    margin-bottom: 15px;
+}
+
+.jp_widget_box .jp_checkbox_list{
+    max-height: 500px;
+    overflow: auto;
+    max-height: 250px;
+    overflow: auto;
+}
+
+.jp_widget_search{
+    margin-bottom: 15px;
+    position: relative;
+}
+.jp_widget_search > input{
+    height: 40px;
+    border: none;
+    outline: none;
+    padding: 0px 20px;
+    font-size: 15px;
+    color: #7b7b7b;
+    background-color: #f1f3f5;
+    font-weight: 500;
+    border-radius: 40px;
+    width: 100%;
+}
+.jp_widget_search > .icon{
+    position: absolute;
+    top: 0;
+    right: 0px;
+    background-image: url(../images/search_icon.svg);
+    background-size: 12px;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+}
+
+.jp_category_toggle{
+    top: 25px;
+    right: 50px;
+    width: 30px;
+    height: 30px;
+    line-height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    z-index: 999;
+    margin-left: 10px;
+    display: none;
+}
+.jp_category_toggle > svg{
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    -webkit-transform: translateY(6px);
+    -moz-transform: translateY(6px);
+    transform: translateY(6px);
+}
+.jp_category_toggle > svg circle,
+.jp_category_toggle > svg path{
+    fill: #ffffff;
+}
+
+/***********************************************************************************
+4. category page end
+***********************************************************************************/
+
+
+/***********************************************************************************
+5. doctor listing start
+***********************************************************************************/
+.jp_doctor_list_wrapper{
+    margin: 30px auto;
+}
+.jp_job_box{
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+    padding: 40px 25px;
+    margin-bottom: 30px;
+}
+.jp_job_box:after{
+    content: "";
+    display: table;
+    width: 100%;
+}
+.jp_job_box > .doc_image{
+    width: 160px;
+    float: left;
+    background-position: center;
+    background-size: cover;
+}
+.jp_job_box > .doc_image > img{
+    max-width: 100%;
+}
+.jp_job_box > .job_detail{
+    width: calc(100% - 160px);
+    float: left;
+}
+.jp_job_box > .job_detail > h3{
+    margin: 0;
+    font-size: 24px;
+    color: #202020;
+    margin-bottom: 5px;
+}
+.jp_job_box > .job_detail > span{
+    color: #a9a2a2;
+}
+.jp_job_box > .job_detail > ul{
+    list-style: none;
+    display: block;
+    padding: 0;
+    margin: 20px auto;
+    font-size: 16px;
+}
+.jp_job_box > .job_detail > ul > li{
+    display: inline-block;
+    margin-bottom: 5px;
+    background-color: #f1f3f5;
+    padding: 14px 27px;
+    border-radius: 50px;
+    margin-right: 15px;
+    color: #a3a3a3;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    font-weight: 500;
+}
+.jp_job_box > .job_detail > ul > li > span{
+    margin-right: 10px;
+}
+.jp_job_box > .job_detail > h4{
+    margin: 0;
+    font-size: 20px;
+    color: #a3a3a3;
+}
+.jp_job_box > .job_detail > h4:after{
+    content: "";
+    display: table;
+    width: 100%;
+}
+.jp_job_box > .job_detail > h4 > .icon{
+    width: 37px;
+    height: 37px;
+    float: left;
+    margin-right: 20px;
+    background-image: url('../images/skills.svg');
+    background-repeat: no-repeat;
+}
+.jp_job_box > .job_detail > h4 > .skills{
+    margin-top: 8px;
+    float: left;
+}
+.jp_job_box > .job_detail > h4 > .skills > a{
+    color: #a3a3a3;
+}
+.jp_job_box > .job_detail > .btn_wrapper a{
+    margin-right: 15px;
+}
+.jp_job_box > .job_detail > .btn_wrapper a.active{
+    color: #ffffff;
+    border: none;
+    background-image: -moz-linear-gradient( -180deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -webkit-linear-gradient( -180deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -ms-linear-gradient( -180deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    box-shadow: 0px 3px 10px 0px rgba(106, 101, 231, 0.7);
+}
+.jp_job_box > .job_detail > .btn_wrapper a.active > .icon > svg path{
+    stroke: #ffffff;
+    stroke-width: 1px;
+}
+.jp_job_box > .jp_view_btn{
+    width: 160px;
+    float: left;
+}
+
+/* filter start */
+.jp_filter_wrapper{
+    margin-bottom: 13px;
+    text-align: right;
+    position: relative;
+    z-index: 1;
+}
+.jp_filter_wrapper .jp_filter{
+    display: inline-block;
+    color: #b6b6b6;
+    font-size: 18px;
+    cursor: pointer;
+}
+.jp_filter_wrapper .jp_filter .icon{
+    margin-right: 5px;
+}
+/* filter end */
+
+.pagination>li>a, .pagination>li>span{
+    color: #808080;
+}
+.jp_pagination .pagination-lg>li:first-child>a, .jp_pagination .pagination-lg>li:first-child>span{
+    border-radius: 0;
+}
+.jp_pagination .pagination-lg>li:last-child>a, .jp_pagination .pagination-lg>li:last-child>span {
+    border-radius: 0;
+}
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover{
+    color: #ffffff;
+    background-image: -moz-linear-gradient( -180deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -webkit-linear-gradient( -180deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -ms-linear-gradient( -180deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+}
+.pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover{
+    color: #ffffff;
+}
+/***********************************************************************************
+5. doctor listing end
+***********************************************************************************/
+
+/***********************************************************************************
+6. doctor single start
+***********************************************************************************/
+.jp_single_detail{
+    /* background-image: url('../images/single_title_bg.jpg'); */
+    background-image: url('../images/withlogo.png');
+    position: relative;
+    z-index: 1;
+    padding: 50px 0;
+}
+.jp_single_detail::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    opacity: 0.94;
+    background-image: -moz-linear-gradient( 43deg, rgb(13,214,232) 0%, rgb(20,199,172) 100%);
+    background-image: -webkit-linear-gradient( 43deg, rgb(13,214,232) 0%, rgb(20,199,172) 100%);
+    background-image: -ms-linear-gradient( 43deg, rgb(13,214,232) 0%, rgb(20,199,172) 100%);
+}
+.jp_single_detail .container{
+    z-index: 2;
+    position: relative;
+}
+.jp_single_detail .single_image{
+    width: 200px;
+    height: 200px;
+    float: left;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 3px;
+    box-shadow: 0px 0px 0px 3px #ffffff;
+}
+.jp_single_detail .single_image > img{
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+    visibility: hidden;
+}
+.jp_single_detail .single_detail{
+    width: calc(100% - 200px);
+    float: left;
+    padding: 20px 30px;
+    color: #ffffff;
+    padding-right: 0;
+}
+.jp_single_detail .single_detail > h3{
+    margin: 0;
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+.jp_single_detail .single_detail > span{
+    color: #ffffff;
+}
+.jp_single_detail .single_detail > ul{
+    list-style: none;
+    display: block;
+    padding: 0;
+    margin: 10px auto;
+    font-size: 16px;
+}
+.jp_single_detail .single_detail > ul > li{
+    display: block;
+    margin-bottom: 5px;
+}
+.jp_single_detail .single_detail > ul > li > span{
+    margin-right: 10px;
+}
+.jp_single_detail .single_detail > h4{
+    margin: 0;
+    font-size: 25px;
+    color: #ffffff;
+    margin-bottom: 15px;
+    float: left;
+}
+.jp_single_detail .single_detail > .btn_wrapper{
+    float: right;
+}
+.jp_single_detail .single_detail > .btn_wrapper a.active{
+    color: #ffffff;
+    border: none;
+    background-image: -moz-linear-gradient( 43deg, rgb(20,199,172) 0%, rgb(13,214,232) 100%);
+    background-image: -webkit-linear-gradient( 43deg, rgb(20,199,172) 0%, rgb(13,214,232) 100%);
+    background-image: -ms-linear-gradient( 43deg, rgb(20,199,172) 0%, rgb(13,214,232) 100%);
+}
+.jp_single_detail .single_detail > .btn_wrapper a.active > .icon > svg path{
+    stroke: #ffffff;
+    stroke-width: 1px;
+}
+
+.jp_basic_wrapper{
+    margin: 50px auto;
+}
+.jp_basic_detail{
+    margin-bottom: 50px;
+}
+.jp_basic_detail > h3{
+    color: #18d5e6;
+    margin: 0;
+    margin-bottom: 15px;
+    font-weight: 400;
+    font-size: 20px;
+}
+.jp_basic_detail > p{
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.jp_reviews{
+    margin-bottom: 30px;
+}
+.jp_reviews::after{
+    content: "";
+    display: table;
+    width: 100%;
+}
+.jp_reviews .total_review{
+    width: 120px;
+    float: left;
+    text-align: center;
+}
+.jp_reviews .total_review > label{
+    font-size: 20px;
+    color: #18d5e6;
+    font-weight: 400;
+}
+.jp_reviews .total_review > h3{
+    margin: 0;
+    font-size: 30px;
+    color: #18d5e6;
+    text-align: center;
+}
+.jp_reviews .total_review > .star_list{
+    margin-bottom: 5px;
+}
+
+.jp_reviews .total_review > .star_list > a.active svg path{
+    fill: #c9be27;
+}
+.jp_reviews .total_review > span{
+    text-align: center;
+    display: block;
+    font-size: 16px;
+    color: #484848;
+}
+.jp_reviews .total_review > span > svg{
+    vertical-align: middle;
+    transform: translateY(-1px);
+    margin-right: 5px;
+}
+.jp_reviews .review_bar{
+    width: calc(100% - 120px);
+    float: left;
+    padding: 0 100px 0 15px;
+}
+.jp_reviews .review_bar > ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+}
+.jp_reviews .review_bar > ul > li{
+    display: block;
+    margin-bottom: 10px;
+}
+.jp_reviews .review_bar > ul > li:after{
+    content: "";
+    display: table;
+    width: 100%;
+}
+.jp_reviews .review_bar > ul > li > div{
+    float: left;
+}
+.jp_reviews .review_bar > ul > li > div.icon > svg{
+    vertical-align: middle;
+}
+.jp_reviews .review_bar > ul > li > div.star_count{
+    margin: 0 7px;
+    font-size: 25px;
+    color: #484848;
+    line-height: 24px;
+}
+.jp_reviews .review_bar > ul > li > div.progress_count{
+    width: calc(100% - 50px);
+    height: 25px;
+    background-color: #f9f9f9;
+    position: relative;
+    z-index: 1;
+    padding: 3px 10px;
+    font-weight: 600;
+}
+.jp_reviews .review_bar > ul > li > div.progress_count > span{
+    border-radius: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+}
+.jp_reviews .review_bar > ul > li:nth-child(1) > div.progress_count > span{
+    background-color: #89c351;
+}
+.jp_reviews .review_bar > ul > li:nth-child(2) > div.progress_count > span{
+    background-color: #ddf781;
+}
+.jp_reviews .review_bar > ul > li:nth-child(3) > div.progress_count > span{
+    background-color: #f39e57;
+}
+.jp_reviews .review_bar > ul > li:nth-child(4) > div.progress_count > span{
+    background-color: #f48325;
+}
+.jp_reviews .review_bar > ul > li:nth-child(5) > div.progress_count > span{
+    background-color: #f45c21;
+}
+/***********************************************************************************
+6. doctor single end
+***********************************************************************************/
+
+/***********************************************************************************
+7. profile start
+***********************************************************************************/
+h3.jp_title_medium{
+    font-size: 22px;
+    color: #696969;
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+/***********************************************************************************
+7. profile end
+***********************************************************************************/
+
+.jp_job_box.applied_user > .job_detail > .image{
+    width: 60px;
+    height: 60px;
+    float: left;
+    margin-right: 20px;
+}
+.jp_job_box.applied_user > .job_detail > .image > img{
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+}
+.jp_job_box.applied_user > .job_detail > .detail{
+    float: left;
+}
+.jp_job_box.applied_user > .job_detail > .detail > h3{
+    margin: 5px auto;
+    font-size: 24px;
+    color: #202020;
+}
+.jp_job_box.applied_user > .job_detail > .detail > span{
+    color: #a9a2a2;
+}
+.jp_job_box.applied_user > .jp_view_btn{
+    text-align: right;
+}
+.jp_job_box.applied_user > .jp_view_btn > a.jp_btn{
+    margin-top: 8px;
+    padding-top: 10px;
+}
+.jp_job_box.applied_user > .jp_view_btn > a.jp_btn > img{
+    width: 25px;
+    height: auto;
+}
+
+/***********************************************************************************
+7. search form start
+***********************************************************************************/
+.jp_search_form:after{
+    content: "";
+    display: table;
+    width: 100%;
+}
+.jp_search_form > input{
+    height: 60px;
+    border: none;
+    outline: none;
+    padding: 0px 20px;
+    font-size: 18px;
+    color: #7b7b7b;
+    background-color: #ffffff;
+    border-radius: 60px;
+    width:100%;
+}
+.jp_search_form > .jp_search_btn{
+    position: absolute;
+    top: 0;
+    right: 15px;
+    background-image: url(../images/search_icon.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 60px;
+}
+/***********************************************************************************
+7. search form end
+***********************************************************************************/
+
+/***********************************************************************************
+8. profile page start
+***********************************************************************************/
+.jp_profile_wrapper .jp_profile_image{
+    margin: 0 auto;
+}
+.jp_profile_wrapper .jp_profile_image > .image{
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    width: 100px;
+    height: 100px;
+}
+.jp_profile_wrapper .jp_profile_image > .image > img{
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+.jp_profile_wrapper .jp_profile_image > .image > .overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    line-height: 120px;
+    overflow: hidden;
+    border-radius: 100%;
+    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-transform: scale(0.95);
+    -moz-transform: scale(0.95);
+    transform: scale(0.95);
+}
+.jp_profile_wrapper .jp_profile_image:hover > .image > .overlay{
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    transform: scale(1);
+}
+.jp_profile_wrapper .jp_profile_image > .image > .overlay:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: -moz-linear-gradient( 145deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -webkit-linear-gradient( 145deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -ms-linear-gradient( 145deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    opacity: 0.95;
+    z-index: -1;
+}
+.jp_profile_wrapper .jp_profile_image > .image > .overlay > input{
+    opacity: 0;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+.jp_profile_wrapper .jp_profile_image > .image > .overlay > svg{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+.jp_profile_wrapper .jp_profile_image > p{
+    text-align: center;
+    font-weight: 500;
+    color: #505050;
+    font-size: 14px;
+}
+.jp_profile_wrapper .jp_profile_image > h3{
+    margin: 0;
+    text-align: center;
+    font-weight: 500;
+    color: #505050;
+    font-size: 20px;
+}
+/***********************************************************************************
+8. profile page end
+***********************************************************************************/
+
+
+
+
+.jp_single_wrapper .jp_job_box > .job_detail{
+    width: 100%;
+    margin-bottom: 30px;
+}
+.jp_single_wrapper .jp_job_box > .job_detail > h4{
+    margin-bottom: 30px;
+}
+.jp_single_wrapper .jp_job_box > .job_detail > p{
+    font-size: 18px;
+    color: #a3a3a3;
+    padding: 15px;
+    border: 1px solid #efefef;
+}
+.jp_single_wrapper .jp_job_box > .job_detail > p > strong{
+    color: #202020;
+    font-weight: 600;
+    min-width: 30%;
+    display: inline-block;
+}
+.jp_single_wrapper .jp_job_box > .jp_view_btn{
+    width: 100%;
+}
+.jp_single_wrapper .jp_job_disc{
+    margin-top: 30px;
+}
+.jp_single_wrapper .jp_job_disc > h4{
+    font-size: 24px;
+}
+
+.jp_postJob_wrapper .jp_input_wrapper{
+    margin-bottom: 50px;
+}
+
+.applied_user_detail .table{
+    color: #545454;
+    font-weight: 500;
+    font-size: 16px;
+}
+.applied_user_detail .table tbody td{
+    word-break: break-word;
+}
+
+/***********************************************************************************
+50. typography start
+***********************************************************************************/
+/* button start */
+.jp_btn{
+    height: 45px;
+    line-height: 45px;
+    border-radius: 50px;
+    background-image: -moz-linear-gradient( -180deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -webkit-linear-gradient( -180deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -ms-linear-gradient( -180deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    box-shadow: 0px 3px 10px 0px rgba(106, 101, 231, 0.7);
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+    display: inline-block;
+    padding: 0 30px;
+    outline: none;
+    border: none;
+    transition: all 0.3s linear;
+}
+
+.jp_btn:focus,
+.jp_btn:hover{
+    color: #ffffff;
+    box-shadow: none;
+}
+.jp_btn_block{
+    display: block;
+}
+.jp_btn.jp_btn_white{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #0ed5e3;
+    background-image: none;
+    background-color: #ffffff;
+    color: #0ed5e3;
+}
+.jp_btn.jp_btn_small{
+    height: 35px;
+    line-height: 32px;
+    font-size: 16px;
+}
+.jp_btn_icon > .icon{
+    display: inline-block;
+}
+.jp_btn_icon > .icon > svg{
+    vertical-align: middle;
+}
+/* button end */
+
+/* inputbox start */
+.jp_input_wrapper{
+    margin-bottom: 30px;
+    position: relative;
+}
+.jp_input_wrapper > label{
+    color: #a3a3a3;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+}
+.jp_input_wrapper > .form-control{
+    border: none;
+    border-bottom: 1px solid #c3c3c3;
+    box-shadow: none;
+    border-radius: 0;
+    padding-left: 0px;
+    font-weight: 500;
+}
+.jp_input_wrapper > textarea.form-control{
+    resize: vertical;
+    overflow: hidden;
+}
+.jp_input_wrapper > .form-control:focus{
+    border-bottom-color: #6a64e7;
+    box-shadow: 0px 1px 0px #6a64e7;
+}
+.jp_input_wrapper > .icon{
+    position: absolute;
+    left: 0;
+    top: 52%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.jp_input_wrapper > .form-control::-webkit-input-placeholder{
+    color: #909090;
+    transition: all 0.3s;
+}
+.jp_input_wrapper > .form-control:focus::-webkit-input-placeholder{
+    -webkit-transform: translateX(5px);
+    -moz-transform: translateX(5px);
+    transform: translateX(5px);
+}
+
+.margin-bottom-10{
+    margin-bottom: 10px;
+}
+/* inputbox end */
+
+
+
+/* popup start */
+.jp_popup_wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 0 15px;
+    background-color: rgba(0,0,0,0.65);
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    overflow: auto;
+    z-index: 999;
+}
+.popup_open .jp_popup_wrapper{
+    opacity: 1;
+    visibility: visible;
+}
+.jp_popup_wrapper:before{
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.jp_popup_wrapper > .jp_popup_inner{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 560px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.jp_popup_close{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    cursor: -webkit-zoom-out;
+}
+.popup_open .jp_popup_wrapper > .jp_popup_inner{
+    opacity: 1;
+    visibility: visible;
+    animation: jp_authentication_anim 0.3s;
+    animation-fill-mode: forwards;
+}
+.jp_popup_wrapper > .jp_popup_inner > .jp_popup_header{
+    position: relative;
+    background-image: -moz-linear-gradient( 43deg, #4776e6 0%, #8e54e9 100%);
+    background-image: -webkit-linear-gradient( 43deg, #4776e6 0%, #8e54e9 100%);
+    background-image: -ms-linear-gradient( 43deg, #4776e6 0%, #8e54e9 100%);
+    min-height: 175px;
+    padding: 30px;
+    margin-bottom: 80px;
+}
+.jp_popup_wrapper > .jp_popup_inner > .jp_popup_header > h3{
+    font-size: 35px;
+    color: #ffffff;
+    font-weight: 400;
+    margin: 0;
+}
+.jp_popup_wrapper > .jp_popup_inner > .jp_popup_header > .icon{
+    position: absolute;
+    top: calc(100% - 65px);
+    left: calc(50% - 65px);
+    z-index: 1;
+    width: 130px;
+    height: 130px;
+    line-height: 185px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.12);
+}
+.jp_popup_wrapper > .jp_popup_inner > .jp_popup_header > .icon > svg{
+    display: inline-block;
+    position: absolute;
+    top: calc(50% - 33px);
+    left: calc(50% - 33px);
+}
+.jp_popup_wrapper > .jp_popup_inner > .jp_popup_header > .icon > img{
+    width: 110px;
+    height: 110px;
+    border-radius: 100%;
+    display: block;
+    margin: 10px auto;
+}
+
+.jp_popup_wrapper > .jp_popup_inner > .jp_popup_body{
+    padding: 20px 40px;
+    text-align: left;
+}
+
+.jp_popup_wrapper > .jp_popup_inner > .jp_popup_body > .jp_auth_box{
+    box-shadow: none;
+}
+.jp_popup_wrapper > .jp_popup_inner > .jp_popup_body > .jp_auth_box > .jp_auth_form{
+    padding: 0;
+}
+/* popup end */
+
+/* page title start */
+.jp_page_title{
+    padding: 70px 0;
+    padding-bottom: 10px;
+}
+.jp_page_title:before{
+    content: "";
+    display: table;
+    width: 100%;
+}
+.jp_page_title > h3{
+    text-align: center;
+    font-size: 36px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    margin-bottom: 5px;
+}
+.jp_page_title > p{
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+}
+/* page title end */
+
+
+/* dropdown start */
+.jp_dropdown_wrapper{
+    position: relative;
+}
+.jp_dropdown_wrapper.dropdown_right .jp_dropdown{
+    right: -8px;
+    left: auto;
+}
+.jp_dropdown_wrapper .jp_dropdown{
+    position: absolute;
+    top: 100%;
+    left:0;
+    padding-top:15px;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: translateY(-10px) scale(0.95);
+    -moz-transform: translateY(-10px) scale(0.95);
+    transform: translateY(-10px) scale(0.95);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.jp_dropdown_wrapper:hover .jp_dropdown{
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: translateY(0px) scale(1);
+    -moz-transform: translateY(0px) scale(1);
+    transform: translateY(0px) scale(1);
+}
+.jp_dropdown_wrapper .jp_dropdown > .jp_dropdown_inner{
+    background-color: #f1f1f1;
+    padding: 10px;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.08);
+    min-width: 180px;
+    border-radius: 5px;
+}
+.jp_dropdown_wrapper .jp_dropdown > .jp_dropdown_inner::before{
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    display: block;
+    border-bottom: 10px solid #f1f1f1;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+.jp_dropdown_wrapper.dropdown_right .jp_dropdown > .jp_dropdown_inner::before{
+    left: auto;
+    right: 10px;
+}
+.jp_dropdown_wrapper .jp_dropdown > .jp_dropdown_inner > ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+}
+.jp_dropdown_wrapper .jp_dropdown > .jp_dropdown_inner > ul > li{
+    display: block;
+}
+.jp_dropdown_wrapper .jp_dropdown > .jp_dropdown_inner > ul > li > a{
+    display: block;
+    padding: 10px;
+    color: #757272;
+    font-size: 14px;
+    text-align: left;
+}
+.jp_dropdown_wrapper .jp_dropdown > .jp_dropdown_inner > ul > li > a:hover{
+    color: #6a64e7;
+}
+/* dropdown end */
+
+/* back to top start */
+#jp_backToTop{
+	position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 30px;
+    height: 30px;
+    background-color: #6a64e7;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    font-size: 40px;
+    line-height: 40px;
+    overflow: hidden;
+	opacity:0;
+	visibility:hidden;
+	backface-visibility:hidden;
+	transform:translateY(20px);
+	transition:all 0.3s;
+}
+#jp_backToTop:hover{
+	background-color:#6a64e7;
+}
+#jp_backToTop.btt_show{
+	opacity:1;
+	visibility:visible;
+	transform:translateY(0px);
+}
+
+/* back to top end */
+
+/* no data found start  */
+.jp_no_jobs{
+	text-align:center;
+	margin:50px auto;
+}
+.jp_no_jobs > .icon > svg{
+	width:50px;
+	height:50px;
+}
+.jp_no_jobs > p{
+	font-size: 22px;
+    color: #a9a9a9;
+    font-weight: 300;
+}
+/* no data found end  */
+
+.jp_checkbox{
+    display: block;
+    margin-bottom: 10px;
+}
+.jp_checkbox > input{
+    position: absolute;
+    left: -9999px;
+}
+.jp_checkbox > label{
+    text-transform: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    position: relative;
+    cursor: pointer;
+}
+.jp_checkbox > label:before{
+    content: "";
+    width: 15px;
+    height: 15px;
+    border:1px solid #a3a3a3;
+    border-radius: 2px;
+    background-color: #f1f3f5;
+    display: inline-block;
+    margin-right: 10px;
+}
+.jp_checkbox > label:after{
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 5px;
+    width: 13px;
+    height: 7px;
+    border-bottom: 2px solid #6a64e7;
+    border-left: 2px solid #6a64e7;
+    -webkit-transform: rotate(45deg) scale(0);
+    -moz-transform: rotate(45deg) scale(0);
+    transform: rotate(45deg) scale(0);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.jp_checkbox > input:checked ~ label{
+    color: #6a64e7;
+}
+.jp_checkbox > input:checked ~ label:before{
+    border-color: #6a64e7;
+}
+.jp_checkbox > input:checked ~ label:after{
+    -webkit-transform: rotate(-45deg) scale(1);
+    -moz-transform: rotate(-45deg) scale(1);
+    transform: rotate(-45deg) scale(1);
+}
+
+
+
+.jp_radio{
+    display: block;
+    margin-bottom: 10px;
+}
+.jp_radio > input{
+    position: absolute;
+    left: -9999px;
+}
+.jp_radio > label{
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.jp_radio > label:before{
+    content: "";
+    width: 18px;
+    height: 18px;
+    border: 1px solid #a3a3a3;
+    border-radius: 18px;
+    background-color: #f1f3f5;
+    display: inline-block;
+    margin-right: 8px;
+    -webkit-transform: translateY(3px);
+    -moz-transform: translateY(3px);
+    transform: translateY(3px);
+}
+.jp_radio > label:after{
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    background-color: #6a64e7;
+    border-radius: 50%;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform:scale(3);
+    -moz-transform:scale(3);
+    transform:scale(3);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.jp_radio > input:checked ~ label{
+    color: #6a64e7;
+}
+.jp_radio > input:checked ~ label:before{
+    border-color: #6a64e7;
+}
+.jp_radio > input:checked ~ label:after{
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+
+/* alert message start */
+.jp_alert_wrapper{
+	position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+    opacity:0;
+	visibility:hidden;
+	-webkit-transform:translateY(100px) scale(0.98);
+	-moz-transform:translateY(100px) scale(0.98);
+	transform:translateY(100px) scale(0.98);
+	-webkit-transition:all 0.3s cubic-bezier(0.845, 0.250, 0.200, 0.960);
+	-moz-transition:all 0.3s cubic-bezier(0.845, 0.250, 0.200, 0.960);
+	transition:all 0.3s cubic-bezier(0.845, 0.250, 0.200, 0.960);
+}
+.jp_alert_wrapper.alert_open{
+	opacity:1;
+	visibility:visible;
+	-webkit-transform:translateY(0px) scale(1);
+	-moz-transform:translateY(0px) scale(1);
+	transform:translateY(0px) scale(1);
+}
+.jp_alert_wrapper > .jp_alert_inner{
+	background-color: #F44336;
+    border-radius: 45px;
+    color: #fff;
+    padding: 15px;
+    box-shadow: 3px 3px 20px -8px black;
+    margin-top: 8px;
+}
+.jp_alert_wrapper > .jp_alert_inner:after{
+	content:"";
+	display:table;
+	width:100%;
+}
+.jp_alert_wrapper.jp_error > .jp_alert_inner{
+	background-color: #F44336;
+}
+.jp_alert_wrapper.jp_success > .jp_alert_inner{
+	background-color: #4CAF50;
+}
+.jp_alert_wrapper > .jp_alert_inner > .message{
+	padding: 0 10px;
+}
+.jp_alert_wrapper > .jp_alert_inner > .message > p{
+	margin:0;
+}
+/* alert message end */
+
+/***********************************************************************************
+50. typography end
+***********************************************************************************/
+
+
+/***********************************************************************************
+51. responsive start
+***********************************************************************************/
+/* Large desktop */
+@media (min-width: 1200px) {
+
+}
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 769px) and (max-width: 979px) {
+.jp_auth_box > .jp_auth_image{
+    display: none;
+}
+.jp_header .jp_logo {
+    margin-top: 29px;
+    margin-right: 10px;
+    max-width: 140px;
+}
+
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 768px) {
+.jp_header .jp_logo{
+    margin-top: 32px;
+    margin-right: 0;
+    max-width: 160px;
+}
+.jp_main_wrapper {
+    height: inherit;
+    padding-top: 0px;
+}
+.jp_auth_box{
+    margin: 50px auto;
+}
+.jp_auth_box > .jp_auth_form {
+    padding: 30px 15px;
+}
+.jp_authentication .jp_main_wrapper:before{
+    display: none;
+}
+.jp_auth_box > .jp_auth_image{
+    display: none;
+}
+.jp_auth_tab_wrapper > .jp_auth_tab_link > ul > li > a{
+    font-size: 20px;
+}
+.jp_auth_tab_wrapper > .jp_auth_tab_link > ul > li:after{
+    font-size: 20px;
+}
+.jp_nav_toggle{
+    display: inline-block;
+}
+.jp_header_right{
+    margin-top: 24px;
+}
+.jp_nav{
+    position: fixed;
+    top: 0px;
+    left: -300px;
+    bottom: 0;
+    overflow: auto;
+    background-image: -moz-linear-gradient( 145deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -webkit-linear-gradient( 145deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    background-image: -ms-linear-gradient( 145deg, rgb(142,84,233) 0%, rgb(71,118,230) 100%);
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.08);
+    z-index: 998;
+    width: 300px;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+}
+.jp_sidebar_open .jp_nav{
+    left: 0;
+}
+.jp_header .jp_nav > ul{
+    margin: 30px auto;
+}
+.jp_header .jp_nav > ul > li{
+    display: block;
+    padding: 10px 20px;
+}
+.jp_header .jp_nav > ul > li > a{
+    padding: 15px 25px;
+}
+
+.jp_sidebar_close{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.65);
+    z-index: 111;
+    cursor: -webkit-zoom-out;
+    display: none;
+}
+.jp_cat_sidebar_open .jp_sidebar_close, .jp_sidebar_open .jp_sidebar_close{
+    display: block;
+}
+.jp_header .jp_nav > ul > li > a:after{
+    display: none;
+}
+
+.jp_category_toggle{
+    display: inline-block;
+}
+.jp_widget_wrapper{
+    position: fixed;
+    top: 0px;
+    left: -300px;
+    bottom: 0;
+    padding: 15px;
+    overflow: auto;
+    background-color: #ffffff;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.08);
+    z-index: 999;
+    width: 300px;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+}
+.jp_cat_sidebar_open .jp_widget_wrapper{
+    left: 0;
+}
+
+
+.jp_widget_box{
+    padding: 15px;
+}
+.jp_header_right > .jp_profile_dd{
+    margin-top: 0;
+}
+.jp_header_right > .jp_profile_dd > .icon, .jp_header_right > .jp_profile_dd > .icon > img {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+}
+.jp_header_right > .jp_profile_dd > label{
+    width: 15px;
+    height: 15px;
+    line-height: 17px;
+}
+.jp_header_right > .jp_profile_dd > label > svg{
+    width: 10px;
+    height: 10px;
+}
+
+.jp_search_form {
+    /* margin-bottom: 40px; */
+}
+
+.jp_search_form > input{
+    height: 50px;
+    font-size: 16px;
+}
+.jp_search_form > .jp_search_btn{
+    height: 50px;
+}
+.jp_single_wrapper .jp_job_box > .job_detail > p{
+    font-size: 14px;
+}
+
+
+
+.jp_job_box{
+    padding: 15px;
+}
+.jp_job_box > .job_detail > ul > li{
+    padding: 5px 20px;
+    font-size: 14px;
+}
+.jp_job_box > .job_detail > h4{
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+.jp_job_box > .job_detail > h4 > .skills{
+    margin-top: 6px;
+}
+.jp_job_box > .job_detail > h4 > .icon{
+    width: 27px;
+    height: 27px;
+    margin-right: 10px;
+    background-size: contain;
+}
+.jp_job_box > .job_detail{
+    width: calc(100% - 100px);
+}
+.jp_job_box > .jp_view_btn{
+    width: 100px;
+}
+.jp_job_box > .jp_view_btn .jp_btn{
+    height: 35px;
+    line-height: 35px;
+    font-size: 16px;
+}
+.jp_job_box.applied_user > .jp_view_btn > a.jp_btn{
+    padding-top: 6px;
+}
+
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+.jp_header{
+    padding-bottom: 0;
+}
+.jp_page_title{
+    padding: 50px 0;
+}
+.jp_page_title > h3{
+    font-size: 30px;
+}
+.jp_job_box > .doc_image{
+    float: none;
+    display: inline-block;
+}
+.jp_job_box > .job_detail{
+    width: 100%;
+}
+
+.jp_reviews .review_bar{
+    padding: 0 0px 0 15px;
+}
+.jp_single_detail{
+    padding: 20px 0;
+    padding-top: 40px;
+}
+.jp_single_detail .single_image{
+    height: auto;
+    width: auto;
+}
+.jp_single_detail .single_image > img{
+    height: auto;
+    width: auto;
+    max-width: 100%;
+}
+.jp_single_detail .single_detail {
+    width: calc(100% - 0px);
+    padding: 20px 0px;
+}
+.jp_single_detail .single_detail > h4,
+.jp_single_detail .single_detail > .btn_wrapper{
+    float: none;
+}
+
+}
+/***********************************************************************************
+51. responsive end
+***********************************************************************************/
+
+
+.jp_filter_loader{
+    min-height: 200px;
+    z-index: 9999;
+}
+.jp_filter_loader > .jp_filter_loader_icon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 30px;
+    height: 30px;
+}
+.jp_filter_loader > .jp_filter_loader_icon > span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 35px;
+    height: 35px;
+    transform: translate(-50%,-50%);
+    display: block;
+}
+.jp_filter_loader > .jp_filter_loader_icon > span:first-child:after{
+    content: "";
+    border: 3px solid #e6e6e6;
+    border-top: 3px solid #6a64e7;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    animation: spin 1s linear infinite;
+    display: block;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+.dd_error_page{
+    display: table;
+    margin: 0 auto;
+    padding-top: 15%;
+    text-align: center;
+}
+.dd_error_page > .icon > svg{
+    width: 80px;
+    height: 80px;
+}
+.dd_error_page > h3{
+    font-size: 90px;
+    font-weight: 300;
+    margin: 0 auto;
+}
+.dd_error_page > h3 > span{
+    font-size: 30px;
+    font-weight: 400;
+    color: #d80027;
+}
+.dd_error_page > p{
+    margin: 0;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+span.error-msg{
+    position: absolute;
+    left: 0;
+    top: 100%;
+    font-size: 12px;
+    z-index: -1;
+}

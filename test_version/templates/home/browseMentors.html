@@ -1,0 +1,503 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+</head>
+<body>
+
+<div ng-controller='homeCtrl'>
+<div categoryclose class="jp_sidebar_close"></div>
+
+<!-- header start -->
+<div class="jp_header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jp_header_wrapper">
+                    <!-- <div class="jp_logo">
+                        <a href="./"><img src="static/images/logo_with_text.png" alt=""></a>
+                    </div> -->
+                    <div class="jp_header_right">
+                      <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                          <ul>
+                            <li><a href="{{url_for('forum')}}">Forum</a></li>
+                            <li><a href="{{url_for('browseJobs')}}">Jobs</a></li>
+                            <li><a href="{{url_for('browseMentors')}}">Mentors</a></li>
+                            <li><a href="{{url_for('viewProfile')}}">Profile</a></li>
+                            <li><a href="{{url_for('logout')}}">Logout</a></li>
+                          </ul>
+                      </div>
+                         <!-- <div categorytoggle class="jp_category_toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 485.008 485.008" style="enable-background:new 0 0 485.008 485.008;" xml:space="preserve" width="512px" height="512px"><g><g><path d="M171.501,464.698v-237.9l-166.3-192.6c-8.9-10.9-7.9-33.3,15.1-33.3h443.6c21.6,0,26.6,19.8,15.1,33.3l-162.3,187.5v147.2 c0,6-2,11.1-7.1,15.1l-103.8,95.8C193.801,488.698,171.501,483.898,171.501,464.698z M64.701,41.298l142.2,164.3c3,4,5,8.1,5,13.1 v200.6l64.5-58.5v-146.1c0-5,2-9.1,5-13.1l138.1-160.3L64.701,41.298L64.701,41.298z" fill="#FFFFFF"/></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                        </div> -->
+                        <div navtoggle class="jp_nav_toggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="jp_page_title">
+                    <h3>Browse Mentors</h3>
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+            <form name="searchForm" method="post" action="">
+                <div class="jp_search_form">
+                    <input type="text" name="searchform" id="searchform" ng-model="keyword" placeholder="Search for specific attributes here">
+                    <button type="submit" class="jp_search_btn"></button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- header end -->
+
+
+
+
+
+<div class="jp_main_wrapper">
+    <div class="jp_doctor_list_wrapper">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                  <!-- category start -->
+                    <div class="jp_widget_wrapper">
+
+                      <form name="profession" method="post" action="">
+                      <div class="jp_widget_box">
+                          <h3 class="jp_widget_title">Profession </h3>
+                          <div class="jp_widget_search">
+                              <input name="profession_search" id="profession_search" type="text" ng-model="location" placeholder="Search..." />
+                              <button class="icon"></button>
+                          </div>
+                          <!-- <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button> -->
+                      </div>
+
+                      <div class="jp_widget_box">
+                      <h3 class="jp_widget_title">Age</h3>
+                      <b>Min:</b><input id="minage" name="minage" type="number" min="13" placeholder="" max="100" class="form-control input-md">
+                      <b>Max:</b><input id="maxage" name="maxage" type="number" min="13" placeholder="" max="100" class="form-control input-md">
+                      <!-- <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button> -->
+                      </div>
+
+
+                        <div class="jp_widget_box">
+                            <h3 class="jp_widget_title">Gender</h3>
+                            <div class="jp_checkbox_list">
+                                    <div class="jp_checkbox">
+                                      <input type="checkbox" name="gender" ng-change='searchFilterJobs()' value="male" add-remove-experience  ng-model="area.checked_f" id="male" />
+                                      <label for="male">Male</label>
+                                  </div>
+
+
+                                  <div class="jp_checkbox">
+                                    <input type="checkbox" name="gender" ng-change='searchFilterJobs()' value="female" add-remove-experience  ng-model="area.checked_f" id="female" />
+                                    <label for="female">Female</label>
+                                </div>
+
+                                <div class="jp_checkbox">
+                                  <input type="checkbox" name="gender" ng-change='searchFilterJobs()' value="other" add-remove-experience  ng-model="area.checked_f" id="other" />
+                                  <label for="other">Other</label>
+                              </div>
+
+                            </div>
+                            <!-- <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button> -->
+                        </div>
+
+
+                        <div class="jp_widget_box">
+                            <h3 class="jp_widget_title">Home Country</h3>
+                            <div class="jp_widget_search">
+                              <select id="country" name="country" class="form-control" multiple="multiple">
+                                <option disabled selected value> -- select an option -- </option>
+                                <option value="AF">Afghanistan</option>
+                                	<option value="AX">Åland Islands</option>
+                                	<option value="AL">Albania</option>
+                                	<option value="DZ">Algeria</option>
+                                	<option value="AS">American Samoa</option>
+                                	<option value="AD">Andorra</option>
+                                	<option value="AO">Angola</option>
+                                	<option value="AI">Anguilla</option>
+                                	<option value="AQ">Antarctica</option>
+                                	<option value="AG">Antigua and Barbuda</option>
+                                	<option value="AR">Argentina</option>
+                                	<option value="AM">Armenia</option>
+                                	<option value="AW">Aruba</option>
+                                	<option value="AU">Australia</option>
+                                	<option value="AT">Austria</option>
+                                	<option value="AZ">Azerbaijan</option>
+                                	<option value="BS">Bahamas</option>
+                                	<option value="BH">Bahrain</option>
+                                	<option value="BD">Bangladesh</option>
+                                	<option value="BB">Barbados</option>
+                                	<option value="BY">Belarus</option>
+                                	<option value="BE">Belgium</option>
+                                	<option value="BZ">Belize</option>
+                                	<option value="BJ">Benin</option>
+                                	<option value="BM">Bermuda</option>
+                                	<option value="BT">Bhutan</option>
+                                	<option value="BO">Bolivia, Plurinational State of</option>
+                                	<option value="BQ">Bonaire, Sint Eustatius and Saba</option>
+                                	<option value="BA">Bosnia and Herzegovina</option>
+                                	<option value="BW">Botswana</option>
+                                	<option value="BV">Bouvet Island</option>
+                                	<option value="BR">Brazil</option>
+                                	<option value="IO">British Indian Ocean Territory</option>
+                                	<option value="BN">Brunei Darussalam</option>
+                                	<option value="BG">Bulgaria</option>
+                                	<option value="BF">Burkina Faso</option>
+                                	<option value="BI">Burundi</option>
+                                	<option value="KH">Cambodia</option>
+                                	<option value="CM">Cameroon</option>
+                                	<option value="CA">Canada</option>
+                                	<option value="CV">Cape Verde</option>
+                                	<option value="KY">Cayman Islands</option>
+                                	<option value="CF">Central African Republic</option>
+                                	<option value="TD">Chad</option>
+                                	<option value="CL">Chile</option>
+                                	<option value="CN">China</option>
+                                	<option value="CX">Christmas Island</option>
+                                	<option value="CC">Cocos (Keeling) Islands</option>
+                                	<option value="CO">Colombia</option>
+                                	<option value="KM">Comoros</option>
+                                	<option value="CG">Congo</option>
+                                	<option value="CD">Congo, the Democratic Republic of the</option>
+                                	<option value="CK">Cook Islands</option>
+                                	<option value="CR">Costa Rica</option>
+                                	<option value="CI">Côte d'Ivoire</option>
+                                	<option value="HR">Croatia</option>
+                                	<option value="CU">Cuba</option>
+                                	<option value="CW">Curaçao</option>
+                                	<option value="CY">Cyprus</option>
+                                	<option value="CZ">Czech Republic</option>
+                                	<option value="DK">Denmark</option>
+                                	<option value="DJ">Djibouti</option>
+                                	<option value="DM">Dominica</option>
+                                	<option value="DO">Dominican Republic</option>
+                                	<option value="EC">Ecuador</option>
+                                	<option value="EG">Egypt</option>
+                                	<option value="SV">El Salvador</option>
+                                	<option value="GQ">Equatorial Guinea</option>
+                                	<option value="ER">Eritrea</option>
+                                	<option value="EE">Estonia</option>
+                                	<option value="ET">Ethiopia</option>
+                                	<option value="FK">Falkland Islands (Malvinas)</option>
+                                	<option value="FO">Faroe Islands</option>
+                                	<option value="FJ">Fiji</option>
+                                	<option value="FI">Finland</option>
+                                	<option value="FR">France</option>
+                                	<option value="GF">French Guiana</option>
+                                	<option value="PF">French Polynesia</option>
+                                	<option value="TF">French Southern Territories</option>
+                                	<option value="GA">Gabon</option>
+                                	<option value="GM">Gambia</option>
+                                	<option value="GE">Georgia</option>
+                                	<option value="DE">Germany</option>
+                                	<option value="GH">Ghana</option>
+                                	<option value="GI">Gibraltar</option>
+                                	<option value="GR">Greece</option>
+                                	<option value="GL">Greenland</option>
+                                	<option value="GD">Grenada</option>
+                                	<option value="GP">Guadeloupe</option>
+                                	<option value="GU">Guam</option>
+                                	<option value="GT">Guatemala</option>
+                                	<option value="GG">Guernsey</option>
+                                	<option value="GN">Guinea</option>
+                                	<option value="GW">Guinea-Bissau</option>
+                                	<option value="GY">Guyana</option>
+                                	<option value="HT">Haiti</option>
+                                	<option value="HM">Heard Island and McDonald Islands</option>
+                                	<option value="VA">Holy See (Vatican City State)</option>
+                                	<option value="HN">Honduras</option>
+                                	<option value="HK">Hong Kong</option>
+                                	<option value="HU">Hungary</option>
+                                	<option value="IS">Iceland</option>
+                                	<option value="IN">India</option>
+                                	<option value="ID">Indonesia</option>
+                                	<option value="IR">Iran, Islamic Republic of</option>
+                                	<option value="IQ">Iraq</option>
+                                	<option value="IE">Ireland</option>
+                                	<option value="IM">Isle of Man</option>
+                                	<option value="IL">Israel</option>
+                                	<option value="IT">Italy</option>
+                                	<option value="JM">Jamaica</option>
+                                	<option value="JP">Japan</option>
+                                	<option value="JE">Jersey</option>
+                                	<option value="JO">Jordan</option>
+                                	<option value="KZ">Kazakhstan</option>
+                                	<option value="KE">Kenya</option>
+                                	<option value="KI">Kiribati</option>
+                                	<option value="KP">Korea, Democratic People's Republic of</option>
+                                	<option value="KR">Korea, Republic of</option>
+                                	<option value="KW">Kuwait</option>
+                                	<option value="KG">Kyrgyzstan</option>
+                                	<option value="LA">Lao People's Democratic Republic</option>
+                                	<option value="LV">Latvia</option>
+                                	<option value="LB">Lebanon</option>
+                                	<option value="LS">Lesotho</option>
+                                	<option value="LR">Liberia</option>
+                                	<option value="LY">Libya</option>
+                                	<option value="LI">Liechtenstein</option>
+                                	<option value="LT">Lithuania</option>
+                                	<option value="LU">Luxembourg</option>
+                                	<option value="MO">Macao</option>
+                                	<option value="MK">Macedonia, the former Yugoslav Republic of</option>
+                                	<option value="MG">Madagascar</option>
+                                	<option value="MW">Malawi</option>
+                                	<option value="MY">Malaysia</option>
+                                	<option value="MV">Maldives</option>
+                                	<option value="ML">Mali</option>
+                                	<option value="MT">Malta</option>
+                                	<option value="MH">Marshall Islands</option>
+                                	<option value="MQ">Martinique</option>
+                                	<option value="MR">Mauritania</option>
+                                	<option value="MU">Mauritius</option>
+                                	<option value="YT">Mayotte</option>
+                                	<option value="MX">Mexico</option>
+                                	<option value="FM">Micronesia, Federated States of</option>
+                                	<option value="MD">Moldova, Republic of</option>
+                                	<option value="MC">Monaco</option>
+                                	<option value="MN">Mongolia</option>
+                                	<option value="ME">Montenegro</option>
+                                	<option value="MS">Montserrat</option>
+                                	<option value="MA">Morocco</option>
+                                	<option value="MZ">Mozambique</option>
+                                	<option value="MM">Myanmar</option>
+                                	<option value="NA">Namibia</option>
+                                	<option value="NR">Nauru</option>
+                                	<option value="NP">Nepal</option>
+                                	<option value="NL">Netherlands</option>
+                                	<option value="NC">New Caledonia</option>
+                                	<option value="NZ">New Zealand</option>
+                                	<option value="NI">Nicaragua</option>
+                                	<option value="NE">Niger</option>
+                                	<option value="NG">Nigeria</option>
+                                	<option value="NU">Niue</option>
+                                	<option value="NF">Norfolk Island</option>
+                                	<option value="MP">Northern Mariana Islands</option>
+                                	<option value="NO">Norway</option>
+                                	<option value="OM">Oman</option>
+                                	<option value="PK">Pakistan</option>
+                                	<option value="PW">Palau</option>
+                                	<option value="PS">Palestinian Territory, Occupied</option>
+                                	<option value="PA">Panama</option>
+                                	<option value="PG">Papua New Guinea</option>
+                                	<option value="PY">Paraguay</option>
+                                	<option value="PE">Peru</option>
+                                	<option value="PH">Philippines</option>
+                                	<option value="PN">Pitcairn</option>
+                                	<option value="PL">Poland</option>
+                                	<option value="PT">Portugal</option>
+                                	<option value="PR">Puerto Rico</option>
+                                	<option value="QA">Qatar</option>
+                                	<option value="RE">Réunion</option>
+                                	<option value="RO">Romania</option>
+                                	<option value="RU">Russian Federation</option>
+                                	<option value="RW">Rwanda</option>
+                                	<option value="BL">Saint Barthélemy</option>
+                                	<option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+                                	<option value="KN">Saint Kitts and Nevis</option>
+                                	<option value="LC">Saint Lucia</option>
+                                	<option value="MF">Saint Martin (French part)</option>
+                                	<option value="PM">Saint Pierre and Miquelon</option>
+                                	<option value="VC">Saint Vincent and the Grenadines</option>
+                                	<option value="WS">Samoa</option>
+                                	<option value="SM">San Marino</option>
+                                	<option value="ST">Sao Tome and Principe</option>
+                                	<option value="SA">Saudi Arabia</option>
+                                	<option value="SN">Senegal</option>
+                                	<option value="RS">Serbia</option>
+                                	<option value="SC">Seychelles</option>
+                                	<option value="SL">Sierra Leone</option>
+                                	<option value="SG">Singapore</option>
+                                	<option value="SX">Sint Maarten (Dutch part)</option>
+                                	<option value="SK">Slovakia</option>
+                                	<option value="SI">Slovenia</option>
+                                	<option value="SB">Solomon Islands</option>
+                                	<option value="SO">Somalia</option>
+                                	<option value="ZA">South Africa</option>
+                                	<option value="GS">South Georgia and the South Sandwich Islands</option>
+                                	<option value="SS">South Sudan</option>
+                                	<option value="ES">Spain</option>
+                                	<option value="LK">Sri Lanka</option>
+                                	<option value="SD">Sudan</option>
+                                	<option value="SR">Suriname</option>
+                                	<option value="SJ">Svalbard and Jan Mayen</option>
+                                	<option value="SZ">Swaziland</option>
+                                	<option value="SE">Sweden</option>
+                                	<option value="CH">Switzerland</option>
+                                	<option value="SY">Syrian Arab Republic</option>
+                                	<option value="TW">Taiwan, Province of China</option>
+                                	<option value="TJ">Tajikistan</option>
+                                	<option value="TZ">Tanzania, United Republic of</option>
+                                	<option value="TH">Thailand</option>
+                                	<option value="TL">Timor-Leste</option>
+                                	<option value="TG">Togo</option>
+                                	<option value="TK">Tokelau</option>
+                                	<option value="TO">Tonga</option>
+                                	<option value="TT">Trinidad and Tobago</option>
+                                	<option value="TN">Tunisia</option>
+                                	<option value="TR">Turkey</option>
+                                	<option value="TM">Turkmenistan</option>
+                                	<option value="TC">Turks and Caicos Islands</option>
+                                	<option value="TV">Tuvalu</option>
+                                	<option value="UG">Uganda</option>
+                                	<option value="UA">Ukraine</option>
+                                	<option value="AE">United Arab Emirates</option>
+                                	<option value="GB">United Kingdom</option>
+                                	<option value="US">United States</option>
+                                	<option value="UM">United States Minor Outlying Islands</option>
+                                	<option value="UY">Uruguay</option>
+                                	<option value="UZ">Uzbekistan</option>
+                                	<option value="VU">Vanuatu</option>
+                                	<option value="VE">Venezuela, Bolivarian Republic of</option>
+                                	<option value="VN">Viet Nam</option>
+                                	<option value="VG">Virgin Islands, British</option>
+                                	<option value="VI">Virgin Islands, U.S.</option>
+                                	<option value="WF">Wallis and Futuna</option>
+                                	<option value="EH">Western Sahara</option>
+                                	<option value="YE">Yemen</option>
+                                	<option value="ZM">Zambia</option>
+                                	<option value="ZW">Zimbabwe</option>
+                                </select>
+                            </div>
+                            <!-- <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button> -->
+                        </div>
+
+                        <div class="jp_widget_box">
+                            <h3 class="jp_widget_title">Home State (US)</h3>
+                            <div class="jp_widget_search">
+                              <select id="state" name="state" class="form-control" multiple="multiple">
+                                <option disabled selected value> -- select an option -- </option>
+                                <option value="AL">Alabama</option>
+                                        <option value="AK">Alaska</option>
+                                        <option value="AZ">Arizona</option>
+                                        <option value="AR">Arkansas</option>
+                                        <option value="CA">California</option>
+                                        <option value="CO">Colorado</option>
+                                        <option value="CT">Connecticut</option>
+                                        <option value="DE">Delaware</option>
+                                        <option value="DC">District Of Columbia</option>
+                                        <option value="FL">Florida</option>
+                                        <option value="GA">Georgia</option>
+                                        <option value="HI">Hawaii</option>
+                                        <option value="ID">Idaho</option>
+                                        <option value="IL">Illinois</option>
+                                        <option value="IN">Indiana</option>
+                                        <option value="IA">Iowa</option>
+                                        <option value="KS">Kansas</option>
+                                        <option value="KY">Kentucky</option>
+                                        <option value="LA">Louisiana</option>
+                                        <option value="ME">Maine</option>
+                                        <option value="MD">Maryland</option>
+                                        <option value="MA">Massachusetts</option>
+                                        <option value="MI">Michigan</option>
+                                        <option value="MN">Minnesota</option>
+                                        <option value="MS">Mississippi</option>
+                                        <option value="MO">Missouri</option>
+                                        <option value="MT">Montana</option>
+                                        <option value="NE">Nebraska</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="NH">New Hampshire</option>
+                                        <option value="NJ">New Jersey</option>
+                                        <option value="NM">New Mexico</option>
+                                        <option value="NY">New York</option>
+                                        <option value="NC">North Carolina</option>
+                                        <option value="ND">North Dakota</option>
+                                        <option value="OH">Ohio</option>
+                                        <option value="OK">Oklahoma</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="PA">Pennsylvania</option>
+                                        <option value="RI">Rhode Island</option>
+                                        <option value="SC">South Carolina</option>
+                                        <option value="SD">South Dakota</option>
+                                        <option value="TN">Tennessee</option>
+                                        <option value="TX">Texas</option>
+                                        <option value="UT">Utah</option>
+                                        <option value="VT">Vermont</option>
+                                        <option value="VA">Virginia</option>
+                                        <option value="WA">Washington</option>
+                                        <option value="WV">West Virginia</option>
+                                        <option value="WI">Wisconsin</option>
+                                        <option value="WY">Wyoming</option>
+                              </select>
+                            </div>
+                            <!-- <button style="background-color: #008CBA;color:white;border-radius: 4px;" type="submit" value="Apply">Apply</button> -->
+                      </div>
+
+                      <div class="jp_view_btn">
+                        <button class="jp_btn" type="submit" value="filter">Filter</button>
+                      </div>
+
+
+
+
+                    </div>
+                    <!-- category end -->
+                </div>
+
+                <div class="col-md-8">
+                    <!-- no job found start -->
+			 <!-- <div class="jp_no_jobs" ng-if='nojobs'>
+						<div class="icon">
+							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve" width="512px" height="512px"><g><path d="M50.976,21.694c-0.528-9-7.947-16.194-16.891-16.194c-5.43,0-10.688,2.663-13.946,7.008 c-0.075-0.039-0.155-0.066-0.231-0.103c-0.196-0.095-0.394-0.185-0.597-0.266c-0.118-0.047-0.238-0.089-0.358-0.131 c-0.197-0.069-0.397-0.13-0.6-0.185c-0.12-0.032-0.239-0.065-0.36-0.093c-0.22-0.05-0.444-0.088-0.67-0.121 c-0.105-0.016-0.209-0.036-0.315-0.048C16.676,11.523,16.341,11.5,16,11.5c-4.962,0-9,4.037-9,9c0,0.129,0.008,0.255,0.016,0.381 C2.857,23.148,0,27.899,0,32.654C0,39.737,5.762,45.5,12.845,45.5h6.262l-5.264,9h32.313l-5.264-9h7.079 C54.604,45.5,60,40.104,60,33.472C60,27.983,56.173,23.06,50.976,21.694z M42.67,52.5H17.33l4.094-7h0.001L30,30.837L38.576,45.5 h0.001L42.67,52.5z M47.972,43.5h-8.249L30,26.876L20.277,43.5h-7.432C6.865,43.5,2,38.635,2,32.654 c0-4.154,2.705-8.466,6.432-10.253L9,22.13V21.5c0-0.123,0.008-0.249,0.015-0.375l0.009-0.173L9.012,20.75 C9.006,20.667,9,20.584,9,20.5c0-3.859,3.14-7,7-7c0.309,0,0.614,0.027,0.917,0.067c0.078,0.01,0.156,0.023,0.234,0.036 c0.267,0.044,0.53,0.102,0.789,0.176c0.035,0.01,0.071,0.017,0.106,0.027c0.285,0.087,0.563,0.198,0.835,0.321 c0.07,0.032,0.139,0.066,0.208,0.1c0.241,0.119,0.477,0.25,0.705,0.398C21.72,15.874,23,18.039,23,20.5c0,0.553,0.448,1,1,1 s1-0.447,1-1c0-2.754-1.246-5.219-3.2-6.871C24.666,9.879,29.388,7.5,34.084,7.5c7.745,0,14.178,6.135,14.849,13.888 c-1.022-0.072-2.553-0.109-4.084,0.124c-0.546,0.083-0.921,0.593-0.838,1.139c0.075,0.495,0.501,0.85,0.987,0.85 c0.05,0,0.101-0.004,0.152-0.012c2.228-0.336,4.548-0.021,4.684-0.002C54.491,24.372,58,28.661,58,33.472 C58,39.001,53.501,43.5,47.972,43.5z" fill="#d1d1d1"/><path d="M30,35.5c-0.552,0-1,0.447-1,1v8c0,0.553,0.448,1,1,1s1-0.447,1-1v-8C31,35.947,30.552,35.5,30,35.5z" fill="#d1d1d1"/><path d="M30,47.5c-0.552,0-1,0.447-1,1v1c0,0.553,0.448,1,1,1s1-0.447,1-1v-1C31,47.947,30.552,47.5,30,47.5z" fill="#d1d1d1"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+						</div>
+						<p>No job found with this filter...</p>
+					</div> -->
+                    <div class="custom-loading">
+    <div class="jp_filter_loader">
+   <div class="jp_filter_loader_icon">
+       <span></span><span></span><span></span>
+   </div>
+</div>
+ </div>
+
+
+					<!-- job listing start -->
+					<div ng-if='loadingIsDone'>
+					<!-- <div style="min-height: 400px" class="clearfix"> -->
+                      {% for mentor in mentors %}
+					             <div class="jp_job_box" >
+                        <div class="job_detail">
+                            <h3>{{mentor.firstname}} {{mentor.lastname}}</h3>
+                            <span><b>Age: </b>{{mentor.age}}</span>
+                            <p></p>
+                            <span><b>Description: </b>{{mentor.description}}</span>
+                            <ul>
+                                <li><span><img src="static/images/experience.svg" alt=""></span> Profession Tags: {{mentor.professionTag}}</li>
+                            </ul>
+                        </div>
+                        <div class="jp_view_btn">
+                          <img src="{{url_for('pic',fname=mentor.picture)}}" style="width:150px;" hspace="-10" alt="Profile Picture"/>
+                          <form action="{{ url_for('viewMentorProfile',userid=mentor.userid) }}" method="get" class="view-mentor">
+                          <button type="submit" class="jp_btn jp_btn_block" value="View">View </button>
+                          </form>
+                          <!-- <button type="submit" class="jp_btn jp_btn_block" value="Edit Job">Edit Job</button> -->
+                            <!-- <a href="#" class="jp_btn jp_btn_block">View</a> -->
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+                    	<!-- </div> -->
+                    <!-- job listing end -->
+
+                    <!-- pagination start -->
+
+                    <!-- pagination end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+</body>
+{% endblock %}

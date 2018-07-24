@@ -1,0 +1,323 @@
+{% extends "home/base.html" %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+
+
+</head>
+<body>
+
+<div ng-controller='singlejobCtrl'>
+<div class="jp_sidebar_close"></div>
+
+<!-- header start -->
+<div class="jp_header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jp_header_wrapper">
+                    <!-- <div class="jp_logo">
+                        <a href="/"><img src="static/images/logo_with_text.png" alt=""></a>
+                    </div> -->
+                    <div class="jp_header_right">
+                        <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                            <ul>
+                              <li><a href="{{url_for('forum')}}">Forum</a></li>
+                              <li><a href="{{url_for('browseJobs')}}">Jobs</a></li>
+                              <li><a href="{{url_for('browseMentors')}}">Mentors</a></li>
+                              <li><a href="{{url_for('viewProfile')}}">Profile</a></li>
+                              <li><a href="{{url_for('logout')}}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="jp_page_title">
+                    <h3 style="padding:35px;">My Profile</h3>
+                    <!-- <p>you are on the right place</p> -->
+                </div>
+            </div>
+            <!-- <div class="col-md-8 col-md-offset-2">
+                <div class="jp_search_form">
+                    <input type="" name="" placeholder="Search Job Here by Location, Skills">
+                    <button class="jp_search_btn"></button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- header end -->
+
+
+
+<div class="jp_main_wrapper">
+   <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+               <div class="jp_single_wrapper">
+                    <div class="jp_job_box">
+                        <div class="job_detail">
+
+                          <form class="form-horizontal">
+                          <fieldset>
+
+                          <!-- Form Name -->
+                          <legend>Profession</legend>
+
+                          <!-- Textarea -->
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" for="description">Description</label>
+                            <div class="col-md-4">
+                              <textarea class="form-control" id="description" name="description"></textarea>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-md-4 control-label" size="100" for="title">Tags</label>
+                            <div class="col-md-4">
+                          <input type="text" id="tags" name="tags" value="data, analysis,science" data-role="tagsinput"></input>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Overall Rating (1-5)</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="overallrating5" type="radio" name="overallrating" value="5">
+                          <label for="overallrating5">5</label>
+                          <input id="overallrating4" type="radio" name="overallrating" value="4">
+                          <label for="overallrating4">4</label>
+                          <input id="overallrating3" type="radio" name="overallrating" value="3">
+                          <label for="overallrating3">3</label>
+                          <input id="overallrating2" type="radio" name="overallrating" value="2">
+                          <label for="overallrating2">2</label>
+                          <input id="overallrating1" type="radio" name="overallrating" value="1">
+                          <label for="overallrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Work Environment</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="envrating5" type="radio" name="envrating" value="5">
+                          <label for="envrating5">5</label>
+                          <input id="envrating4" type="radio" name="envrating" value="4">
+                          <label for="envrating4">4</label>
+                          <input id="envrating3" type="radio" name="envrating" value="3">
+                          <label for="envrating3">3</label>
+                          <input id="envrating2" type="radio" name="envrating" value="2">
+                          <label for="envrating2">2</label>
+                          <input id="envrating1" type="radio" name="envrating" value="1">
+                          <label for="envrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Job Security</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="securityrating5" type="radio" name="securityrating" value="5">
+                          <label for="securityrating5">5</label>
+                          <input id="securityrating4" type="radio" name="securityrating" value="4">
+                          <label for="securityrating4">4</label>
+                          <input id="securityrating3" type="radio" name="securityrating" value="3">
+                          <label for="securityrating3">3</label>
+                          <input id="securityrating2" type="radio" name="securityrating" value="2">
+                          <label for="securityrating2">2</label>
+                          <input id="securityrating1" type="radio" name="securityrating" value="1">
+                          <label for="securityrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Opportunity for Career Advancement</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="advancerating5" type="radio" name="advancerating" value="5">
+                          <label for="advancerating5">5</label>
+                          <input id="advancerating4" type="radio" name="advancerating" value="4">
+                          <label for="advancerating4">4</label>
+                          <input id="advancerating3" type="radio" name="advancerating" value="3">
+                          <label for="advancerating3">3</label>
+                          <input id="advancerating2" type="radio" name="advancerating" value="2">
+                          <label for="advancerating2">2</label>
+                          <input id="advancerating1" type="radio" name="advancerating" value="1">
+                          <label for="advancerating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Opportunity to use your skills
+                          and abilities</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="skillsrating5" type="radio" name="skillsrating" value="5">
+                          <label for="skillsrating5">5</label>
+                          <input id="skillsrating4" type="radio" name="skillsrating" value="4">
+                          <label for="skillsrating4">4</label>
+                          <input id="skillsrating3" type="radio" name="skillsrating" value="3">
+                          <label for="skillsrating3">3</label>
+                          <input id="skillsrating2" type="radio" name="skillsrating" value="2">
+                          <label for="skillsrating2">2</label>
+                          <input id="skillsrating1" type="radio" name="skillsrating" value="1">
+                          <label for="skillsrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Hours/Time</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="hoursrating5" type="radio" name="hoursrating" value="5">
+                          <label for="hoursrating5">5</label>
+                          <input id="hoursrating4" type="radio" name="hoursrating" value="4">
+                          <label for="hoursrating4">4</label>
+                          <input id="hoursrating3" type="radio" name="hoursrating" value="3">
+                          <label for="hoursrating3">3</label>
+                          <input id="hoursrating2" type="radio" name="hoursrating" value="2">
+                          <label for="hoursrating2">2</label>
+                          <input id="hoursrating1" type="radio" name="hoursrating" value="1">
+                          <label for="hoursrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Stressfulness</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="stressrating5" type="radio" name="stressrating" value="5">
+                          <label for="stressrating5">5</label>
+                          <input id="stressrating4" type="radio" name="stressrating" value="4">
+                          <label for="stressrating4">4</label>
+                          <input id="stressrating3" type="radio" name="stressrating" value="3">
+                          <label for="stressrating3">3</label>
+                          <input id="stressrating2" type="radio" name="stressrating" value="2">
+                          <label for="stressrating2">2</label>
+                          <input id="stressrating1" type="radio" name="stressrating" value="1">
+                          <label for="stressrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Opportunity to
+                          Learn New Things</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="learnrating5" type="radio" name="learnrating" value="5">
+                          <label for="learnrating5">5</label>
+                          <input id="learnrating4" type="radio" name="learnrating" value="4">
+                          <label for="learnrating4">4</label>
+                          <input id="learnrating3" type="radio" name="learnrating" value="3">
+                          <label for="learnrating3">3</label>
+                          <input id="learnrating2" type="radio" name="learnrating" value="2">
+                          <label for="learnrating2">2</label>
+                          <input id="learnrating1" type="radio" name="learnrating" value="1">
+                          <label for="learnrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Benefits</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="benefitsrating5" type="radio" name="benefitsrating" value="5">
+                          <label for="benefitsrating5">5</label>
+                          <input id="benefitsrating4" type="radio" name="benefitsrating" value="4">
+                          <label for="benefitsrating4">4</label>
+                          <input id="benefitsrating3" type="radio" name="benefitsrating" value="3">
+                          <label for="benefitsrating3">3</label>
+                          <input id="benefitsrating2" type="radio" name="benefitsrating" value="2">
+                          <label for="benefitsrating2">2</label>
+                          <input id="benefitsrating1" type="radio" name="benefitsrating" value="1">
+                          <label for="benefitsrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Relationship
+                          with Colleagues</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="colleaguesrating5" type="radio" name="colleaguesrating" value="5">
+                          <label for="colleaguesrating5">5</label>
+                          <input id="colleaguesrating4" type="radio" name="colleaguesrating" value="4">
+                          <label for="colleaguesrating4">4</label>
+                          <input id="colleaguesrating3" type="radio" name="colleaguesrating" value="3">
+                          <label for="colleaguesrating3">3</label>
+                          <input id="colleaguesrating2" type="radio" name="colleaguesrating" value="2">
+                          <label for="colleaguesrating2">2</label>
+                          <input id="colleaguesrating1" type="radio" name="colleaguesrating" value="1">
+                          <label for="colleaguesrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Difficulty (Mental)</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="diffmentalrating5" type="radio" name="diffmentalrating" value="5">
+                          <label for="diffmentalrating5">5</label>
+                          <input id="diffmentalrating4" type="radio" name="diffmentalrating" value="4">
+                          <label for="diffmentalrating4">4</label>
+                          <input id="diffmentalrating3" type="radio" name="diffmentalrating" value="3">
+                          <label for="diffmentalrating3">3</label>
+                          <input id="diffmentalrating2" type="radio" name="diffmentalrating" value="2">
+                          <label for="diffmentalrating2">2</label>
+                          <input id="diffmentalrating1" type="radio" name="diffmentalrating" value="1">
+                          <label for="diffmentalrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" size="100" for="title">Difficulty (Physical)</label>
+                          <div class="col-md-4">
+                            <span class="starRating">
+                          <input id="diffphysrating5" type="radio" name="diffphysrating" value="5">
+                          <label for="diffphysrating5">5</label>
+                          <input id="diffphysrating4" type="radio" name="diffphysrating" value="4">
+                          <label for="diffphysrating4">4</label>
+                          <input id="diffphysrating3" type="radio" name="diffphysrating" value="3">
+                          <label for="diffphysrating3">3</label>
+                          <input id="diffphysrating2" type="radio" name="diffphysrating" value="2">
+                          <label for="diffphysrating2">2</label>
+                          <input id="diffphysrating1" type="radio" name="diffphysrating" value="1">
+                          <label for="diffphysrating1">1</label>
+                        </span>
+                        </div>
+                        </div>
+
+
+                          </fieldset>
+                          </form>
+
+                        </div>
+                        <div class="jp_view_btn">
+                          <button class="jp_btn" type="submit" value="Update">Update</button>
+                            <!-- <a href="login" class="jp_btn">Apply</a> -->
+                            <!-- <p><input type="submit" value="Apply"> -->
+                        </div>
+                    </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+</div>
+
+</body>
+{% endblock %}

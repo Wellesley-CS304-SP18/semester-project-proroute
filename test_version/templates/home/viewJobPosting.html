@@ -1,0 +1,164 @@
+{% extends "home/base.html" %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+</style>
+
+</head>
+<body>
+
+<div ng-controller='singlejobCtrl'>
+<div class="jp_sidebar_close"></div>
+
+<!-- header start -->
+<div class="jp_header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jp_header_wrapper">
+                    <!-- <div class="jp_logo">
+                        <a href="/"><img src="static/images/logo_with_text.png" alt=""></a>
+                    </div> -->
+                    <div class="jp_header_right">
+                        <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                            <ul>
+                              <li><a href="{{url_for('forum')}}">Forum</a></li>
+                              <li><a href="{{url_for('browseJobs')}}">Jobs</a></li>
+                              <li><a href="{{url_for('browseMentors')}}">Mentors</a></li>
+                              <li><a href="{{url_for('viewProfile')}}">Profile</a></li>
+                              <li><a href="{{url_for('logout')}}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <script>
+                var messages = {{ messages | safe }};
+                for (var i=0; i<messages.length; i++) {
+                  alert(messages[i]);
+                }
+              </script>
+            {% endif %}
+          {% endwith %}
+
+            <div class="col-md-12">
+                <div class="jp_page_title">
+                    <h3 style="padding:35px;">View Job</h3>
+                    <p></p>
+                    <div></div>
+                    <h3>   </h3>
+                    <div></div>
+                    <p></p>
+                    <!-- <p>you are on the right place</p> -->
+                </div>
+            </div>
+            <!-- <div class="col-md-8 col-md-offset-2">
+                <div class="jp_search_form">
+                    <input type="" name="" placeholder="Search Job Here by Location, Skills">
+                    <button class="jp_search_btn"></button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- header end -->
+
+
+
+<div class="jp_main_wrapper">
+   <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+               <div class="jp_single_wrapper">
+                    <div class="jp_job_box">
+                        <div class="job_detail">
+
+
+                        </div>
+
+                        <div class="container-fluid">
+
+
+  			<div class="page-header">
+          <img src="../../static/images/briefcase.png" style="width:100px" class="center" alt="Bootstrap Image Preview" />
+  				<h1 style="text-align:center;">
+  					Jobs
+  				</h1>
+  			</div>
+
+  			<div class="row">
+
+          <div class="jp_job_box" style="font-size:18px;border:5px solid #9cd6ed;">
+                        <div class="job_detail">
+                            <h3 style="color:#29708E;"><b>{{job.title}}</b></h3>
+                            <span><b style="color:#4F4F4F;">Company/Insitution: </b> {{job.company}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Description: </b>{{job.description}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Job Type: </b> {{job.type}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Annual Salary: </b> {{job.annualSalary}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Start Date: </b> {{job.startDate}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">End Date: </b> {{job.endDate}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Years Prior Experience: </b> {{job.experience}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Educational Experience: </b> {{job.education}} </span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Tags: </b> {{job.professionTag}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Favorite Part </b> {{job.favoritePart}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Least Favorite Part: </b> {{job.leastFavoritePart}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Important Tasks: </b> {{job.task}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;"> Important Skills: </b> {{job.skill}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Daily Life: </b> {{job.dailylife}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Advice: </b> {{job.advice}}</span>
+                            <div></div>
+
+                        </div>
+
+                    </div>
+                      <!-- </div> -->
+                    <!-- job listing end -->
+
+                    <!-- pagination start -->
+
+                    <!-- pagination end -->
+                    </div>
+
+
+  			</div>
+
+  			</div>
+  		</div>
+  	</div>
+  </div>
+
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+</div>
+
+</body>
+{% endblock %}

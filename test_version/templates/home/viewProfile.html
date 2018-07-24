@@ -1,0 +1,256 @@
+{% extends "home/base.html" %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+</style>
+
+</head>
+<body>
+
+<div ng-controller='singlejobCtrl'>
+<div class="jp_sidebar_close"></div>
+
+<!-- header start -->
+<div class="jp_header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jp_header_wrapper">
+                    <!-- <div class="jp_logo">
+                        <a href="/"><img src="static/images/logo_with_text.png" alt=""></a>
+                    </div> -->
+                    <div class="jp_header_right">
+                        <div class="jp_nav" style="background-color:#29708E;borderColor:#66CCF2;border-width:2px;">
+                            <ul>
+                              <li><a href="{{url_for('forum')}}">Forum</a></li>
+                              <li><a href="{{url_for('browseJobs')}}">Jobs</a></li>
+                              <li><a href="{{url_for('browseMentors')}}">Mentors</a></li>
+                              <li><a href="{{url_for('viewProfile')}}">Profile</a></li>
+                              <li><a href="{{url_for('logout')}}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <script>
+                var messages = {{ messages | safe }};
+                for (var i=0; i<messages.length; i++) {
+                  alert(messages[i]);
+                }
+              </script>
+            {% endif %}
+          {% endwith %}
+
+            <div class="col-md-12">
+                <div class="jp_page_title">
+                    <h3 style="padding:35px;">My Profile</h3>
+                    <p></p>
+                    <div></div>
+                    <h3>   </h3>
+                    <div></div>
+                    <p></p>
+                    <!-- <p>you are on the right place</p> -->
+                </div>
+            </div>
+            <!-- <div class="col-md-8 col-md-offset-2">
+                <div class="jp_search_form">
+                    <input type="" name="" placeholder="Search Job Here by Location, Skills">
+                    <button class="jp_search_btn"></button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- header end -->
+
+
+
+<div class="jp_main_wrapper">
+   <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+               <div class="jp_single_wrapper">
+                    <div class="jp_job_box">
+                        <div class="job_detail">
+
+
+                        </div>
+
+                        <div class="container-fluid">
+  	<div class="row">
+  		<div class="col-md-12">
+  			<div class="page-header">
+          <img src="../../static/images/usericon.png" style="width:100px" class="center" alt="Bootstrap Image Preview" />
+  				<h1 style="text-align:center;">
+  					Main Profile
+  				</h1>
+  			</div>
+        <div class="row">
+  			<a class="jp_btn" href="/updateProfile/" style="float: right;margin-bottom:15px;">Edit Profile</a>
+      </div>
+  			<div class="row">
+          <div class="jp_job_box" style="font-size:18px;border:5px solid #F9CF00;">
+          <div class="job_detail">
+
+            <h2 style="color:#29708E;">{{firstname}} {{lastname}}</h2>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Description: </b> {{description}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Profile Picture</b></span>
+            <div></div>
+            <div></div>
+            <div></div>
+            <img src="{{url_for('pic',fname=profpic)}}" style="width:150px;" alt="Profile Picture"/>
+            <!-- <img src="../../images/test.jpg" style="width:100px" alt="Profile Picture"/> -->
+            <div></div>
+            <span><b style="color:#4F4F4F;">Age: </b> {{age}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Gender: </b> {{gender}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Race/Ethnicity: </b> {{race}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Home Country: </b> {{country}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Home State: </b> {{state}}</span>
+  				</div>
+        </div>
+      </div>
+
+  			</div>
+  			<div class="page-header">
+          <img src="../../static/images/briefcase.png" style="width:100px" class="center" alt="Bootstrap Image Preview" />
+  				<h1 style="text-align:center;">
+  					Jobs
+  				</h1>
+  			</div>
+        <div class="row">
+  			<a class="jp_btn" href="/addJob/" style="float:right;margin-bottom:15px;">Add New Job</a>
+      </div>
+  			<div class="row">
+
+          {% for job in jobs %}
+          <div class="jp_job_box" style="font-size:18px;border:5px solid #9cd6ed;">
+                        <div class="job_detail">
+                            <h3 style="color:#29708E;"><b>{{job.title}}</b></h3>
+                            <span><b style="color:#4F4F4F;">Company/Insitution: </b> {{job.company}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Description: </b>{{job.description}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Job Type: </b> {{job.type}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Annual Salary: </b> {{job.annualSalary}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Start Date: </b> {{job.startDate}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">End Date: </b> {{job.endDate}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Years Prior Experience: </b> {{job.experience}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Educational Experience: </b> {{job.education}} </span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Tags: </b> {{job.professionTag}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Favorite Part </b> {{job.favoritePart}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Least Favorite Part: </b> {{job.leastFavoritePart}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Important Tasks: </b> {{job.task}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;"> Important Skills: </b> {{job.skill}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Daily Life: </b> {{job.dailylife}}</span>
+                            <div></div>
+                            <span><b style="color:#4F4F4F;">Advice: </b> {{job.advice}}</span>
+                            <div></div>
+                            <form action="{{ url_for('delete_job') }}" method="post" class="delete-job">
+                            <input type="hidden" value="{{ job.jobID }}"name="job_to_delete"></input>
+                            <button style="background-color: #008CBA;color:white;border-radius: 4px;float: left;margin-top:20px;"type="submit" value="Delete Job">Delete Job</button>
+                            </form>
+                            <form action="{{ url_for('editJob',jobid=job.jobID) }}" method="get" class="edit-job">
+                            <button style="background-color: #2EB857;color:white;border-radius: 4px;float: left;margin-top:20px;margin-left:15px;"type="submit" value="Edit Job">Edit Job</button>
+                            </form>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                      <!-- </div> -->
+                    <!-- job listing end -->
+
+                    <!-- pagination start -->
+
+                    <!-- pagination end -->
+                    </div>
+
+
+
+      </div>
+
+
+  			</div>
+  			<div class="page-header">
+          <img src="../../static/images/gradcap.png" style="width:100px" class="center" alt="Bootstrap Image Preview" />
+  				<h1 style="text-align:center;">
+  					Education
+  				</h1>
+          <div class="row">
+    			<a class="jp_btn" href="/addEducation/" style="float:right;margin-bottom:15px;">Add Education</a>
+        </div>
+        <div class="row">
+          {% for edu in education %}
+          <div class="jp_job_box" style="font-size:18px;border:5px solid #F9CF00;">
+          <div class="job_detail">
+            <h3 style="color:#29708E;"><b>{{edu.institution}}</b></h3>
+            <span><b style="color:#4F4F4F;">Degree Type: </b> {{edu.degreetype}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Major: </b> {{edu.major}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Second Major/Minor: </b> {{edu.major2}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Institution Country: </b> {{edu.instCountry}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Institution State(US): </b> {{edu.instState}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Overall Rating: </b> {{edu.overallRating}}</span>
+            <div></div>
+            <span><b style="color:#4F4F4F;">Review: </b> {{edu.review}}</span>
+            <div></div>
+            <form action="{{ url_for('delete_education') }}" method="post" class="delete-education">
+            <input type="hidden" value="{{ edu.eduID }}"name="edu_to_delete"></input>
+            <button style="background-color: #008CBA;color:white;border-radius: 4px;float: left;margin-top:20px;"type="submit" value="Delete ">Delete </button>
+            </form>
+            <form action="{{ url_for('editEducation',eduid=edu.eduID) }}" method="get" class="edit-education">
+            <button style="background-color: #2EB857;color:white;border-radius: 4px;float: left;margin-top:20px;margin-left:15px;"type="submit" value="Edit">Edit</button>
+            </form>
+        </div>
+
+    </div>
+    {% endfor %}
+
+      </div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+</div>
+
+</body>
+{% endblock %}
